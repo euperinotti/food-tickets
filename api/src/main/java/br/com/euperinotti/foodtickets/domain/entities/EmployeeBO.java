@@ -1,18 +1,18 @@
 package br.com.euperinotti.foodtickets.domain.entities;
 
-import java.sql.Date;
+import java.util.Date;
 
 import br.com.euperinotti.foodtickets.domain.enums.EmployeeStatus;
 
 public class EmployeeBO {
-  private Integer id;
+  private Long id;
   private String name;
   private String cpf;
   private EmployeeStatus status;
   private Date createdAt;
   private Date updatedAt;
 
-  public EmployeeBO(Integer id, String name, String cpf, EmployeeStatus status, Date createdAt, Date updatedAt) {
+  public EmployeeBO(Long id, String name, String cpf, EmployeeStatus status, Date createdAt, Date updatedAt) {
     this.id = id;
     this.name = name;
     this.cpf = cpf;
@@ -34,7 +34,7 @@ public class EmployeeBO {
   }
 
 
-  public Integer getId() {
+  public Long getId() {
     return this.id;
   }
 
