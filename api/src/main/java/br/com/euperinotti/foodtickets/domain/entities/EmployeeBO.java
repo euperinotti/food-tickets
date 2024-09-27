@@ -33,7 +33,6 @@ public class EmployeeBO {
     }
   }
 
-
   public Long getId() {
     return this.id;
   }

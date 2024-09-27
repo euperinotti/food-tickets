@@ -3,6 +3,8 @@ package br.com.euperinotti.foodtickets.domain.entities;
 import java.util.Date;
 
 import br.com.euperinotti.foodtickets.domain.enums.TicketStatus;
+import br.com.euperinotti.foodtickets.domain.exceptions.AppExceptions;
+import br.com.euperinotti.foodtickets.domain.exceptions.enums.TicketExceptions;
 
 public class TicketBO {
   private Long id;
@@ -23,10 +25,9 @@ public class TicketBO {
 
   private void validate() {
     if (employeeId == null) {
-      throw new IllegalArgumentException("Employee ID is required");
+      throw new AppExceptions(TicketExceptions.TICKET_INVALID_EMPLOYEE.getMessage());
     }
   }
-
 
   public Long getId() {
     return this.id;
