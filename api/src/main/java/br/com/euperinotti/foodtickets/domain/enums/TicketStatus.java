@@ -13,4 +13,13 @@ public enum TicketStatus {
   public String getName() {
     return name;
   }
+
+  public static TicketStatus fromName(String name) {
+    for (TicketStatus status : TicketStatus.values()) {
+      if (status.getName().equals(name)) {
+        return status;
+      }
+    }
+    throw new IllegalArgumentException("No enum constant for name: " + name);
+  }
 }
