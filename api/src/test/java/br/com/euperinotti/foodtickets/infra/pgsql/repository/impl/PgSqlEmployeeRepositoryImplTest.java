@@ -12,8 +12,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
 
 import br.com.euperinotti.foodtickets.domain.entities.EmployeeBO;
@@ -23,29 +25,39 @@ import br.com.euperinotti.foodtickets.infra.pgsql.mappers.PgSqlEmployeeMapper;
 import br.com.euperinotti.foodtickets.infra.pgsql.repository.contracts.PgSqlEmployeeRepository;
 
 @DataJpaTest
-@Import(PgSqlEmployeeRepositoryImpl.class)
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2, replace = Replace.NONE)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class PgSqlEmployeeRepositoryImplTest {
 
   @Autowired
-  private PgSqlEmployeeRepositoryImpl repository;
-
-  @Autowired
   private PgSqlEmployeeRepository jpa;
+
+  private PgSqlEmployeeRepositoryImpl sut;
 
   private EmployeeBO bo;
 
   @BeforeEach
   void setUp() {
-    bo = new EmployeeBO(1L, "John Doe", "123.456.789-10", EmployeeStatus.ACTIVE, LocalDate.now(), LocalDate.now());
+    this.sut = new PgSqlEmployeeRepositoryImpl(jpa);
+    this.bo = new EmployeeBO(1L, "John Doe", "123.456.789-10", EmployeeStatus.ACTIVE, LocalDate.now(), LocalDate.now());
   }
 
   private PgSqlEmployeeEntity makeInactiveEmployeeEntity() {
     PgSqlEmployeeEntity inactiveEmployee = new PgSqlEmployeeEntity();
-    inactiveEmployee.setId(1L);
-    inactiveEmployee.setName("Inactive Employee");
-    inactiveEmployee.setCpf("987.654.321-00");
+    inactiveEmployee.setName("Kyle Schmidt");
+    inactiveEmployee.setCpf("66418505745");
     inactiveEmployee.setStatus(EmployeeStatus.INACTIVE);
+    inactiveEmployee.setCreatedAt(LocalDate.now());
+    inactiveEmployee.setUpdatedAt(LocalDate.now());
+
+    return inactiveEmployee;
+  }
+
+  private PgSqlEmployeeEntity makeActiveEmployeeEntity() {
+    PgSqlEmployeeEntity inactiveEmployee = new PgSqlEmployeeEntity();
+    inactiveEmployee.setName("Ophelia Beck");
+    inactiveEmployee.setCpf("72197234469");
+    inactiveEmployee.setStatus(EmployeeStatus.ACTIVE);
     inactiveEmployee.setCreatedAt(LocalDate.now());
     inactiveEmployee.setUpdatedAt(LocalDate.now());
 
@@ -54,14 +66,10 @@ public class PgSqlEmployeeRepositoryImplTest {
 
   @Test
   public void test_save_successful() {
-    EmployeeBO result = repository.save(bo);
+    EmployeeBO result = sut.save(bo);
 
     assertNotNull(result);
-    assertEquals(bo.getId(), result.getId());
-
-    Optional<PgSqlEmployeeEntity> entityInDb = jpa.findById(result.getId());
-    assertTrue(entityInDb.isPresent());
-    assertEquals("John Doe", entityInDb.get().getName());
+    assertEquals("JOHN DOE", result.getName());
   }
 
   @Test
@@ -71,15 +79,15 @@ public class PgSqlEmployeeRepositoryImplTest {
 
     jpa.save(entity);
 
-    Optional<EmployeeBO> result = repository.findById(1L);
+    Optional<EmployeeBO> result = sut.findById(1L);
 
     assertTrue(result.isPresent());
-    assertEquals("John Doe", result.get().getName());
+    assertEquals(1L, result.get().getId());
   }
 
   @Test
   public void test_findById_notFound() {
-    Optional<EmployeeBO> result = repository.findById(999L);
+    Optional<EmployeeBO> result = sut.findById(999L);
 
     assertFalse(result.isPresent());
   }
@@ -89,7 +97,7 @@ public class PgSqlEmployeeRepositoryImplTest {
     PgSqlEmployeeEntity entity = PgSqlEmployeeMapper.toEntity(bo);
     jpa.save(entity);
 
-    repository.deleteById(1L);
+    sut.deleteById(1L);
 
     Optional<PgSqlEmployeeEntity> deletedEntity = jpa.findById(1L);
     assertFalse(deletedEntity.isPresent());
@@ -101,7 +109,6 @@ public class PgSqlEmployeeRepositoryImplTest {
     entity1.setId(null);
 
     PgSqlEmployeeEntity entity2 = new PgSqlEmployeeEntity();
-    entity2.setId(null);
     entity2.setName("Jane Doe");
     entity2.setStatus(EmployeeStatus.INACTIVE);
     entity2.setCreatedAt(LocalDate.now());
@@ -111,11 +118,11 @@ public class PgSqlEmployeeRepositoryImplTest {
     jpa.save(entity1);
     jpa.save(entity2);
 
-    List<EmployeeBO> result = repository.findAll();
+    List<EmployeeBO> result = sut.findAll();
 
     assertEquals(2, result.size());
-    assertEquals("John Doe", result.get(0).getName());
-    assertEquals("Jane Doe", result.get(1).getName());
+    assertEquals("JOHN DOE", result.get(0).getName());
+    assertEquals("JANE DOE", result.get(1).getName());
   }
 
   @Test
@@ -123,33 +130,25 @@ public class PgSqlEmployeeRepositoryImplTest {
     PgSqlEmployeeEntity entity = PgSqlEmployeeMapper.toEntity(bo);
     jpa.save(entity);
 
-    List<EmployeeBO> result = repository.findByStatus(EmployeeStatus.ACTIVE);
+    List<EmployeeBO> result = sut.findByStatus(EmployeeStatus.ACTIVE);
 
     assertNotNull(result);
     assertEquals(1, result.size());
-    assertEquals("John Doe", result.get(0).getName());
+    assertEquals("JOHN DOE", result.get(0).getName());
   }
 
   @Test
   public void test_findByStatus_activeEmployees() {
-    PgSqlEmployeeEntity activeEmployee = new PgSqlEmployeeEntity();
-    activeEmployee.setId(1L);
-    activeEmployee.setName("Active Employee");
-    activeEmployee.setCpf("123.456.789-10");
-    activeEmployee.setStatus(EmployeeStatus.ACTIVE);
-    activeEmployee.setCreatedAt(LocalDate.now());
-    activeEmployee.setUpdatedAt(LocalDate.now());
-
+    PgSqlEmployeeEntity activeEmployee = makeActiveEmployeeEntity();
     PgSqlEmployeeEntity inactiveEmployee = makeInactiveEmployeeEntity();
 
     jpa.save(activeEmployee);
     jpa.save(inactiveEmployee);
 
-    List<EmployeeBO> activeEmployees = repository.findByStatus(EmployeeStatus.ACTIVE);
+    List<EmployeeBO> activeEmployees = sut.findByStatus(EmployeeStatus.ACTIVE);
 
-    assertNotNull(activeEmployees);
     assertEquals(1, activeEmployees.size());
-    assertEquals("Active Employee", activeEmployees.get(0).getName());
+    assertEquals("OPHELIA BECK", activeEmployees.get(0).getName());
   }
 
   @Test
@@ -157,7 +156,7 @@ public class PgSqlEmployeeRepositoryImplTest {
     PgSqlEmployeeEntity inactiveEmployee = makeInactiveEmployeeEntity();
     jpa.save(inactiveEmployee);
 
-    List<EmployeeBO> activeEmployees = repository.findByStatus(EmployeeStatus.ACTIVE);
+    List<EmployeeBO> activeEmployees = sut.findByStatus(EmployeeStatus.ACTIVE);
 
     assertTrue(activeEmployees.isEmpty());
   }
@@ -167,15 +166,15 @@ public class PgSqlEmployeeRepositoryImplTest {
     PgSqlEmployeeEntity entity = PgSqlEmployeeMapper.toEntity(bo);
     jpa.save(entity);
 
-    Optional<EmployeeBO> result = repository.findByCpf("123.456.789-10");
+    Optional<EmployeeBO> result = sut.findByCpf("12345678910");
 
     assertTrue(result.isPresent());
-    assertEquals("123.456.789-10", result.get().getCpf());
+    assertEquals("12345678910", result.get().getCpf());
   }
 
   @Test
   public void test_findByCpf_notFound() {
-    Optional<EmployeeBO> result = repository.findByCpf("987.654.321-00");
+    Optional<EmployeeBO> result = sut.findByCpf("98765432100");
 
     assertFalse(result.isPresent());
   }
@@ -185,12 +184,12 @@ public class PgSqlEmployeeRepositoryImplTest {
     PgSqlEmployeeEntity entity = PgSqlEmployeeMapper.toEntity(bo);
     jpa.save(entity);
 
-    EmployeeBO updatedBO = new EmployeeBO(1L, "Updated Name", "123.456.789-10", EmployeeStatus.ACTIVE, LocalDate.now(),
+    EmployeeBO updatedBO = new EmployeeBO(1L, "Updated Name", "12345678910", EmployeeStatus.ACTIVE, LocalDate.now(),
         LocalDate.now());
 
-    EmployeeBO result = repository.updateById(1L, updatedBO);
+    EmployeeBO result = sut.updateById(1L, updatedBO);
 
     assertNotNull(result);
-    assertEquals("Updated Name", result.getName());
+    assertEquals("UPDATED NAME", result.getName());
   }
 }

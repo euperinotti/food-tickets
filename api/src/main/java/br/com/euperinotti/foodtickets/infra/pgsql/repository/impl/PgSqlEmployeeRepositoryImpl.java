@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import br.com.euperinotti.foodtickets.domain.entities.EmployeeBO;
@@ -17,8 +16,11 @@ import br.com.euperinotti.foodtickets.infra.pgsql.repository.contracts.PgSqlEmpl
 @Repository
 public class PgSqlEmployeeRepositoryImpl implements IEmployeeRepository {
 
-  @Autowired
   private PgSqlEmployeeRepository jpa;
+
+  public PgSqlEmployeeRepositoryImpl(PgSqlEmployeeRepository jpa) {
+    this.jpa = jpa;
+  }
 
   @Override
   public EmployeeBO save(EmployeeBO bo) {
