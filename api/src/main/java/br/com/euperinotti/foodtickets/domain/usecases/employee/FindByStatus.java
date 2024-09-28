@@ -1,9 +1,12 @@
 package br.com.euperinotti.foodtickets.domain.usecases.employee;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import br.com.euperinotti.foodtickets.domain.dtos.response.EmployeeResponseDTO;
 import br.com.euperinotti.foodtickets.domain.entities.EmployeeBO;
 import br.com.euperinotti.foodtickets.domain.enums.EmployeeStatus;
+import br.com.euperinotti.foodtickets.domain.mappers.EmployeeMapper;
 import br.com.euperinotti.foodtickets.domain.repository.IEmployeeRepository;
 
 public class FindByStatus {
@@ -13,7 +16,9 @@ public class FindByStatus {
     this.repository = repository;
   }
 
-  public List<EmployeeBO> execute(EmployeeStatus status) {
-    return repository.findByStatus(status);
+  public List<EmployeeResponseDTO> execute(EmployeeStatus status) {
+    List<EmployeeBO> employees = repository.findByStatus(status);
+
+    return employees.stream().map(EmployeeMapper::toResponseDTO).collect(Collectors.toList());
   }
 }
