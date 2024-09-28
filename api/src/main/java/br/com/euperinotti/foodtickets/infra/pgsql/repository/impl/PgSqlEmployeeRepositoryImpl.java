@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import br.com.euperinotti.foodtickets.domain.entities.EmployeeBO;
@@ -13,6 +14,7 @@ import br.com.euperinotti.foodtickets.infra.pgsql.entities.PgSqlEmployeeEntity;
 import br.com.euperinotti.foodtickets.infra.pgsql.mappers.PgSqlEmployeeMapper;
 import br.com.euperinotti.foodtickets.infra.pgsql.repository.contracts.PgSqlEmployeeRepository;
 
+@Component("pgSqlEmployeeRepositoryImpl")
 @Repository
 public class PgSqlEmployeeRepositoryImpl implements IEmployeeRepository {
 
