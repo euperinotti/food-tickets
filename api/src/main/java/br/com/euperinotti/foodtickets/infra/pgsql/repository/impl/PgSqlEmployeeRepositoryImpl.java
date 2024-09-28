@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import br.com.euperinotti.foodtickets.domain.entities.EmployeeBO;
 import br.com.euperinotti.foodtickets.domain.enums.EmployeeStatus;
@@ -13,6 +14,7 @@ import br.com.euperinotti.foodtickets.infra.pgsql.entities.PgSqlEmployeeEntity;
 import br.com.euperinotti.foodtickets.infra.pgsql.mappers.PgSqlEmployeeMapper;
 import br.com.euperinotti.foodtickets.infra.pgsql.repository.contracts.PgSqlEmployeeRepository;
 
+@Repository
 public class PgSqlEmployeeRepositoryImpl implements IEmployeeRepository {
 
   @Autowired
