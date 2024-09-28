@@ -1,6 +1,8 @@
 package br.com.euperinotti.foodtickets.domain.usecases.employee;
 
 import br.com.euperinotti.foodtickets.domain.entities.EmployeeBO;
+import br.com.euperinotti.foodtickets.domain.exceptions.AppExceptions;
+import br.com.euperinotti.foodtickets.domain.exceptions.enums.EmployeeExceptions;
 import br.com.euperinotti.foodtickets.domain.repository.IEmployeeRepository;
 
 public class FindByCpf {
@@ -11,6 +13,7 @@ public class FindByCpf {
   }
 
   public EmployeeBO execute(String cpf) {
-    return repository.findByCpf(cpf);
+    return repository.findByCpf(cpf)
+        .orElseThrow(() -> new AppExceptions(EmployeeExceptions.EMPLOYEE_NOT_FOUND.getMessage()));
   }
 }
