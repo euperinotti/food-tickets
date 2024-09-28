@@ -3,10 +3,10 @@ package br.com.euperinotti.foodtickets.infra.pgsql.entities;
 import java.time.LocalDate;
 
 import br.com.euperinotti.foodtickets.domain.enums.EmployeeStatus;
+import br.com.euperinotti.foodtickets.infra.pgsql.converters.EmployeeStatusConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,7 +29,7 @@ public class PgSqlEmployeeEntity {
   private String cpf;
 
   @Column(nullable = false)
-  @Enumerated(EnumType.STRING)
+  @Convert(converter = EmployeeStatusConverter.class)
   private EmployeeStatus status;
 
   @Column(nullable = false, name = "created_at")
