@@ -5,11 +5,20 @@ import java.util.Date;
 import br.com.euperinotti.foodtickets.domain.enums.EmployeeStatus;
 
 public class EmployeeRequestDTO {
+  private Long id;
   private String name;
   private String cpf;
   private EmployeeStatus status;
   private Date createdAt;
   private Date updatedAt;
+
+  public Long getId() {
+    return this.id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 
   public String getName() {
     return this.name;
