@@ -7,11 +7,10 @@ import br.com.euperinotti.foodtickets.domain.enums.EmployeeStatus;
 
 public interface IEmployeeRepository {
   EmployeeBO save(EmployeeBO employee);
-  EmployeeBO findById(Integer id);
-  void deleteById(Integer id);
+  EmployeeBO findById(Long id);
+  void deleteById(Long id);
   List<EmployeeBO> findAll();
   List<EmployeeBO> findByStatus(EmployeeStatus status);
-  List<EmployeeBO> findByNameContainingIgnoreCase(String name);
-  List<EmployeeBO> findByCpf(String cpf);
-  EmployeeBO updateById(Integer id, EmployeeBO employee);
+  EmployeeBO findByCpf(String cpf);
+  EmployeeBO updateById(Long id, EmployeeBO employee);
 }
