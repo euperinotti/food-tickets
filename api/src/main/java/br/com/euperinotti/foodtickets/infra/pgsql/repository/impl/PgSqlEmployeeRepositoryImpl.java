@@ -52,7 +52,7 @@ public class PgSqlEmployeeRepositoryImpl implements IEmployeeRepository {
 
   @Override
   public List<EmployeeBO> findByStatus(EmployeeStatus status) {
-    List<PgSqlEmployeeEntity> employees = jpa.findByStatus(status.getName());
+    List<PgSqlEmployeeEntity> employees = jpa.findByStatus(status);
 
     return employees.stream().map(PgSqlEmployeeMapper::toBO).collect(Collectors.toList());
   }
