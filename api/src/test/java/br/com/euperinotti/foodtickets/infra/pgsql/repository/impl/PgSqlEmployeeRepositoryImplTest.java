@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.annotation.DirtiesContext;
 
 import br.com.euperinotti.foodtickets.domain.entities.EmployeeBO;
 import br.com.euperinotti.foodtickets.domain.enums.EmployeeStatus;
@@ -23,6 +24,7 @@ import br.com.euperinotti.foodtickets.infra.pgsql.repository.contracts.PgSqlEmpl
 
 @DataJpaTest
 @Import(PgSqlEmployeeRepositoryImpl.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class PgSqlEmployeeRepositoryImplTest {
 
   @Autowired
@@ -36,6 +38,18 @@ public class PgSqlEmployeeRepositoryImplTest {
   @BeforeEach
   void setUp() {
     bo = new EmployeeBO(1L, "John Doe", "123.456.789-10", EmployeeStatus.ACTIVE, LocalDate.now(), LocalDate.now());
+  }
+
+  private PgSqlEmployeeEntity makeInactiveEmployeeEntity() {
+    PgSqlEmployeeEntity inactiveEmployee = new PgSqlEmployeeEntity();
+    inactiveEmployee.setId(1L);
+    inactiveEmployee.setName("Inactive Employee");
+    inactiveEmployee.setCpf("987.654.321-00");
+    inactiveEmployee.setStatus(EmployeeStatus.INACTIVE);
+    inactiveEmployee.setCreatedAt(LocalDate.now());
+    inactiveEmployee.setUpdatedAt(LocalDate.now());
+
+    return inactiveEmployee;
   }
 
   @Test
@@ -61,6 +75,13 @@ public class PgSqlEmployeeRepositoryImplTest {
 
     assertTrue(result.isPresent());
     assertEquals("John Doe", result.get().getName());
+  }
+
+  @Test
+  public void test_findById_notFound() {
+    Optional<EmployeeBO> result = repository.findById(999L);
+
+    assertFalse(result.isPresent());
   }
 
   @Test
@@ -110,6 +131,38 @@ public class PgSqlEmployeeRepositoryImplTest {
   }
 
   @Test
+  public void test_findByStatus_activeEmployees() {
+    PgSqlEmployeeEntity activeEmployee = new PgSqlEmployeeEntity();
+    activeEmployee.setId(1L);
+    activeEmployee.setName("Active Employee");
+    activeEmployee.setCpf("123.456.789-10");
+    activeEmployee.setStatus(EmployeeStatus.ACTIVE);
+    activeEmployee.setCreatedAt(LocalDate.now());
+    activeEmployee.setUpdatedAt(LocalDate.now());
+
+    PgSqlEmployeeEntity inactiveEmployee = makeInactiveEmployeeEntity();
+
+    jpa.save(activeEmployee);
+    jpa.save(inactiveEmployee);
+
+    List<EmployeeBO> activeEmployees = repository.findByStatus(EmployeeStatus.ACTIVE);
+
+    assertNotNull(activeEmployees);
+    assertEquals(1, activeEmployees.size());
+    assertEquals("Active Employee", activeEmployees.get(0).getName());
+  }
+
+  @Test
+  public void test_findByStatus_noActiveEmployees() {
+    PgSqlEmployeeEntity inactiveEmployee = makeInactiveEmployeeEntity();
+    jpa.save(inactiveEmployee);
+
+    List<EmployeeBO> activeEmployees = repository.findByStatus(EmployeeStatus.ACTIVE);
+
+    assertTrue(activeEmployees.isEmpty());
+  }
+
+  @Test
   public void test_findByCpf_successful() {
     PgSqlEmployeeEntity entity = PgSqlEmployeeMapper.toEntity(bo);
     jpa.save(entity);
@@ -118,6 +171,13 @@ public class PgSqlEmployeeRepositoryImplTest {
 
     assertTrue(result.isPresent());
     assertEquals("123.456.789-10", result.get().getCpf());
+  }
+
+  @Test
+  public void test_findByCpf_notFound() {
+    Optional<EmployeeBO> result = repository.findByCpf("987.654.321-00");
+
+    assertFalse(result.isPresent());
   }
 
   @Test
