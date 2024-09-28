@@ -1,4 +1,4 @@
-package br.com.euperinotti.food_tickets;
+package br.com.euperinotti.foodtickets;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
