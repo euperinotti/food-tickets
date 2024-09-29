@@ -1,10 +1,10 @@
-import { FlowbiteSidebar } from "@/components/flowbite/Sidebar";
 import { HomeCard } from "@/components/ui/Cards/HomeCard";
+import Sidebar from "@/components/ui/Sidebar";
 
 export default function Home() {
   return (
     <div className="flex justify-center items-center w-full h-dvh">
-      <FlowbiteSidebar />
+      <Sidebar />
       <main className="p-8 flex flex-1 flex-col h-full">
         <div className="flex flex-col gap-4 w-full">
           <h1 className="text-4xl font-semibold w-full">Dashboard</h1>
