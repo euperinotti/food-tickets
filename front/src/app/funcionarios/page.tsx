@@ -1,22 +1,34 @@
 "use client";
+import { Button } from "@/components/ui/Button";
 import Sidebar from "@/components/ui/Sidebar";
+import { Table } from "@/components/ui/Table";
 
-const tableColumns = [{ title: "Nome", key: "name" }, {title: "Cpf", key: "cpf"}];
+const tableColumns = [
+  { title: "Nome", key: "name" },
+  { title: "Cpf", key: "cpf" },
+  { title: "Status", key: "status" },
+  { title: "Criado em", key: "createdAt" },
+  { title: "Atualizado em", key: "updatedAt" },
+];
+
 const tableData = [
-  { id: 1, name: "John Doe", cpf: "123.456.789-00" },
-  { id: 2, name: "Jane Doe", cpf: "987.654.321-00" },
-  { id: 2, name: "Jane Doe", cpf: "987.654.321-00" },
-  { id: 2, name: "Jane Doe", cpf: "987.654.321-00" },
-  { id: 2, name: "Jane Doe", cpf: "987.654.321-00" },
-  { id: 2, name: "Jane Doe", cpf: "987.654.321-00" },
-  { id: 2, name: "Jane Doe", cpf: "987.654.321-00" },
-  { id: 2, name: "Jane Doe", cpf: "987.654.321-00" },
-  { id: 2, name: "Jane Doe", cpf: "987.654.321-00" },
-  { id: 2, name: "Jane Doe", cpf: "987.654.321-00" },
-  { id: 2, name: "Jane Doe", cpf: "987.654.321-00" },
-  { id: 2, name: "Jane Doe", cpf: "987.654.321-00" },
-  { id: 2, name: "Jane Doe", cpf: "987.654.321-00" },
-]
+  {
+    id: 1,
+    name: "John Doe",
+    cpf: "123.456.789-00",
+    status: "A",
+    createdAt: "29/12/2024 09:51:35",
+    updatedAt: "29/12/2024 09:51:35",
+  },
+  {
+    id: 1,
+    name: "John Doe",
+    cpf: "123.456.789-00",
+    status: "I",
+    createdAt: "29/12/2024 09:51:35",
+    updatedAt: "29/12/2024 09:51:35",
+  },
+];
 
 export default function Index() {
   return (
@@ -25,13 +37,10 @@ export default function Index() {
       <main className="p-8 flex flex-1 flex-col h-full gap-12">
         <div className="flex gap-4 w-full justify-between">
           <h1 className="text-4xl font-semibold">Funcionários</h1>
-          {/* <FlowbiteButton
-            title="Novo funcionário"
-            icon={{ component: LuPlus }}
-          /> */}
+          <Button label={"Novo funcionário"} styleType="default" />
         </div>
-        <div className="max-h-fit overflow-y-scroll">
-          {/* <FlowbiteTable columns={tableColumns} data={tableData} /> */}
+        <div className="max-h-fit overflow-y-scroll w-full">
+          <Table columns={tableColumns} data={tableData} />
         </div>
       </main>
     </div>

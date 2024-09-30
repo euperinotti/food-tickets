@@ -1,9 +1,8 @@
 import { useDataTable } from "@/hooks/useDataTable";
 import usePagination from "@/hooks/usePagination";
+import { DataTableReducer } from "@/reducer/DataTableReducer";
 import { ChangeEvent, useEffect } from "react";
-import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { InputText } from "../Input/InputText";
-import { TableFooterButton } from "./Footer/Button";
 import { TableHeadCell } from "./HeadCell";
 import { TableRow } from "./Row";
 import { TableProps } from "./types";
@@ -15,6 +14,13 @@ export const Table = <T extends object>({ data, columns }: TableProps<T>) => {
     config.sortedData,
     config.rowsPerPage
   );
+
+  const reducer = DataTableReducer<T>({
+    config,
+    currentPage,
+    paginate,
+    totalPages,
+  })
 
   useEffect(() => {
     setConfig({ ...config, sortedData: data });
@@ -29,8 +35,8 @@ export const Table = <T extends object>({ data, columns }: TableProps<T>) => {
   };
 
   return (
-    <div>
-      <div className="mb-4">
+    <div className="overflow-visible">
+      <div className="mb-4" >
         <InputText
           placeholder="Pesquisar..."
           value={config.searchQuery}
@@ -45,7 +51,6 @@ export const Table = <T extends object>({ data, columns }: TableProps<T>) => {
               {columns.map((column) => (
                 <TableHeadCell
                   key={column.key as string}
-                  scope="col"
                   onClick={() => handleSort(column.key as string)}
                   title={column.title as string}
                   isSorted={config.sortColumn === column.key}
@@ -59,7 +64,9 @@ export const Table = <T extends object>({ data, columns }: TableProps<T>) => {
               <TableRow key={rowIndex}>
                 {columns.map((column) => (
                   <td key={column.key as string} className="px-6 py-4">
-                    {row[column.key] as string}
+                    {column.key === "status"
+                      ? reducer.renderStatusPill(row[column.key as any])
+                      : row[column.key as any]}
                   </td>
                 ))}
               </TableRow>
@@ -68,44 +75,7 @@ export const Table = <T extends object>({ data, columns }: TableProps<T>) => {
         </table>
       </div>
 
-      <div className="flex justify-between items-center mt-4">
-        <span className="text-sm text-gray-700 dark:text-gray-400">
-          Showing {config.rowsPerPage * (currentPage - 1) + 1} to{" "}
-          {Math.min(config.rowsPerPage * currentPage, config.sortedData.length)}{" "}
-          of {config.sortedData.length} entries
-        </span>
-        <div className="inline-flex mt-2 xs:mt-0">
-          <TableFooterButton
-            content={<LuChevronLeft className="text-slate-800" />}
-            onClick={() => paginate(currentPage - 1)}
-            disabled={currentPage === 1}
-            className={`${
-              currentPage === totalPages && "opacity-50 cursor-not-allowed"
-            }`}
-          />
-          {[...Array(totalPages).keys()].map((num) => (
-            <button
-              key={num + 1}
-              onClick={() => paginate(num + 1)}
-              className={`px-4 py-2 text-sm font-medium ${
-                currentPage === num + 1
-                  ? "bg-blue-600 text-white"
-                  : "bg-white text-blue-600 border border-gray-300 hover:bg-gray-100"
-              }`}
-            >
-              {num + 1}
-            </button>
-          ))}
-          <TableFooterButton
-            content={<LuChevronRight className="text-slate-800" />}
-            onClick={() => paginate(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className={`${
-              currentPage === totalPages && "opacity-50 cursor-not-allowed"
-            }`}
-          />
-        </div>
-      </div>
+      {reducer.renderTableFooter()}
     </div>
   );
 };
