@@ -29,7 +29,7 @@ export const Table = <T extends object>({ data, columns }: TableProps<T>) => {
   };
 
   return (
-    <div className="p-4">
+    <div>
       <div className="mb-4">
         <InputText
           placeholder="Pesquisar..."

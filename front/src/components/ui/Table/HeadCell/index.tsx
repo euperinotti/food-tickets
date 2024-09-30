@@ -1,12 +1,5 @@
-import { ThHTMLAttributes } from "react";
 import { LuArrowDownWideNarrow, LuArrowUpWideNarrow } from "react-icons/lu";
-
-export interface TableHeadCellProps
-  extends ThHTMLAttributes<HTMLTableHeaderCellElement> {
-  title: string;
-  sortOrder: string;
-  isSorted: boolean;
-}
+import { TableHeadCellProps } from "./types";
 
 export const TableHeadCell = ({
   title,

@@ -1,11 +1,4 @@
-import { IconType } from "react-icons";
-
-export interface SidebarItemProps {
-  icon: IconType;
-  label: string;
-  href: string;
-  isOpen: boolean;
-}
+import { SidebarItemProps } from "./types";
 
 export const SidebarItem = ({
   icon,

@@ -1,10 +1,6 @@
 "use client";
 
-
-export interface HomeCardProps {
-  title: string;
-  description: string;
-}
+import { HomeCardProps } from "./types";
 
 export const HomeCard = ({ title, description }: HomeCardProps) => {
   return (

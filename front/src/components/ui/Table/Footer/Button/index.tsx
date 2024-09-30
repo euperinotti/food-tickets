@@ -1,9 +1,4 @@
-import { ButtonHTMLAttributes } from "react";
-
-export interface TableFooterButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement> {
-  content: any;
-}
+import { TableFooterButtonProps } from "./types";
 
 export const TableFooterButton = ({
   content,
