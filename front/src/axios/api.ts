@@ -1,9 +1,14 @@
 import { IEmployee } from "@/@types/IEmployee";
+import { ITicket } from "@/@types/ITicket";
 import api from "./config";
 
 export const API_PROVIDER = {
   createEmployee: async (data: IEmployee) => {
     const res = await api.post("/employee", JSON.stringify(data));
+    return res.data;
+  },
+  updateEmployee: async (data: IEmployee) => {
+    const res = await api.put(`/employee/${data.id}`, JSON.stringify(data));
     return res.data;
   },
   getEmployees: async () => {
@@ -12,7 +17,33 @@ export const API_PROVIDER = {
 
     return data;
   },
+  getActiveEmployees: async () => {
+    const res = await api.get("/employees/active");
+    const data = res.data;
+
+    return data;
+  },
   getEmployeeById: async (id: string) => {
+    const res = await api.get(`/employees/${id}`);
+    const data = res.data;
+
+    return data;
+  },
+  createTicket: async (data: ITicket) => {
+    const res = await api.post("/employee", JSON.stringify(data));
+    return res.data;
+  },
+  updateTicket: async (data: ITicket) => {
+    const res = await api.put(`/employee/${data.id}`, JSON.stringify(data));
+    return res.data;
+  },
+  getTickets: async () => {
+    const res = await api.get("/employees");
+    const data = res.data;
+
+    return data;
+  },
+  getTicketById: async (id: string) => {
     const res = await api.get(`/employees/${id}`);
     const data = res.data;
 
