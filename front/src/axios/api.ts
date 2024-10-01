@@ -12,6 +12,12 @@ export const API_PROVIDER = {
 
     return data;
   },
+  getEmployeeById: async (id: string) => {
+    const res = await api.get(`/employees/${id}`);
+    const data = res.data;
+
+    return data;
+  },
 };
 
 export default api;
