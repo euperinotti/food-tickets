@@ -82,6 +82,7 @@ export const Table = <T extends object>({ data, columns, onEditRow }: TableProps
                   sortOrder={config.sortOrder}
                 />
               ))}
+              <th></th>
             </tr>
           </thead>
           <tbody>

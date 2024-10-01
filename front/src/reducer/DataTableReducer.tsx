@@ -17,7 +17,7 @@ export const DataTableReducer = <T extends object>({
           {Math.min(config.rowsPerPage * currentPage, config.sortedData.length)}{" "}
           of {config.sortedData.length} entries
         </span>
-        <div className="inline-flex mt-2 xs:mt-0">
+        <div className="inline-flex mt-2 xs:mt-0 gap-2">
           <TableFooterButton
             content={<LuChevronLeft className="text-slate-800" />}
             onClick={() => paginate(currentPage - 1)}
@@ -30,10 +30,10 @@ export const DataTableReducer = <T extends object>({
             <button
               key={num + 1}
               onClick={() => paginate(num + 1)}
-              className={`px-4 py-2 text-sm font-medium ${
+              className={`px-4 py-2 text-sm font-medium rounded-md ${
                 currentPage === num + 1
-                  ? "bg-blue-600 text-white"
-                  : "bg-white text-blue-600 border border-gray-300 hover:bg-gray-100"
+                  ? "text-blue-600"
+                  : "text-white border border-gray-300 hover:bg-gray-100"
               }`}
             >
               {num + 1}
