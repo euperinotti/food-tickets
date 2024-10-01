@@ -1,15 +1,19 @@
 import { useDataTable } from "@/hooks/useDataTable";
 import usePagination from "@/hooks/usePagination";
 import { DataTableReducer } from "@/reducer/DataTableReducer";
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { InputText } from "../Input/InputText";
+import { DateFilter } from "./Filters/DateFilter";
 import { TableHeadCell } from "./HeadCell";
 import { TableRow } from "./Row";
 import { TableProps } from "./types";
 
 export const Table = <T extends object>({ data, columns }: TableProps<T>) => {
-  const { config, setConfig, search, sort } = useDataTable<T>(data, columns);
-
+  const [filteredData, setFilteredData] = useState<T[]>(data);
+  const { config, setConfig, search, sort } = useDataTable<T>(
+    filteredData,
+    columns
+  );
   const { currentRows, currentPage, totalPages, paginate } = usePagination(
     config.sortedData,
     config.rowsPerPage
@@ -20,11 +24,11 @@ export const Table = <T extends object>({ data, columns }: TableProps<T>) => {
     currentPage,
     paginate,
     totalPages,
-  })
+  });
 
   useEffect(() => {
-    setConfig({ ...config, sortedData: data });
-  }, [data]);
+    setConfig({ ...config, sortedData: filteredData });
+  }, [filteredData]);
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     search(event.target.value);
@@ -34,14 +38,35 @@ export const Table = <T extends object>({ data, columns }: TableProps<T>) => {
     sort(column as keyof T);
   };
 
+  const handleFilter = (startDate: Date | null, endDate: Date | null) => {
+    const filtered = data.filter((item: T) => {
+      const createdAt = new Date(item.createdAt);
+      const updatedAt = new Date(item.updatedAt);
+
+      const isCreatedInRange =
+        startDate && endDate
+          ? createdAt >= startDate && createdAt <= endDate
+          : true;
+      const isUpdatedInRange =
+        startDate && endDate
+          ? updatedAt >= startDate && updatedAt <= endDate
+          : true;
+
+      return isCreatedInRange || isUpdatedInRange;
+    });
+
+    setFilteredData(filtered);
+  };
+
   return (
     <div className="overflow-visible">
-      <div className="mb-4" >
+      <div className="flex gap-4 mb-4">
         <InputText
           placeholder="Pesquisar..."
           value={config.searchQuery}
           onChange={handleSearch}
         />
+        <DateFilter onFilter={handleFilter} />
       </div>
 
       <div className="overflow-x-auto relative sm:rounded-lg">
