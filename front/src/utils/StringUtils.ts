@@ -7,4 +7,7 @@ export const StringUtils = {
       .replace(/(\d{3})(\d{1,2})$/, "$1-$2")
       .slice(0, 14);
   },
+  sanitizeCpf(str: string): string {
+    return str.replace(/\D/g, "");
+  },
 };
