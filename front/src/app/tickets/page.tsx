@@ -5,17 +5,15 @@ import { Table } from "@/components/ui/Table";
 import { useRouter } from "next/navigation";
 
 const tableColumns = [
-  { title: "Nome", key: "name" },
+  { title: "Id", key: "id" },
+  { title: "Funcionário", key: "employeeId" },
+  { title: "Status", key: "status" },
+  { title: "Criado em", key: "createdAt" },
+  { title: "Atualizado em", key: "updatedAt" },
 ];
 
 const tableData = [
-  {
-    id: 1,
-    employeeId: 10,
-    status: "A",
-    createdAt: "2024-12-29 09:51:35",
-    updatedAt: "2024-12-29 09:51:35",
-  },
+
 ];
 
 export default function Index() {
