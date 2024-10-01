@@ -14,4 +14,6 @@ export interface TableConfig<T> {
   sortOrder: "asc" | "desc";
   sortedData: T[];
   rowsPerPage: number;
+  isModalOpen: boolean;
+  selectedRow: T | null;
 }
