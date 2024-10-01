@@ -8,6 +8,8 @@ export const useDataTable = <T>(data: T[], columns: TableColumns<T>[]) => {
     sortOrder: "asc",
     sortedData: data,
     rowsPerPage: 6,
+    isModalOpen: false,
+    selectedRow: null,
   });
 
   const search = (query: string) => {
