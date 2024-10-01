@@ -9,12 +9,14 @@ import br.com.euperinotti.foodtickets.domain.exceptions.enums.TicketExceptions;
 public class TicketBO {
   private Long id;
   private Long employeeId;
+  private Integer quantity;
   private TicketStatus status;
   private LocalDate createdAt;
   private LocalDate updatedAt;
 
-  public TicketBO(Long id, Long employeeId, TicketStatus status, LocalDate createdAt, LocalDate updatedAt) {
+  public TicketBO(Long id, Long employeeId, Integer quantity, TicketStatus status, LocalDate createdAt, LocalDate updatedAt) {
     this.id = id;
+    this.quantity = quantity;
     this.employeeId = employeeId;
     this.status = status;
     this.createdAt = createdAt;
@@ -35,6 +37,10 @@ public class TicketBO {
 
   public Long getEmployeeId() {
     return this.employeeId;
+  }
+
+  public Integer getQuantityId() {
+    return this.quantity;
   }
 
   public TicketStatus getStatus() {
