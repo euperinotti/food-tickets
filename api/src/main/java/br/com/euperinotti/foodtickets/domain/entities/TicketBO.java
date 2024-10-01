@@ -39,7 +39,7 @@ public class TicketBO {
     return this.employeeId;
   }
 
-  public Integer getQuantityId() {
+  public Integer getQuantity() {
     return this.quantity;
   }
 

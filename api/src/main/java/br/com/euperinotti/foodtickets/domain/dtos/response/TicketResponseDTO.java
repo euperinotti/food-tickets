@@ -7,6 +7,7 @@ import br.com.euperinotti.foodtickets.domain.enums.TicketStatus;
 public class TicketResponseDTO {
   private Long id;
   private Long employeeId;
+  private Integer quantity;
   private TicketStatus status;
   private LocalDate updatedAt;
   private LocalDate createdAt;
@@ -25,6 +26,14 @@ public class TicketResponseDTO {
 
   public void setEmployeeId(Long employeeId) {
     this.employeeId = employeeId;
+  }
+
+  public Integer getQuantity() {
+    return this.quantity;
+  }
+
+  public void setQuantity(Integer quantity) {
+    this.quantity = quantity;
   }
 
   public TicketStatus getStatus() {

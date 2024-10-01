@@ -7,7 +7,7 @@ import br.com.euperinotti.foodtickets.domain.entities.TicketBO;
 public class TicketMapper {
   public static TicketBO toBO(TicketRequestDTO dto) {
 
-    TicketBO bo = new TicketBO(dto.getId(), dto.getEmployeeId(), dto.getStatus(), dto.getCreatedAt(),
+    TicketBO bo = new TicketBO(dto.getId(), dto.getEmployeeId(), dto.getQuantity(), dto.getStatus(), dto.getCreatedAt(),
         dto.getUpdatedAt());
 
     return bo;
@@ -18,6 +18,7 @@ public class TicketMapper {
 
     dto.setId(bo.getId());
     dto.setEmployeeId(bo.getEmployeeId());
+    dto.setQuantity(bo.getQuantity());
     dto.setStatus(bo.getStatus());
     dto.setCreatedAt(bo.getCreatedAt());
     dto.setUpdatedAt(bo.getUpdatedAt());
