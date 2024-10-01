@@ -8,7 +8,7 @@ public class PgSqlTicketMapper {
     PgSqlTicketEntity entity = new PgSqlTicketEntity();
 
     entity.setId(bo.getId());
-    entity.setEmployeeId(bo.getEmployeeId());
+    // entity.setEmployee(bo.getEmployeeId());
     entity.setQuantity(bo.getQuantity());
     entity.setStatus(bo.getStatus());
     entity.setCreatedAt(bo.getCreatedAt());
@@ -18,7 +18,7 @@ public class PgSqlTicketMapper {
   }
 
   public static TicketBO toBO(PgSqlTicketEntity entity) {
-    TicketBO bo = new TicketBO(entity.getId(), entity.getEmployeeId(), entity.getQuantity(), entity.getStatus(),
+    TicketBO bo = new TicketBO(entity.getId(), entity.getEmployee().getId(), entity.getQuantity(), entity.getStatus(),
         entity.getCreatedAt(),
         entity.getUpdatedAt());
     return bo;
