@@ -1,5 +1,5 @@
 export interface IEmployee {
-  id: number;
+  id: number | null;
   name: string;
   cpf: string;
   status: EmployeeStatus;
