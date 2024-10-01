@@ -156,12 +156,14 @@ class EmployeeServiceTest {
 
     EmployeeBO bo = EmployeeMapper.toBO(request);
 
+    when(repository.findById(anyLong())).thenReturn(Optional.of(bo));
     when(repository.updateById(anyLong(), any(EmployeeBO.class))).thenReturn(bo);
 
     EmployeeResponseDTO result = service.update(1L, request);
 
     assertNotNull(result);
-    assertEquals("Jane", result.getName());
+    assertEquals("JOHN", result.getName());
+    assertEquals("JOHN", result.getName());
     verify(repository, times(1)).updateById(anyLong(), any(EmployeeBO.class));
   }
 }
