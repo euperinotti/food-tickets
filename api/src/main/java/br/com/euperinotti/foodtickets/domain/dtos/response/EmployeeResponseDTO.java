@@ -12,6 +12,18 @@ public class EmployeeResponseDTO {
   private LocalDate createdAt;
   private LocalDate updatedAt;
 
+  public EmployeeResponseDTO() {}
+
+  public EmployeeResponseDTO(Long id, String name, String cpf, EmployeeStatus status, LocalDate createdAt,
+      LocalDate updatedAt) {
+    this.id = id;
+    this.name = name;
+    this.cpf = cpf;
+    this.status = status;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+  }
+
   public Long getId() {
     return this.id;
   }
