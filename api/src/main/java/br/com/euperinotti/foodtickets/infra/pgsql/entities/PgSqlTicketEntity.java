@@ -3,7 +3,7 @@ package br.com.euperinotti.foodtickets.infra.pgsql.entities;
 import java.time.LocalDate;
 
 import br.com.euperinotti.foodtickets.domain.enums.TicketStatus;
-import br.com.euperinotti.foodtickets.infra.pgsql.converters.EmployeeStatusConverter;
+import br.com.euperinotti.foodtickets.infra.pgsql.converters.TicketStatusConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -26,8 +26,10 @@ public class PgSqlTicketEntity {
   @ManyToOne
   private Long employeeId;
 
+  private Integer quantity;
+
   @Column(nullable = false)
-  @Convert(converter = EmployeeStatusConverter.class)
+  @Convert(converter = TicketStatusConverter.class)
   private TicketStatus status;
 
   @Column(nullable = false, name = "created_at")
