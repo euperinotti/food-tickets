@@ -1,3 +1,4 @@
+import useRouteMatch from "@/hooks/useRouteMatch";
 import { SidebarItemProps } from "./types";
 
 export const SidebarItem = ({
@@ -6,13 +7,17 @@ export const SidebarItem = ({
   href,
   isOpen,
 }: SidebarItemProps) => {
-  const Icon = icon({ size: isOpen ? "" : "22px", className: isOpen ? "" : "w-full" });
+  const { isMatch } = useRouteMatch(href);
+  const Icon = icon({
+    size: isOpen ? "" : "22px",
+    className: `${!isOpen && "w-full"} ${isMatch && "text-white"}`,
+  });
 
   return (
     <li>
       <a
         href={href}
-        className={`flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300`}
+        className={`flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 transition-all duration-300 ${isMatch && "text-white bg-blue-500 hover:bg-blue-500"}`}
       >
         {Icon}
         {isOpen && <span className="ml-3">{label}</span>}
