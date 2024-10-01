@@ -16,7 +16,7 @@ export const Button = ({
   return (
     <button
       {...rest}
-      className={`${ButtonType[styleType]} font-bold flex items-center gap-4 ${rest.className}`}
+      className={`${ButtonType[styleType]} flex items-center gap-4 ${rest.className}`}
     >
       {label}
       {icon && icon({})}

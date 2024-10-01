@@ -17,20 +17,21 @@ const tableData = [
     name: "John Doe",
     cpf: "123.456.789-00",
     status: "A",
-    createdAt: "29/12/2024 09:51:35",
-    updatedAt: "29/12/2024 09:51:35",
+    createdAt: "2024-12-29 09:51:35",
+    updatedAt: "2024-12-29 09:51:35",
   },
   {
     id: 1,
     name: "John Doe",
     cpf: "123.456.789-00",
     status: "I",
-    createdAt: "29/12/2024 09:51:35",
-    updatedAt: "29/12/2024 09:51:35",
+    createdAt: "2024-12-29 09:51:35",
+    updatedAt: "2024-12-29 09:51:35",
   },
 ];
 
 export default function Index() {
+
   return (
     <div className="flex justify-center items-center w-full h-dvh">
       <Sidebar />
@@ -39,7 +40,7 @@ export default function Index() {
           <h1 className="text-4xl font-semibold">Funcionários</h1>
           <Button label={"Novo funcionário"} styleType="default" />
         </div>
-        <div className="max-h-fit overflow-y-scroll w-full">
+        <div className="max-h-fit w-full">
           <Table columns={tableColumns} data={tableData} />
         </div>
       </main>
