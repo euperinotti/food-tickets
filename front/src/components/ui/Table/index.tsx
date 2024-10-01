@@ -8,7 +8,11 @@ import { TableHeadCell } from "./HeadCell";
 import { TableRow } from "./Row";
 import { TableProps } from "./types";
 
-export const Table = <T extends object>({ data, columns, onEditRow }: TableProps<T>) => {
+export const Table = <T extends object>({
+  data,
+  columns,
+  onEditRow,
+}: TableProps<T>) => {
   const [filteredData, setFilteredData] = useState<T[]>(data);
   const { config, setConfig, search, sort } = useDataTable<T>(
     filteredData,
@@ -86,25 +90,31 @@ export const Table = <T extends object>({ data, columns, onEditRow }: TableProps
             </tr>
           </thead>
           <tbody>
-            {currentRows.map((row: T, rowIndex: number) => (
-              <TableRow key={rowIndex}>
-                {columns.map((column) => (
-                  <td key={column.key as string} className="px-6 py-4">
-                    {column.key === "status"
-                      ? reducer.renderStatusPill(row[column.key as any])
-                      : row[column.key as any]}
+            {data.length > 0 &&
+              currentRows.map((row: T, rowIndex: number) => (
+                <TableRow key={rowIndex}>
+                  {columns.map((column) => (
+                    <td key={column.key as string} className="px-6 py-4">
+                      {column.key === "status"
+                        ? reducer.renderStatusPill(row[column.key as any])
+                        : row[column.key as any]}
+                    </td>
+                  ))}
+                  <td className="px-6 py-4">
+                    <button
+                      className="text-blue-600 hover:underline"
+                      onClick={() => onEditRow(row)}
+                    >
+                      Editar
+                    </button>
                   </td>
-                ))}
-                <td className="px-6 py-4">
-                  <button
-                    className="text-blue-600 hover:underline"
-                    onClick={() => onEditRow(row)}
-                  >
-                    Editar
-                  </button>
-                </td>
-              </TableRow>
-            ))}
+                </TableRow>
+              ))}
+              {data.length === 0 && (
+                <TableRow>
+                  <td colSpan={columns.length + 1} className="px-6 py-4">Nenhum resultado encontrado</td>
+                </TableRow>
+              )}
           </tbody>
         </table>
       </div>
