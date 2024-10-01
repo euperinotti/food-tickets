@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/Button";
 import Sidebar from "@/components/ui/Sidebar";
 import { Table } from "@/components/ui/Table";
+import { useRouter } from "next/navigation";
 
 const tableColumns = [
   { title: "Nome", key: "name" },
@@ -31,6 +32,7 @@ const tableData = [
 ];
 
 export default function Index() {
+  const router = useRouter();
 
   return (
     <div className="flex justify-center items-center w-full h-dvh">
@@ -38,10 +40,20 @@ export default function Index() {
       <main className="p-8 flex flex-1 flex-col h-full gap-12">
         <div className="flex gap-4 w-full justify-between">
           <h1 className="text-4xl font-semibold">Funcionários</h1>
-          <Button label={"Novo funcionário"} styleType="default" />
+          <Button
+            label={"Novo funcionário"}
+            styleType="default"
+            onClick={() => router.push("/funcionario/new")}
+          />
         </div>
         <div className="max-h-fit w-full">
-          <Table columns={tableColumns} data={tableData} />
+          <Table
+            columns={tableColumns}
+            data={tableData}
+            onEditRow={(e) => {
+              router.push(`/funcionario/${e.id}`);
+            }}
+          />
         </div>
       </main>
     </div>

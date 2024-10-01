@@ -6,6 +6,7 @@ import { InputRadio } from "@/components/ui/Input/InputRadio";
 import { InputText } from "@/components/ui/Input/InputText";
 import Sidebar from "@/components/ui/Sidebar";
 import { useEmployee } from "@/hooks/useEmployee";
+import { StringUtils } from "@/utils/StringUtils";
 import { FormEvent, useEffect, useState } from "react";
 
 const fetchData = async (id: string) => {
@@ -72,14 +73,24 @@ export default function Page({ params }: { params: { id: string } }) {
             <div className="flex flex-col item-start justify-start gap-4 p-5">
               <InputContainer label="Nome">
                 <InputText
+                  placeholder="Nome do funcionário"
                   value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
+                  onChange={(e) =>
+                    setForm({ ...form, name: e.target.value.toUpperCase() })
+                  }
                 />
               </InputContainer>
               <InputContainer label="CPF">
                 <InputText
                   value={form.cpf}
-                  onChange={(e) => setForm({ ...form, cpf: e.target.value })}
+                  onChange={(e) =>
+                    setForm({
+                      ...form,
+                      cpf: StringUtils.formatCpf(e.target.value),
+                    })
+                  }
+                  placeholder="123.456.789-10"
+                  maxLength={14}
                 />
               </InputContainer>
               <InputContainer label="Status">
@@ -102,7 +113,12 @@ export default function Page({ params }: { params: { id: string } }) {
               </InputContainer>
             </div>
             <div className="flex item-start justify-end gap-4 p-5">
-              <Button label="Limpar" styleType="danger" type="reset" />
+              <Button
+                label="Limpar"
+                styleType="danger"
+                type="reset"
+                onClick={() => setForm(initialState)}
+              />
               <Button label="Salvar" styleType="default" type="submit" />
             </div>
           </form>
