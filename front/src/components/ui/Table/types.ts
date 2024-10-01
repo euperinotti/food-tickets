@@ -6,6 +6,7 @@ export interface TableColumns<T> {
 export interface TableProps<T> {
   data: T[];
   columns: TableColumns<T>[];
+  onEditRow: (row: T) => void;
 }
 
 export interface TableConfig<T> {

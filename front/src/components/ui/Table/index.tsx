@@ -1,16 +1,14 @@
 import { useDataTable } from "@/hooks/useDataTable";
 import usePagination from "@/hooks/usePagination";
 import { DataTableReducer } from "@/reducer/DataTableReducer";
-import { Dialog } from "@headlessui/react";
 import { ChangeEvent, useEffect, useState } from "react";
-import { NewEntryForm } from "../Dialog/Forms/NewEmployee";
 import { InputText } from "../Input/InputText";
 import { DateFilter } from "./Filters/DateFilter";
 import { TableHeadCell } from "./HeadCell";
 import { TableRow } from "./Row";
 import { TableProps } from "./types";
 
-export const Table = <T extends object>({ data, columns }: TableProps<T>) => {
+export const Table = <T extends object>({ data, columns, onEditRow }: TableProps<T>) => {
   const [filteredData, setFilteredData] = useState<T[]>(data);
   const { config, setConfig, search, sort } = useDataTable<T>(
     filteredData,
@@ -40,14 +38,6 @@ export const Table = <T extends object>({ data, columns }: TableProps<T>) => {
     sort(column as keyof T);
   };
 
-  const openModal = (row: T) => {
-    setConfig({ ...config, isModalOpen: true, selectedRow: row });
-  };
-
-  const closeModal = () => {
-    setConfig({ ...config, isModalOpen: false, selectedRow: null });
-  };
-
   const handleFilter = (startDate: Date | null, endDate: Date | null) => {
     const filtered = data.filter((item: T) => {
       const createdAt = new Date(item.createdAt);
@@ -70,15 +60,6 @@ export const Table = <T extends object>({ data, columns }: TableProps<T>) => {
 
   return (
     <div className="overflow-visible">
-      {config.isModalOpen && (
-        <Dialog
-          className="fixed z-50"
-          open={config.isModalOpen}
-          onClose={() => closeModal()}
-        >
-          <NewEntryForm entry={config.selectedRow} />
-        </Dialog>
-      )}
       <div className="flex gap-4 mb-4">
         <InputText
           placeholder="Pesquisar..."
@@ -116,7 +97,7 @@ export const Table = <T extends object>({ data, columns }: TableProps<T>) => {
                 <td className="px-6 py-4">
                   <button
                     className="text-blue-600 hover:underline"
-                    onClick={() => openModal(row)}
+                    onClick={() => onEditRow(row)}
                   >
                     Editar
                   </button>
