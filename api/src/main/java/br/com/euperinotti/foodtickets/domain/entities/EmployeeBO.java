@@ -23,6 +23,17 @@ public class EmployeeBO {
     validate();
   }
 
+  public EmployeeBO(Long id, String name, String cpf) {
+    this.id = id;
+    this.name = name;
+    this.cpf = cpf;
+    this.status = EmployeeStatus.ACTIVE;
+    this.createdAt = LocalDate.now();
+    this.updatedAt = LocalDate.now();
+
+    validate();
+  }
+
   private void validate() {
     if (name == null || name.isEmpty()) {
       throw new IllegalArgumentException("Name is required");
