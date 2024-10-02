@@ -1,18 +1,21 @@
+import { EmployeeStatus } from "@/@types/IEmployee";
 import { useDataTable } from "@/hooks/useDataTable";
 import usePagination from "@/hooks/usePagination";
 import { DataTableReducer } from "@/reducer/DataTableReducer";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { InputText } from "../Input/InputText";
 import { DateFilter } from "./Filters/DateFilter";
+import { TableFooter } from "./Footer";
 import { TableHeadCell } from "./HeadCell";
 import { TableRow } from "./Row";
-import { TableProps } from "./types";
+import { TableColumns, TableProps } from "./types";
 
 export const Table = <T extends object>({
   data,
   columns,
   onEditRow,
 }: TableProps<T>) => {
+  const tableRef = useRef(null)
   const [filteredData, setFilteredData] = useState<T[]>(data);
   const { config, setConfig, search, sort } = useDataTable<T>(
     filteredData,
@@ -74,7 +77,7 @@ export const Table = <T extends object>({
       </div>
 
       <div className="overflow-x-auto relative sm:rounded-lg">
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400" ref={tableRef}>
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               {columns.map((column) => (
@@ -93,11 +96,13 @@ export const Table = <T extends object>({
             {data.length > 0 &&
               currentRows.map((row: T, rowIndex: number) => (
                 <TableRow key={rowIndex}>
-                  {columns.map((column) => (
+                  {columns.map((column: TableColumns<T>) => (
                     <td key={column.key as string} className="px-6 py-4">
                       {column.key === "status"
-                        ? reducer.renderStatusPill(row[column.key as any])
-                        : row[column.key as any]}
+                        ? reducer.renderStatusPill(
+                            row[column.key as keyof T] as EmployeeStatus
+                          )
+                        : (row[column.key as keyof T] as string)}
                     </td>
                   ))}
                   <td className="px-6 py-4">
@@ -110,16 +115,23 @@ export const Table = <T extends object>({
                   </td>
                 </TableRow>
               ))}
-              {data.length === 0 && (
-                <TableRow>
-                  <td colSpan={columns.length + 1} className="px-6 py-4">Nenhum resultado encontrado</td>
-                </TableRow>
-              )}
+            {data.length === 0 && (
+              <TableRow>
+                <td colSpan={columns.length + 1} className="px-6 py-4">
+                  Nenhum resultado encontrado
+                </td>
+              </TableRow>
+            )}
           </tbody>
         </table>
       </div>
-
-      {reducer.renderTableFooter()}
+      <TableFooter
+        config={config}
+        currentPage={currentPage}
+        paginate={paginate}
+        totalPages={totalPages}
+        ref={tableRef}
+      />
     </div>
   );
 };
