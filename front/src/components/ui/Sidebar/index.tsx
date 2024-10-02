@@ -59,8 +59,9 @@ const Sidebar = () => {
             <SidebarItem
               icon={LuGithub}
               label="Github"
-              href="https://github.com/seu-repositorio"
+              href="https://github.com/euperinotti/food-tickets"
               isOpen={isOpen}
+              target="_blank"
             />
           </ul>
 

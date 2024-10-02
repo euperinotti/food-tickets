@@ -1,28 +1,25 @@
 "use client";
 import { IEmployee } from "@/@types/IEmployee";
+import { API_PROVIDER } from "@/axios/api";
 import { Button } from "@/components/ui/Button";
 import { InputContainer } from "@/components/ui/Input/InputContainer";
 import { InputRadio } from "@/components/ui/Input/InputRadio";
 import { InputText } from "@/components/ui/Input/InputText";
 import Sidebar from "@/components/ui/Sidebar";
-import { useEmployee } from "@/hooks/useEmployee";
 import { StringUtils } from "@/utils/StringUtils";
 import { FormEvent, useEffect, useState } from "react";
 
 const fetchData = async (id: string) => {
-  // const response = await API_PROVIDER.getEmployeeById(id);
-  // if (!response.ok) {
-  //   throw new Error("Falha ao buscar os dados");
-  // }
+  try {
+    const response = await API_PROVIDER.getEmployeeById(id);
+    if (!response.ok) {
+      throw new Error("Falha ao buscar os dados");
+    }
 
-  return {
-    id: 1,
-    name: "John Doe",
-    cpf: "123.456.789-00",
-    status: "A",
-    createdAt: "2024-12-29 09:51:35",
-    updatedAt: "2024-12-29 09:51:35",
-  };
+    return response?.json();
+  } catch (error) {
+    return initialState;
+  }
 };
 
 const initialState: IEmployee = {
@@ -37,7 +34,7 @@ const initialState: IEmployee = {
 export default function Page({ params }: { params: { id: string } }) {
   const { id } = params;
   const [form, setForm] = useState<IEmployee>(initialState);
-  const { addEmployee, updateEmployee } = useEmployee();
+  const { createEmployee, updateEmployee } = API_PROVIDER;
 
   useEffect(() => {
     (async () => {
@@ -51,10 +48,12 @@ export default function Page({ params }: { params: { id: string } }) {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    form.cpf = StringUtils.sanitizeCpf(form.cpf)
+
     if (form && form.id) {
       updateEmployee({ ...form });
     } else {
-      addEmployee({ ...form });
+      createEmployee({ ...form });
     }
   };
 
