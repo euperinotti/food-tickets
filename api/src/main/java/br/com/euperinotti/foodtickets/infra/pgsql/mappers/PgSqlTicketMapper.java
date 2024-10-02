@@ -8,6 +8,7 @@ public class PgSqlTicketMapper {
   public static PgSqlTicketEntity toEntity(TicketBO bo, PgSqlEmployeeEntity employee) {
     PgSqlTicketEntity entity = new PgSqlTicketEntity();
 
+    entity.setId(bo.getId());
     entity.setEmployee(employee);
     entity.setQuantity(bo.getQuantity());
     entity.setStatus(bo.getStatus());
