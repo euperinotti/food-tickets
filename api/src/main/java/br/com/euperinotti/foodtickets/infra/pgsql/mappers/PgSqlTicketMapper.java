@@ -5,12 +5,9 @@ import br.com.euperinotti.foodtickets.infra.pgsql.entities.PgSqlEmployeeEntity;
 import br.com.euperinotti.foodtickets.infra.pgsql.entities.PgSqlTicketEntity;
 
 public class PgSqlTicketMapper {
-  public static PgSqlTicketEntity toEntity(TicketBO bo) {
+  public static PgSqlTicketEntity toEntity(TicketBO bo, PgSqlEmployeeEntity employee) {
     PgSqlTicketEntity entity = new PgSqlTicketEntity();
-    PgSqlEmployeeEntity employee = new PgSqlEmployeeEntity();
-    employee.setId(bo.getId());
 
-    entity.setId(bo.getId());
     entity.setEmployee(employee);
     entity.setQuantity(bo.getQuantity());
     entity.setStatus(bo.getStatus());
@@ -18,7 +15,7 @@ public class PgSqlTicketMapper {
     entity.setUpdatedAt(bo.getUpdatedAt());
 
     return entity;
-  }
+}
 
   public static TicketBO toBO(PgSqlTicketEntity entity) {
     TicketBO bo = new TicketBO(entity.getId(), entity.getEmployee().getId(), entity.getQuantity(), entity.getStatus(),
