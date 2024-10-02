@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import br.com.euperinotti.foodtickets.domain.entities.TicketBO;
@@ -14,13 +14,13 @@ import br.com.euperinotti.foodtickets.infra.pgsql.entities.PgSqlTicketEntity;
 import br.com.euperinotti.foodtickets.infra.pgsql.mappers.PgSqlTicketMapper;
 import br.com.euperinotti.foodtickets.infra.pgsql.repository.contracts.PgSqlTicketRepository;
 
-@Component("pgSqlTicketRepositoryImpl")
 @Repository
-public class PgSqlTicketRepositoryImpl implements ITicketRepository {
+public class PgSqlTicketRepositoryImplementation implements ITicketRepository {
 
   private PgSqlTicketRepository jpa;
 
-  public PgSqlTicketRepositoryImpl(PgSqlTicketRepository jpa) {
+  @Autowired
+  public PgSqlTicketRepositoryImplementation(PgSqlTicketRepository jpa) {
     this.jpa = jpa;
   }
 
