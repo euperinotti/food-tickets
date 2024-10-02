@@ -1,7 +1,7 @@
 package br.com.euperinotti.foodtickets.domain.mappers;
 
-import br.com.euperinotti.foodtickets.domain.dtos.request.EmployeeRequestDTO;
-import br.com.euperinotti.foodtickets.domain.dtos.response.EmployeeResponseDTO;
+import br.com.euperinotti.foodtickets.application.dtos.request.EmployeeRequestDTO;
+import br.com.euperinotti.foodtickets.application.dtos.response.EmployeeResponseDTO;
 import br.com.euperinotti.foodtickets.domain.entities.EmployeeBO;
 import br.com.euperinotti.foodtickets.domain.utils.StringUtils;
 

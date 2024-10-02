@@ -1,7 +1,7 @@
 package br.com.euperinotti.foodtickets.domain.mappers;
 
-import br.com.euperinotti.foodtickets.domain.dtos.request.TicketRequestDTO;
-import br.com.euperinotti.foodtickets.domain.dtos.response.TicketResponseDTO;
+import br.com.euperinotti.foodtickets.application.dtos.request.TicketRequestDTO;
+import br.com.euperinotti.foodtickets.application.dtos.response.TicketResponseDTO;
 import br.com.euperinotti.foodtickets.domain.entities.TicketBO;
 
 public class TicketMapper {

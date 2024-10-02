@@ -19,8 +19,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import br.com.euperinotti.foodtickets.domain.dtos.request.EmployeeRequestDTO;
-import br.com.euperinotti.foodtickets.domain.dtos.response.EmployeeResponseDTO;
+import br.com.euperinotti.foodtickets.application.dtos.request.EmployeeRequestDTO;
+import br.com.euperinotti.foodtickets.application.dtos.response.EmployeeResponseDTO;
+import br.com.euperinotti.foodtickets.application.services.EmployeeService;
 import br.com.euperinotti.foodtickets.domain.entities.EmployeeBO;
 import br.com.euperinotti.foodtickets.domain.enums.EmployeeStatus;
 import br.com.euperinotti.foodtickets.domain.exceptions.AppExceptions;

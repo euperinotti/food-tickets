@@ -1,6 +1,6 @@
 package br.com.euperinotti.foodtickets.domain.usecases.ticket;
 
-import br.com.euperinotti.foodtickets.domain.dtos.response.TicketResponseDTO;
+import br.com.euperinotti.foodtickets.application.dtos.response.TicketResponseDTO;
 import br.com.euperinotti.foodtickets.domain.entities.TicketBO;
 import br.com.euperinotti.foodtickets.domain.exceptions.AppExceptions;
 import br.com.euperinotti.foodtickets.domain.exceptions.enums.TicketExceptions;

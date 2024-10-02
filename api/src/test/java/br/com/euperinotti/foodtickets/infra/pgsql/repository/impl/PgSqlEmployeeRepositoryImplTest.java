@@ -32,13 +32,13 @@ public class PgSqlEmployeeRepositoryImplTest {
   @Autowired
   private PgSqlEmployeeRepository jpa;
 
-  private PgSqlEmployeeRepositoryImpl sut;
+  private PgSqlEmployeeRepositoryImplementation sut;
 
   private EmployeeBO bo;
 
   @BeforeEach
   void setUp() {
-    this.sut = new PgSqlEmployeeRepositoryImpl(jpa);
+    this.sut = new PgSqlEmployeeRepositoryImplementation(jpa);
     this.bo = new EmployeeBO(1L, "John Doe", "123.456.789-10", EmployeeStatus.ACTIVE, LocalDate.now(), LocalDate.now());
   }
 

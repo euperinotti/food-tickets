@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.euperinotti.foodtickets.domain.dtos.request.EmployeeRequestDTO;
-import br.com.euperinotti.foodtickets.domain.dtos.response.EmployeeResponseDTO;
-import br.com.euperinotti.foodtickets.services.EmployeeService;
+import br.com.euperinotti.foodtickets.application.dtos.request.EmployeeRequestDTO;
+import br.com.euperinotti.foodtickets.application.dtos.response.EmployeeResponseDTO;
+import br.com.euperinotti.foodtickets.application.services.EmployeeService;
 
 @RestController
 @RequestMapping("/employees")

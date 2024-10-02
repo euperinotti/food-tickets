@@ -6,8 +6,8 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
-import br.com.euperinotti.foodtickets.domain.dtos.request.EmployeeRequestDTO;
-import br.com.euperinotti.foodtickets.domain.dtos.response.EmployeeResponseDTO;
+import br.com.euperinotti.foodtickets.application.dtos.request.EmployeeRequestDTO;
+import br.com.euperinotti.foodtickets.application.dtos.response.EmployeeResponseDTO;
 import br.com.euperinotti.foodtickets.domain.entities.EmployeeBO;
 import br.com.euperinotti.foodtickets.domain.enums.EmployeeStatus;
 
