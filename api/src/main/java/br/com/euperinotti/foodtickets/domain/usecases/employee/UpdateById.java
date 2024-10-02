@@ -26,7 +26,7 @@ public class UpdateById {
     return EmployeeMapper.toResponseDTO(updated);
   }
 
-  private void validate(Long id, EmployeeRequestDTO dto) {
+  public void validate(Long id, EmployeeRequestDTO dto) {
     EmployeeBO bo = repository.findById(id).orElseThrow(() -> new AppExceptions(EmployeeExceptions.EMPLOYEE_NOT_FOUND.getMessage()));
 
     dto.setId(bo.getId());
