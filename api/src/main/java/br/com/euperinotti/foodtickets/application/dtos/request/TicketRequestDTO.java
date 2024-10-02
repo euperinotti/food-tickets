@@ -1,6 +1,6 @@
 package br.com.euperinotti.foodtickets.application.dtos.request;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import br.com.euperinotti.foodtickets.domain.enums.TicketStatus;
 
@@ -9,8 +9,8 @@ public class TicketRequestDTO {
   private Long employeeId;
   private Integer quantity;
   private TicketStatus status;
-  private LocalDate updatedAt;
-  private LocalDate createdAt;
+  private LocalDateTime updatedAt;
+  private LocalDateTime createdAt;
 
   public Long getId() {
     return this.id;
@@ -44,19 +44,19 @@ public class TicketRequestDTO {
     this.status = status;
   }
 
-  public LocalDate getUpdatedAt() {
+  public LocalDateTime getUpdatedAt() {
     return this.updatedAt;
   }
 
-  public void setUpdatedAt(LocalDate updatedAt) {
+  public void setUpdatedAt(LocalDateTime updatedAt) {
     this.updatedAt = updatedAt;
   }
 
-  public LocalDate getCreatedAt() {
+  public LocalDateTime getCreatedAt() {
     return this.createdAt;
   }
 
-  public void setCreatedAt(LocalDate createdAt) {
+  public void setCreatedAt(LocalDateTime createdAt) {
     this.createdAt = createdAt;
   }
 

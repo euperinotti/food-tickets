@@ -1,6 +1,6 @@
 package br.com.euperinotti.foodtickets.domain.usecases.ticket;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import br.com.euperinotti.foodtickets.application.dtos.request.TicketRequestDTO;
 import br.com.euperinotti.foodtickets.application.dtos.response.TicketResponseDTO;
@@ -30,6 +30,6 @@ public class UpdateById {
     TicketBO bo = repository.findById(id).orElseThrow(() -> new AppExceptions(TicketExceptions.TICKET_NOT_FOUND.getMessage()));
 
     dto.setId(bo.getId());
-    dto.setUpdatedAt(LocalDate.now());
+    dto.setUpdatedAt(LocalDateTime.now());
   }
 }

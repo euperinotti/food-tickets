@@ -25,4 +25,15 @@ public class SpringErrorHandler {
     return new ResponseEntity<CustomErrorResponse>(response, HttpStatus.NOT_FOUND);
   }
 
+  @ExceptionHandler(RuntimeException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  public ResponseEntity<CustomErrorResponse> handleRuntimeExceptions(RuntimeException exception,
+      WebRequest request) {
+
+    CustomErrorResponse response = new CustomErrorResponse(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(),
+        exception.getMessage());
+
+    return new ResponseEntity<CustomErrorResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
 }

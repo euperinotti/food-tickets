@@ -1,6 +1,6 @@
 package br.com.euperinotti.foodtickets.domain.usecases.employee;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import br.com.euperinotti.foodtickets.application.dtos.request.EmployeeRequestDTO;
 import br.com.euperinotti.foodtickets.application.dtos.response.EmployeeResponseDTO;
@@ -30,6 +30,6 @@ public class UpdateById {
     EmployeeBO bo = repository.findById(id).orElseThrow(() -> new AppExceptions(EmployeeExceptions.EMPLOYEE_NOT_FOUND.getMessage()));
 
     dto.setId(bo.getId());
-    dto.setUpdatedAt(LocalDate.now());
+    dto.setUpdatedAt(LocalDateTime.now());
   }
 }

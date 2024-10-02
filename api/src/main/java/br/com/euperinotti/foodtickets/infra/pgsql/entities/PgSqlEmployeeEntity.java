@@ -1,6 +1,6 @@
 package br.com.euperinotti.foodtickets.infra.pgsql.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import br.com.euperinotti.foodtickets.domain.enums.EmployeeStatus;
 import br.com.euperinotti.foodtickets.infra.pgsql.converters.EmployeeStatusConverter;
@@ -33,8 +33,8 @@ public class PgSqlEmployeeEntity {
   private EmployeeStatus status;
 
   @Column(nullable = false, name = "created_at")
-  private LocalDate createdAt;
+  private LocalDateTime createdAt;
 
   @Column(nullable = false, name = "updated_at")
-  private LocalDate updatedAt;
+  private LocalDateTime updatedAt;
 }

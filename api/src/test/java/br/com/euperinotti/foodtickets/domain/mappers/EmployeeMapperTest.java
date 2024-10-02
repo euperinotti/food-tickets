@@ -2,7 +2,7 @@ package br.com.euperinotti.foodtickets.domain.mappers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
@@ -20,8 +20,8 @@ public class EmployeeMapperTest {
     dto.setName("John Doe");
     dto.setCpf("123.456.789-10");
     dto.setStatus(EmployeeStatus.ACTIVE);
-    dto.setCreatedAt(LocalDate.now());
-    dto.setUpdatedAt(LocalDate.now());
+    dto.setCreatedAt(LocalDateTime.now());
+    dto.setUpdatedAt(LocalDateTime.now());
 
     EmployeeBO bo = EmployeeMapper.toBO(dto);
 
@@ -35,8 +35,8 @@ public class EmployeeMapperTest {
 
   @Test
   public void test_toResponseDTO_successfulMapping() {
-    EmployeeBO bo = new EmployeeBO(1L, "John Doe", "123.456.789-10", EmployeeStatus.ACTIVE, LocalDate.now(),
-        LocalDate.now());
+    EmployeeBO bo = new EmployeeBO(1L, "John Doe", "123.456.789-10", EmployeeStatus.ACTIVE, LocalDateTime.now(),
+        LocalDateTime.now());
 
     EmployeeResponseDTO dto = EmployeeMapper.toResponseDTO(bo);
 

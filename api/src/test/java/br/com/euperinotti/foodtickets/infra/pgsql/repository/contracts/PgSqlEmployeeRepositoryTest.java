@@ -3,7 +3,7 @@ package br.com.euperinotti.foodtickets.infra.pgsql.repository.contracts;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,8 +26,8 @@ public class PgSqlEmployeeRepositoryTest {
     inactiveEmployee.setName("Kyle Schmidt");
     inactiveEmployee.setCpf("66418505745");
     inactiveEmployee.setStatus(EmployeeStatus.INACTIVE);
-    inactiveEmployee.setCreatedAt(LocalDate.now());
-    inactiveEmployee.setUpdatedAt(LocalDate.now());
+    inactiveEmployee.setCreatedAt(LocalDateTime.now());
+    inactiveEmployee.setUpdatedAt(LocalDateTime.now());
 
     return inactiveEmployee;
   }
@@ -37,8 +37,8 @@ public class PgSqlEmployeeRepositoryTest {
     inactiveEmployee.setName("Ophelia Beck");
     inactiveEmployee.setCpf("72197234469");
     inactiveEmployee.setStatus(EmployeeStatus.ACTIVE);
-    inactiveEmployee.setCreatedAt(LocalDate.now());
-    inactiveEmployee.setUpdatedAt(LocalDate.now());
+    inactiveEmployee.setCreatedAt(LocalDateTime.now());
+    inactiveEmployee.setUpdatedAt(LocalDateTime.now());
 
     return inactiveEmployee;
   }
@@ -68,8 +68,8 @@ public class PgSqlEmployeeRepositoryTest {
     employee2.setName("Jane Doe");
     employee2.setCpf("09876543210");
     employee2.setStatus(EmployeeStatus.ACTIVE);
-    employee2.setCreatedAt(LocalDate.now());
-    employee2.setUpdatedAt(LocalDate.now());
+    employee2.setCreatedAt(LocalDateTime.now());
+    employee2.setUpdatedAt(LocalDateTime.now());
 
     repository.save(employee);
     repository.save(employee2);
@@ -97,8 +97,8 @@ public class PgSqlEmployeeRepositoryTest {
     employee2.setName("Jane Doe");
     employee2.setCpf("09876543210");
     employee2.setStatus(EmployeeStatus.INACTIVE);
-    employee2.setCreatedAt(LocalDate.now());
-    employee2.setUpdatedAt(LocalDate.now());
+    employee2.setCreatedAt(LocalDateTime.now());
+    employee2.setUpdatedAt(LocalDateTime.now());
 
     repository.save(employee);
     repository.save(employee2);

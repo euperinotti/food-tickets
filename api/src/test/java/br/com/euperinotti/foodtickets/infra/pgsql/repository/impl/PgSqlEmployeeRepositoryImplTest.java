@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +39,7 @@ public class PgSqlEmployeeRepositoryImplTest {
   @BeforeEach
   void setUp() {
     this.sut = new PgSqlEmployeeRepositoryImplementation(jpa);
-    this.bo = new EmployeeBO(1L, "John Doe", "123.456.789-10", EmployeeStatus.ACTIVE, LocalDate.now(), LocalDate.now());
+    this.bo = new EmployeeBO(1L, "John Doe", "123.456.789-10", EmployeeStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now());
   }
 
   private PgSqlEmployeeEntity makeInactiveEmployeeEntity() {
@@ -47,8 +47,8 @@ public class PgSqlEmployeeRepositoryImplTest {
     inactiveEmployee.setName("Kyle Schmidt");
     inactiveEmployee.setCpf("66418505745");
     inactiveEmployee.setStatus(EmployeeStatus.INACTIVE);
-    inactiveEmployee.setCreatedAt(LocalDate.now());
-    inactiveEmployee.setUpdatedAt(LocalDate.now());
+    inactiveEmployee.setCreatedAt(LocalDateTime.now());
+    inactiveEmployee.setUpdatedAt(LocalDateTime.now());
 
     return inactiveEmployee;
   }
@@ -58,8 +58,8 @@ public class PgSqlEmployeeRepositoryImplTest {
     inactiveEmployee.setName("Ophelia Beck");
     inactiveEmployee.setCpf("72197234469");
     inactiveEmployee.setStatus(EmployeeStatus.ACTIVE);
-    inactiveEmployee.setCreatedAt(LocalDate.now());
-    inactiveEmployee.setUpdatedAt(LocalDate.now());
+    inactiveEmployee.setCreatedAt(LocalDateTime.now());
+    inactiveEmployee.setUpdatedAt(LocalDateTime.now());
 
     return inactiveEmployee;
   }
@@ -111,8 +111,8 @@ public class PgSqlEmployeeRepositoryImplTest {
     PgSqlEmployeeEntity entity2 = new PgSqlEmployeeEntity();
     entity2.setName("Jane Doe");
     entity2.setStatus(EmployeeStatus.INACTIVE);
-    entity2.setCreatedAt(LocalDate.now());
-    entity2.setUpdatedAt(LocalDate.now());
+    entity2.setCreatedAt(LocalDateTime.now());
+    entity2.setUpdatedAt(LocalDateTime.now());
     entity2.setCpf("987.654.321-09");
 
     jpa.save(entity1);
@@ -184,8 +184,8 @@ public class PgSqlEmployeeRepositoryImplTest {
     PgSqlEmployeeEntity entity = PgSqlEmployeeMapper.toEntity(bo);
     jpa.save(entity);
 
-    EmployeeBO updatedBO = new EmployeeBO(1L, "Updated Name", "12345678910", EmployeeStatus.ACTIVE, LocalDate.now(),
-        LocalDate.now());
+    EmployeeBO updatedBO = new EmployeeBO(1L, "Updated Name", "12345678910", EmployeeStatus.ACTIVE, LocalDateTime.now(),
+        LocalDateTime.now());
 
     EmployeeBO result = sut.updateById(1L, updatedBO);
 

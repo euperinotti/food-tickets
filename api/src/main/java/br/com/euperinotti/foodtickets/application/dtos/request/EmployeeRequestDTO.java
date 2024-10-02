@@ -1,6 +1,6 @@
 package br.com.euperinotti.foodtickets.application.dtos.request;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.lang.Nullable;
@@ -16,10 +16,10 @@ public class EmployeeRequestDTO {
   private EmployeeStatus status;
 
   @Nullable
-  private LocalDate createdAt;
+  private LocalDateTime createdAt;
 
   @Nullable
-  private LocalDate updatedAt;
+  private LocalDateTime updatedAt;
 
   public EmployeeRequestDTO() {}
 
@@ -61,19 +61,19 @@ public class EmployeeRequestDTO {
     this.status = status;
   }
 
-  public LocalDate getCreatedAt() {
+  public LocalDateTime getCreatedAt() {
     return this.createdAt;
   }
 
-  public void setCreatedAt(LocalDate createdAt) {
+  public void setCreatedAt(LocalDateTime createdAt) {
     this.createdAt = createdAt;
   }
 
-  public LocalDate getUpdatedAt() {
+  public LocalDateTime getUpdatedAt() {
     return this.updatedAt;
   }
 
-  public void setUpdatedAt(LocalDate updatedAt) {
+  public void setUpdatedAt(LocalDateTime updatedAt) {
     this.updatedAt = updatedAt;
   }
 

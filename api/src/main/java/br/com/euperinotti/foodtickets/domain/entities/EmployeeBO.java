@@ -1,6 +1,6 @@
 package br.com.euperinotti.foodtickets.domain.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import br.com.euperinotti.foodtickets.domain.enums.EmployeeStatus;
 
@@ -9,10 +9,10 @@ public class EmployeeBO {
   private String name;
   private String cpf;
   private EmployeeStatus status;
-  private LocalDate createdAt;
-  private LocalDate updatedAt;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
 
-  public EmployeeBO(Long id, String name, String cpf, EmployeeStatus status, LocalDate createdAt, LocalDate updatedAt) {
+  public EmployeeBO(Long id, String name, String cpf, EmployeeStatus status, LocalDateTime createdAt, LocalDateTime updatedAt) {
     this.id = id;
     this.name = name;
     this.cpf = cpf;
@@ -28,8 +28,8 @@ public class EmployeeBO {
     this.name = name;
     this.cpf = cpf;
     this.status = EmployeeStatus.ACTIVE;
-    this.createdAt = LocalDate.now();
-    this.updatedAt = LocalDate.now();
+    this.createdAt = LocalDateTime.now();
+    this.updatedAt = LocalDateTime.now();
 
     validate();
   }
@@ -60,11 +60,11 @@ public class EmployeeBO {
     return this.status;
   }
 
-  public LocalDate getCreatedAt() {
+  public LocalDateTime getCreatedAt() {
     return this.createdAt;
   }
 
-  public LocalDate getUpdatedAt() {
+  public LocalDateTime getUpdatedAt() {
     return this.updatedAt;
   }
 

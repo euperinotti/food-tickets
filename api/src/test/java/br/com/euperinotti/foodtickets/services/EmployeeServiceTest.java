@@ -9,7 +9,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,12 +43,12 @@ class EmployeeServiceTest {
   void setUp() {
     MockitoAnnotations.openMocks(this);
     mockEmployeesResponseDTO = List.of(
-        new EmployeeResponseDTO(1L, "John", "33046243922", EmployeeStatus.ACTIVE, LocalDate.now(), LocalDate.now()),
-        new EmployeeResponseDTO(2L, "Jane", "51135388281", EmployeeStatus.ACTIVE, LocalDate.now(), LocalDate.now()));
+        new EmployeeResponseDTO(1L, "John", "33046243922", EmployeeStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now()),
+        new EmployeeResponseDTO(2L, "Jane", "51135388281", EmployeeStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now()));
 
     mockEmployeesBO = List.of(
-        new EmployeeBO(1L, "John", "33046243922", EmployeeStatus.ACTIVE, LocalDate.now(), LocalDate.now()),
-        new EmployeeBO(2L, "Jane", "51135388281", EmployeeStatus.INACTIVE, LocalDate.now(), LocalDate.now()));
+        new EmployeeBO(1L, "John", "33046243922", EmployeeStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now()),
+        new EmployeeBO(2L, "Jane", "51135388281", EmployeeStatus.INACTIVE, LocalDateTime.now(), LocalDateTime.now()));
   }
 
   @Test

@@ -1,6 +1,6 @@
 package br.com.euperinotti.foodtickets.domain.usecases.ticket;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import br.com.euperinotti.foodtickets.application.dtos.request.TicketRequestDTO;
 import br.com.euperinotti.foodtickets.application.dtos.response.TicketResponseDTO;
@@ -38,8 +38,8 @@ public class CreateTicket {
 
     dto.setId(employee.getId());
     dto.setStatus(TicketStatus.ACTIVE);
-    dto.setCreatedAt(LocalDate.now());
-    dto.setUpdatedAt(LocalDate.now());
+    dto.setCreatedAt(LocalDateTime.now());
+    dto.setUpdatedAt(LocalDateTime.now());
   }
 
 }

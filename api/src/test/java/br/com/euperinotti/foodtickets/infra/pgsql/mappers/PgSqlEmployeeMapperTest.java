@@ -2,7 +2,7 @@ package br.com.euperinotti.foodtickets.infra.pgsql.mappers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +14,8 @@ public class PgSqlEmployeeMapperTest {
 
   @Test
   public void test_toEntity_successfulMapping() {
-    EmployeeBO bo = new EmployeeBO(1L, "John Doe", "123.456.789-10", EmployeeStatus.ACTIVE, LocalDate.now(),
-        LocalDate.now());
+    EmployeeBO bo = new EmployeeBO(1L, "John Doe", "123.456.789-10", EmployeeStatus.ACTIVE, LocalDateTime.now(),
+        LocalDateTime.now());
 
     PgSqlEmployeeEntity entity = PgSqlEmployeeMapper.toEntity(bo);
 
@@ -34,8 +34,8 @@ public class PgSqlEmployeeMapperTest {
     entity.setName("John Doe");
     entity.setCpf("123.456.789-10");
     entity.setStatus(EmployeeStatus.ACTIVE);
-    entity.setCreatedAt(LocalDate.now());
-    entity.setUpdatedAt(LocalDate.now());
+    entity.setCreatedAt(LocalDateTime.now());
+    entity.setUpdatedAt(LocalDateTime.now());
 
     EmployeeBO bo = PgSqlEmployeeMapper.toBO(entity);
 
