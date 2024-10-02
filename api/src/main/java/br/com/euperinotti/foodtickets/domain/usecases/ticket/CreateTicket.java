@@ -36,7 +36,7 @@ public class CreateTicket {
     EmployeeBO employee = employeeRepository.findById(dto.getEmployeeId())
         .orElseThrow(() -> new AppExceptions(EmployeeExceptions.EMPLOYEE_NOT_FOUND.getMessage()));
 
-    dto.setId(employee.getId());
+    dto.setEmployeeId(employee.getId());
     dto.setStatus(TicketStatus.ACTIVE);
     dto.setCreatedAt(LocalDateTime.now());
     dto.setUpdatedAt(LocalDateTime.now());
