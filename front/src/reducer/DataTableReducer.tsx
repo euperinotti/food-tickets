@@ -1,4 +1,5 @@
 import { EmployeeStatus } from "@/@types/IEmployee";
+import { Button } from "@/components/ui/Button";
 import { TableFooterButton } from "@/components/ui/Table/Footer/Button";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { DataTableReducerProps } from "./types";
@@ -9,6 +10,7 @@ export const DataTableReducer = <T extends object>({
   paginate,
   totalPages,
 }: DataTableReducerProps<T>) => {
+
   const renderTableFooter = () => {
     return (
       <div className="flex justify-between items-center mt-4">
@@ -17,6 +19,13 @@ export const DataTableReducer = <T extends object>({
           {Math.min(config.rowsPerPage * currentPage, config.sortedData.length)}{" "}
           of {config.sortedData.length} entries
         </span>
+        <Button
+          label="Exportar registros"
+          styleType="outline"
+          onClick={() => {
+            downloadReport(config.sortedData);
+          }}
+        />
         <div className="inline-flex mt-2 xs:mt-0 gap-2">
           <TableFooterButton
             content={<LuChevronLeft className="text-slate-800" />}
