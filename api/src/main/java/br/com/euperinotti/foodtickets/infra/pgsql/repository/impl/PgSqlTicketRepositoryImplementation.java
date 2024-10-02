@@ -9,25 +9,31 @@ import org.springframework.stereotype.Repository;
 
 import br.com.euperinotti.foodtickets.domain.entities.TicketBO;
 import br.com.euperinotti.foodtickets.domain.enums.TicketStatus;
+import br.com.euperinotti.foodtickets.domain.exceptions.AppExceptions;
 import br.com.euperinotti.foodtickets.domain.repository.ITicketRepository;
+import br.com.euperinotti.foodtickets.infra.pgsql.entities.PgSqlEmployeeEntity;
 import br.com.euperinotti.foodtickets.infra.pgsql.entities.PgSqlTicketEntity;
 import br.com.euperinotti.foodtickets.infra.pgsql.mappers.PgSqlTicketMapper;
+import br.com.euperinotti.foodtickets.infra.pgsql.repository.contracts.PgSqlEmployeeRepository;
 import br.com.euperinotti.foodtickets.infra.pgsql.repository.contracts.PgSqlTicketRepository;
 
 @Repository
 public class PgSqlTicketRepositoryImplementation implements ITicketRepository {
 
   private PgSqlTicketRepository jpa;
+  private PgSqlEmployeeRepository employeeJpa;
 
   @Autowired
-  public PgSqlTicketRepositoryImplementation(PgSqlTicketRepository jpa) {
+  public PgSqlTicketRepositoryImplementation(PgSqlTicketRepository jpa, PgSqlEmployeeRepository employeeJpa) {
     this.jpa = jpa;
+    this.employeeJpa = employeeJpa;
   }
 
   @Override
   public TicketBO save(TicketBO bo) {
-    PgSqlTicketEntity entity = PgSqlTicketMapper.toEntity(bo);
+    PgSqlEmployeeEntity employee = employeeJpa.findById(bo.getEmployeeId()).orElseThrow(() -> new AppExceptions(""));
 
+    PgSqlTicketEntity entity = PgSqlTicketMapper.toEntity(bo, employee);
     PgSqlTicketEntity created = jpa.save(entity);
 
     return PgSqlTicketMapper.toBO(created);
@@ -63,8 +69,9 @@ public class PgSqlTicketRepositoryImplementation implements ITicketRepository {
 
   @Override
   public TicketBO updateById(Long id, TicketBO bo) {
-    PgSqlTicketEntity entity = PgSqlTicketMapper.toEntity(bo);
+    PgSqlEmployeeEntity employee = employeeJpa.findById(bo.getEmployeeId()).orElseThrow(() -> new AppExceptions(""));
 
+    PgSqlTicketEntity entity = PgSqlTicketMapper.toEntity(bo, employee);
     PgSqlTicketEntity updated = jpa.save(entity);
 
     return PgSqlTicketMapper.toBO(updated);
