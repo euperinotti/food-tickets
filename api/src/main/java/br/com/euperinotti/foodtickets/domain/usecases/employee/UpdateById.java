@@ -18,9 +18,7 @@ public class UpdateById {
   }
 
   public EmployeeResponseDTO execute(Long id, EmployeeRequestDTO dto) {
-    validateExisting(id);
-    dto.setId(id);
-    dto.setUpdatedAt(LocalDate.now());
+    validate(id, dto);
 
     EmployeeBO bo = EmployeeMapper.toBO(dto);
     EmployeeBO updated = repository.updateById(id, bo);
@@ -28,7 +26,10 @@ public class UpdateById {
     return EmployeeMapper.toResponseDTO(updated);
   }
 
-  private void validateExisting(Long id) {
-    repository.findById(id).orElseThrow(() -> new AppExceptions(EmployeeExceptions.EMPLOYEE_NOT_FOUND.getMessage()));
+  private void validate(Long id, EmployeeRequestDTO dto) {
+    EmployeeBO bo = repository.findById(id).orElseThrow(() -> new AppExceptions(EmployeeExceptions.EMPLOYEE_NOT_FOUND.getMessage()));
+
+    dto.setId(bo.getId());
+    dto.setUpdatedAt(LocalDate.now());
   }
 }
