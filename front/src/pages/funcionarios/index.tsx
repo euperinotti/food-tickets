@@ -1,7 +1,6 @@
-"use client";
 import { Button } from "@/components/ui/Button";
-import Sidebar from "@/components/ui/Sidebar";
 import { Table } from "@/components/ui/Table";
+import { BaseTemplate } from "@/template/Base";
 import { useRouter } from "next/navigation";
 
 const tableColumns = [
@@ -35,9 +34,8 @@ export default function Index() {
   const router = useRouter();
 
   return (
-    <div className="flex justify-center items-center w-full h-dvh">
-      <Sidebar />
-      <main className="p-8 flex flex-1 flex-col h-full gap-12">
+    <BaseTemplate>
+      <div className="flex flex-col gap-6">
         <div className="flex gap-4 w-full justify-between">
           <h1 className="text-4xl font-semibold">Funcionários</h1>
           <Button
@@ -55,7 +53,7 @@ export default function Index() {
             }}
           />
         </div>
-      </main>
-    </div>
+      </div>
+    </BaseTemplate>
   );
 }
