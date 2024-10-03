@@ -19,4 +19,8 @@ public class StringUtils {
   public static String sanitizeName(String str) {
     return str.trim().toUpperCase();
   }
+
+  public static boolean isEmpty(String str) {
+    return str == null || str.isEmpty();
+  }
 }
