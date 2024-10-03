@@ -6,7 +6,15 @@ import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.lang.Nullable;
 
 import br.com.euperinotti.foodtickets.domain.enums.EmployeeStatus;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeRequestDTO {
   private Long id;
   private String name;
@@ -21,60 +29,21 @@ public class EmployeeRequestDTO {
   @Nullable
   private LocalDateTime updatedAt;
 
-  public EmployeeRequestDTO() {}
-
   public EmployeeRequestDTO(Long id, String name, String cpf) {
     this.id = id;
     this.name = name;
     this.cpf = cpf;
+    this.status = EmployeeStatus.ACTIVE;
+    this.createdAt = LocalDateTime.now();
+    this.updatedAt = LocalDateTime.now();
   }
 
-  public Long getId() {
-    return this.id;
-  }
-
-  public void setId(Long id) {
+  public EmployeeRequestDTO(Long id, String name, String cpf, EmployeeStatus status) {
     this.id = id;
-  }
-
-  public String getName() {
-    return this.name;
-  }
-
-  public void setName(String name) {
     this.name = name;
-  }
-
-  public String getCpf() {
-    return this.cpf;
-  }
-
-  public void setCpf(String cpf) {
     this.cpf = cpf;
-  }
-
-  public EmployeeStatus getStatus() {
-    return this.status;
-  }
-
-  public void setStatus(EmployeeStatus status) {
     this.status = status;
+    this.createdAt = LocalDateTime.now();
+    this.updatedAt = LocalDateTime.now();
   }
-
-  public LocalDateTime getCreatedAt() {
-    return this.createdAt;
-  }
-
-  public void setCreatedAt(LocalDateTime createdAt) {
-    this.createdAt = createdAt;
-  }
-
-  public LocalDateTime getUpdatedAt() {
-    return this.updatedAt;
-  }
-
-  public void setUpdatedAt(LocalDateTime updatedAt) {
-    this.updatedAt = updatedAt;
-  }
-
 }
