@@ -1,4 +1,4 @@
 export interface HomeCardProps {
   title: string;
-  description: string;
+  description: string | number;
 }
