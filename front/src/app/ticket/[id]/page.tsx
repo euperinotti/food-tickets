@@ -1,11 +1,11 @@
 "use client";
 import { ITicket } from "@/@types/ITicket";
 import { API_PROVIDER } from "@/axios/api";
-import { HeadlessCombobox } from "@/components/headless/Combobox";
 import { Button } from "@/components/ui/Button";
 import { InputContainer } from "@/components/ui/Input/InputContainer";
 import { InputNumber } from "@/components/ui/Input/InputNumber";
 import { InputRadio } from "@/components/ui/Input/InputRadio";
+import { Select } from "@/components/ui/Select";
 import Sidebar from "@/components/ui/Sidebar";
 import { FormEvent, useEffect, useState } from "react";
 
@@ -35,8 +35,9 @@ const fetchData = async (id: string) => {
   // }
 
   return {
-    id: 1,
+    id: null,
     employeeId: 10,
+    quantity: 5,
     status: "A",
     createdAt: "2024-12-29 09:51:35",
     updatedAt: "2024-12-29 09:51:35",
@@ -46,6 +47,7 @@ const fetchData = async (id: string) => {
 const initialState: ITicket = {
   id: null,
   employeeId: 10,
+  quantity: 0,
   status: "A",
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
@@ -88,33 +90,48 @@ export default function Page({ params }: { params: { id: string } }) {
           >
             <div className="flex flex-col item-start justify-start gap-4 p-5">
               <InputContainer label="Funcionário">
-                <HeadlessCombobox
-                  displayKey="name"
-                  filterKey="name"
-                  data={tableData}
+                <Select
+                  options={{
+                    data: tableData,
+                    key: "id",
+                    label: "name",
+                    placeholder: "Selecione um funcionário",
+                  }}
+                  onChange={(e) =>
+                    setForm({ ...form, employeeId: Number(e.target.value) })
+                  }
+                  value={form.employeeId}
                 />
               </InputContainer>
-              <InputContainer label="CPF">
-                <InputNumber />
-              </InputContainer>
-              <InputContainer label="Status">
-                <InputRadio
-                  label="Ativo"
-                  name="employee-status"
-                  value="A"
-                  id="employee-active"
-                  defaultChecked={form.status === "A"}
-                  onClick={(e) => setForm({ ...form, status: "A" })}
-                />
-                <InputRadio
-                  label="Inativo"
-                  name="employee-status"
-                  value="I"
-                  id="employee-inactive"
-                  defaultChecked={form.status === "I"}
-                  onClick={(e) => setForm({ ...form, status: "I" })}
+              <InputContainer label="Quantidade">
+                <InputNumber
+                  min={0}
+                  value={form.quantity}
+                  onChange={(e) =>
+                    setForm({ ...form, quantity: Number(e.target.value) })
+                  }
                 />
               </InputContainer>
+              {form.id && (
+                <InputContainer label="Status">
+                  <InputRadio
+                    label="Ativo"
+                    name="employee-status"
+                    value="A"
+                    id="employee-active"
+                    defaultChecked={form.status === "A"}
+                    onClick={(e) => setForm({ ...form, status: "A" })}
+                  />
+                  <InputRadio
+                    label="Inativo"
+                    name="employee-status"
+                    value="I"
+                    id="employee-inactive"
+                    defaultChecked={form.status === "I"}
+                    onClick={(e) => setForm({ ...form, status: "I" })}
+                  />
+                </InputContainer>
+              )}
             </div>
             <div className="flex item-start justify-end gap-4 p-5">
               <Button
