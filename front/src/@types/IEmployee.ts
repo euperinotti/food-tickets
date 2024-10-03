@@ -7,4 +7,4 @@ export interface IEmployee {
   updatedAt: string;
 }
 
-export type EmployeeStatus = "A" | "I";
+export type EmployeeStatus = "ACTIVE" | "INACTIVE";
