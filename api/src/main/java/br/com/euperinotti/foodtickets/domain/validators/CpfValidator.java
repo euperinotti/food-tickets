@@ -5,7 +5,7 @@ import br.com.euperinotti.foodtickets.domain.utils.StringUtils;
 public class CpfValidator {
   private static final int[] PESO_CPF = { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
 
-  private static int calcularDigito(String str, int[] peso) {
+  private static int analyzeDigits(String str, int[] peso) {
     int soma = 0;
     int digito;
 
@@ -35,8 +35,8 @@ public class CpfValidator {
       return false;
     }
 
-    Integer digito1 = calcularDigito(cpf.substring(0, 9), PESO_CPF);
-    Integer digito2 = calcularDigito(cpf.substring(0, 9) + digito1, PESO_CPF);
+    Integer digito1 = analyzeDigits(cpf.substring(0, 9), PESO_CPF);
+    Integer digito2 = analyzeDigits(cpf.substring(0, 9) + digito1, PESO_CPF);
 
     return cpf.equals(cpf.substring(0, 9) + digito1 + digito2);
   }
