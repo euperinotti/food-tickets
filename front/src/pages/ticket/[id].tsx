@@ -6,7 +6,8 @@ import { InputContainer } from "@/components/ui/Input/InputContainer";
 import { InputNumber } from "@/components/ui/Input/InputNumber";
 import { InputRadio } from "@/components/ui/Input/InputRadio";
 import { Select } from "@/components/ui/Select";
-import Sidebar from "@/components/ui/Sidebar";
+import { BaseTemplate } from "@/template/Base";
+import { useRouter } from "next/router";
 import { FormEvent, useEffect, useState } from "react";
 
 const tableData = [
@@ -29,19 +30,8 @@ const tableData = [
 ];
 
 const fetchData = async (id: string) => {
-  // const response = await API_PROVIDER.getEmployeeById(id);
-  // if (!response.ok) {
-  //   throw new Error("Falha ao buscar os dados");
-  // }
-
-  return {
-    id: null,
-    employeeId: 10,
-    quantity: 5,
-    status: "A",
-    createdAt: "2024-12-29 09:51:35",
-    updatedAt: "2024-12-29 09:51:35",
-  };
+  const response = await API_PROVIDER.getTicketById(id);
+  return response;
 };
 
 const initialState: ITicket = {
@@ -53,33 +43,33 @@ const initialState: ITicket = {
   updatedAt: new Date().toISOString(),
 };
 
-export default function Page({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default function Page() {
+  const router = useRouter();
+  const { id } = router.query;
   const [form, setForm] = useState<ITicket>(initialState);
+  const { createTicket, updateTicket } = API_PROVIDER;
 
   useEffect(() => {
     (async () => {
       if (id !== "new") {
-        const response = await fetchData(id);
-
+        const response = await fetchData(id as string);
         setForm(response);
       }
     })();
   }, [id]);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (form && form.id) {
-      API_PROVIDER.updateTicket({ ...form });
+      await updateTicket({ ...form });
     } else {
-      API_PROVIDER.createTicket({ ...form });
+      await createTicket({ ...form });
     }
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-dvh">
-      <Sidebar />
-      <main className="p-8 flex flex-1 flex-col h-full gap-12">
+    <BaseTemplate>
+      <main className="flex flex-1 flex-col h-full gap-12">
         <div className="flex gap-4 w-full justify-between">
           <h1 className="text-4xl font-semibold">Ticket</h1>
         </div>
@@ -145,6 +135,6 @@ export default function Page({ params }: { params: { id: string } }) {
           </form>
         </div>
       </main>
-    </div>
+    </BaseTemplate>
   );
 }

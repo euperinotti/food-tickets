@@ -17,7 +17,6 @@ const initialState: IAnalytics = {
 export default function Home() {
   const [analytics, setAnalytics] = useState<IAnalytics>(initialState);
   const { notify } = useAlert();
-  notify(ToastStatus.SUCCESS, "error");
 
   useEffect(() => {
     const fetchData = async () => {

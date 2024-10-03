@@ -1,8 +1,13 @@
 "use client";
+import { ITicket } from "@/@types/ITicket";
+import { ToastStatus } from "@/@types/Toast";
+import { API_PROVIDER } from "@/axios/api";
 import { Button } from "@/components/ui/Button";
-import Sidebar from "@/components/ui/Sidebar";
 import { Table } from "@/components/ui/Table";
+import useAlert from "@/hooks/useAlert";
+import { BaseTemplate } from "@/template/Base";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const tableColumns = [
   { title: "Id", key: "id" },
@@ -13,24 +18,27 @@ const tableColumns = [
   { title: "Atualizado em", key: "updatedAt" },
 ];
 
-const tableData = [
-  {
-    id: 1,
-    employeeId: 10,
-    quantity: 1,
-    status: "A",
-    createdAt: "2024-12-29 09:51:35",
-    updatedAt: "2024-12-29 09:51:35",
-  }
-];
-
 export default function Index() {
   const router = useRouter();
+  const { notify } = useAlert();
+  const [data, setData] = useState<ITicket[] | []>([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await API_PROVIDER.getTickets();
+        setData(response);
+      } catch (error) {
+        notify(ToastStatus.ERROR, error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
-    <div className="flex justify-center items-center w-full h-dvh">
-      <Sidebar />
-      <main className="p-8 flex flex-1 flex-col h-full gap-12">
+    <BaseTemplate>
+      <main className="flex flex-1 flex-col h-full gap-12">
         <div className="flex gap-4 w-full justify-between">
           <h1 className="text-4xl font-semibold">Tickets</h1>
           <Button
@@ -42,13 +50,13 @@ export default function Index() {
         <div className="max-h-fit w-full">
           <Table
             columns={tableColumns}
-            data={tableData}
+            data={data}
             onEditRow={(e) => {
               router.push(`/ticket/${e.id}`);
             }}
           />
         </div>
       </main>
-    </div>
+    </BaseTemplate>
   );
 }

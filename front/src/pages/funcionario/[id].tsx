@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/Button";
 import { InputContainer } from "@/components/ui/Input/InputContainer";
 import { InputRadio } from "@/components/ui/Input/InputRadio";
 import { InputText } from "@/components/ui/Input/InputText";
-import Sidebar from "@/components/ui/Sidebar";
+import { BaseTemplate } from "@/template/Base";
 import { StringUtils } from "@/utils/StringUtils";
+import { useRouter } from "next/router";
 import { FormEvent, useEffect, useState } from "react";
 
 const fetchData = async (id: string) => {
@@ -31,8 +32,9 @@ const initialState: IEmployee = {
   updatedAt: new Date().toISOString(),
 };
 
-export default function Page({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default function Page() {
+  const router = useRouter();
+  const { id } = router.query;
   const [form, setForm] = useState<IEmployee>(initialState);
   const { createEmployee, updateEmployee } = API_PROVIDER;
 
@@ -46,9 +48,9 @@ export default function Page({ params }: { params: { id: string } }) {
     })();
   }, [id]);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    form.cpf = StringUtils.sanitizeCpf(form.cpf)
+    form.cpf = StringUtils.sanitizeCpf(form.cpf);
 
     if (form.cpf.length != 14) {
       alert("CPF inválido. Informe um CPF válido.");
@@ -56,16 +58,15 @@ export default function Page({ params }: { params: { id: string } }) {
     }
 
     if (form && form.id) {
-      updateEmployee({ ...form });
+      await updateEmployee({ ...form });
     } else {
-      createEmployee({ ...form });
+      await createEmployee({ ...form });
     }
   };
 
   return (
-    <div className="flex justify-center items-center w-full h-dvh">
-      <Sidebar />
-      <main className="p-8 flex flex-1 flex-col h-full gap-12">
+    <BaseTemplate>
+      <main className="flex flex-1 flex-col h-full gap-4">
         <div className="flex gap-4 w-full justify-between">
           <h1 className="text-4xl font-semibold">Funcionário</h1>
         </div>
@@ -130,6 +131,6 @@ export default function Page({ params }: { params: { id: string } }) {
           </form>
         </div>
       </main>
-    </div>
+    </BaseTemplate>
   );
 }

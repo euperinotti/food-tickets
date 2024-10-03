@@ -1,7 +1,12 @@
+import { IEmployee } from "@/@types/IEmployee";
+import { ToastStatus } from "@/@types/Toast";
+import { API_PROVIDER } from "@/axios/api";
 import { Button } from "@/components/ui/Button";
 import { Table } from "@/components/ui/Table";
+import useAlert from "@/hooks/useAlert";
 import { BaseTemplate } from "@/template/Base";
 import { useRouter } from "next/navigation";
+import { useLayoutEffect, useState } from "react";
 
 const tableColumns = [
   { title: "Nome", key: "name" },
@@ -11,31 +16,27 @@ const tableColumns = [
   { title: "Atualizado em", key: "updatedAt" },
 ];
 
-const tableData = [
-  {
-    id: 1,
-    name: "John Doe",
-    cpf: "123.456.789-00",
-    status: "A",
-    createdAt: "2024-12-29 09:51:35",
-    updatedAt: "2024-12-29 09:51:35",
-  },
-  {
-    id: 1,
-    name: "John Doe",
-    cpf: "123.456.789-00",
-    status: "I",
-    createdAt: "2024-12-29 09:51:35",
-    updatedAt: "2024-12-29 09:51:35",
-  },
-];
-
 export default function Index() {
   const router = useRouter();
+  const { notify } = useAlert();
+  const [data, setData] = useState<IEmployee[]>([]);
+
+  useLayoutEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await API_PROVIDER.getEmployees();
+        setData(response);
+      } catch (error: any) {
+        notify(ToastStatus.ERROR, error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <BaseTemplate>
-      <div className="flex flex-col gap-6">
+      <div className="p-2 flex flex-col gap-6">
         <div className="flex gap-4 w-full justify-between">
           <h1 className="text-4xl font-semibold">Funcionários</h1>
           <Button
@@ -47,7 +48,7 @@ export default function Index() {
         <div className="max-h-fit w-full">
           <Table
             columns={tableColumns}
-            data={tableData}
+            data={data}
             onEditRow={(e) => {
               router.push(`/funcionario/${e.id}`);
             }}
