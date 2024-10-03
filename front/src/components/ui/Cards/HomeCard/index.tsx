@@ -1,5 +1,3 @@
-"use client";
-
 import { HomeCardProps } from "./types";
 
 export const HomeCard = ({ title, description }: HomeCardProps) => {
