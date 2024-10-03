@@ -49,6 +49,12 @@ export const API_PROVIDER = {
 
     return data;
   },
+  getAnalytics: async () => {
+    const res = await api.get(`/analytics`);
+    const data = res.data;
+
+    return data;
+  },
 };
 
 export default api;
