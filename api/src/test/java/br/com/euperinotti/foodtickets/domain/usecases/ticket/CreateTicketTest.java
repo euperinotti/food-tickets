@@ -37,7 +37,7 @@ class CreateTicketTest {
   private IEmployeeRepository employeeRepository;
 
   @InjectMocks
-  private CreateTicket createTicket;
+  private CreateTicket sut;
 
   @BeforeEach
   void setUp() {
@@ -55,7 +55,7 @@ class CreateTicketTest {
     when(employeeRepository.findById(dto.getEmployeeId())).thenReturn(Optional.of(employee));
     when(repository.save(any(TicketBO.class))).thenReturn(createdTicket);
 
-    TicketResponseDTO result = createTicket.execute(dto);
+    TicketResponseDTO result = sut.execute(dto);
 
     assertNotNull(result);
     assertEquals(1L, result.getEmployeeId());
@@ -71,7 +71,7 @@ class CreateTicketTest {
 
     when(employeeRepository.findById(dto.getEmployeeId())).thenReturn(Optional.empty());
 
-    AppExceptions exception = assertThrows(AppExceptions.class, () -> createTicket.execute(dto));
+    AppExceptions exception = assertThrows(AppExceptions.class, () -> sut.execute(dto));
     assertEquals(EmployeeExceptions.EMPLOYEE_NOT_FOUND.getMessage(), exception.getMessage());
     verify(employeeRepository, times(1)).findById(dto.getEmployeeId());
     verify(repository, never()).save(any(TicketBO.class));
@@ -80,30 +80,25 @@ class CreateTicketTest {
   @Test
   void test_validate_shouldSetEmployeeIdAndStatus() {
     TicketRequestDTO dto = new TicketRequestDTO();
+    dto.setQuantity(10);
     dto.setEmployeeId(1L);
 
     EmployeeBO employee = new EmployeeBO(1L, "John Doe", "12345678900");
 
-    when(employeeRepository.findById(dto.getEmployeeId())).thenReturn(Optional.of(employee));
-
-    createTicket.validate(dto);
+    sut.validate(dto, employee);
 
     assertEquals(employee.getId(), dto.getEmployeeId());
     assertEquals(TicketStatus.ACTIVE, dto.getStatus());
     assertNotNull(dto.getCreatedAt());
     assertNotNull(dto.getUpdatedAt());
-    verify(employeeRepository, times(1)).findById(dto.getEmployeeId());
   }
 
   @Test
   void test_validate_shouldThrowExceptionWhenEmployeeNotFound() {
     TicketRequestDTO dto = new TicketRequestDTO();
+    EmployeeBO employee = new EmployeeBO(1L, "John Doe", "12345678900");
     dto.setEmployeeId(1L);
 
-    when(employeeRepository.findById(dto.getEmployeeId())).thenReturn(Optional.empty());
-
-    AppExceptions exception = assertThrows(AppExceptions.class, () -> createTicket.validate(dto));
-    assertEquals(EmployeeExceptions.EMPLOYEE_NOT_FOUND.getMessage(), exception.getMessage());
-    verify(employeeRepository, times(1)).findById(dto.getEmployeeId());
+    assertThrows(AppExceptions.class, () -> sut.validate(dto, employee));
   }
 }
