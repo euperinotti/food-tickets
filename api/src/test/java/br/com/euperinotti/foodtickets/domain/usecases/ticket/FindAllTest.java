@@ -8,7 +8,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -41,7 +40,7 @@ class FindAllTest {
     TicketBO ticket1 = new TicketBO(1L, 1L, 5, TicketStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now());
     TicketBO ticket2 = new TicketBO(2L, 2L, 3, TicketStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now());
 
-    when(repository.findAll()).thenReturn(Arrays.asList(ticket1, ticket2));
+    when(repository.findAll()).thenReturn(List.of(ticket1, ticket2));
 
     List<TicketResponseDTO> result = findAll.execute();
 

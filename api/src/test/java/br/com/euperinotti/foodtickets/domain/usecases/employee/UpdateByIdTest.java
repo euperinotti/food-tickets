@@ -44,10 +44,10 @@ class UpdateByIdTest {
     Long id = 1L;
     EmployeeRequestDTO dto = new EmployeeRequestDTO();
     dto.setName("Updated Name");
-    dto.setCpf("12345678900");
+    dto.setCpf("10033067996");
 
-    EmployeeBO existingEmployee = new EmployeeBO(id, "John", "12345678900");
-    EmployeeBO updatedEmployee = new EmployeeBO(id, "Updated Name", "12345678900");
+    EmployeeBO existingEmployee = new EmployeeBO(id, "John", "10033067996");
+    EmployeeBO updatedEmployee = new EmployeeBO(id, "Updated Name", "10033067996");
 
     when(repository.findById(id)).thenReturn(Optional.of(existingEmployee));
     when(repository.updateById(eq(id), any(EmployeeBO.class))).thenReturn(updatedEmployee);
@@ -63,11 +63,12 @@ class UpdateByIdTest {
   @Test
   void test_execute_shouldThrowExceptionWhenEmployeeNotFound() {
     Long id = 1L;
-    EmployeeRequestDTO dto = new EmployeeRequestDTO();
+    EmployeeRequestDTO dto = new EmployeeRequestDTO(null, "Ivan Moss", "10033067996");
 
     when(repository.findById(id)).thenReturn(Optional.empty());
 
     assertThrows(AppExceptions.class, () -> updateById.execute(id, dto));
+
     verify(repository, times(1)).findById(id);
     verify(repository, never()).updateById(anyLong(), any(EmployeeBO.class));
   }
@@ -77,9 +78,9 @@ class UpdateByIdTest {
     Long id = 1L;
     EmployeeRequestDTO dto = new EmployeeRequestDTO();
     dto.setName("John");
-    dto.setCpf("12345678900");
+    dto.setCpf("10033067996");
 
-    EmployeeBO existingEmployee = new EmployeeBO(id, "John", "12345678900");
+    EmployeeBO existingEmployee = new EmployeeBO(id, "John", "10033067996");
 
     when(repository.findById(id)).thenReturn(Optional.of(existingEmployee));
 
@@ -93,7 +94,7 @@ class UpdateByIdTest {
   @Test
   void test_validate_shouldThrowExceptionWhenEmployeeNotFound() {
     Long id = 1L;
-    EmployeeRequestDTO dto = new EmployeeRequestDTO();
+    EmployeeRequestDTO dto = new EmployeeRequestDTO(null, "Ivan Moss", "10033067996");
 
     when(repository.findById(id)).thenReturn(Optional.empty());
 

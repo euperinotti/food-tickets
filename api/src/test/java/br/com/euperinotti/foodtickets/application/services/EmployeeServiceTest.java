@@ -126,7 +126,7 @@ class EmployeeServiceTest {
 
   @Test
   void test_create_shouldCreateNewEmployee() {
-    EmployeeRequestDTO request = new EmployeeRequestDTO(1L, "John", "33046243922");
+    EmployeeRequestDTO request = new EmployeeRequestDTO(1L, "John", "10033067996");
     when(repository.save(any(EmployeeBO.class))).thenReturn(EmployeeMapper.toBO(request));
 
     EmployeeResponseDTO result = service.create(request);
@@ -138,7 +138,7 @@ class EmployeeServiceTest {
 
   @Test
   void test_create_shouldCreateNewEmployeeWithActiveStatus() {
-    EmployeeRequestDTO request = new EmployeeRequestDTO(1L, "John", "33046243922");
+    EmployeeRequestDTO request = new EmployeeRequestDTO(1L, "John", "10033067996");
     request.setStatus(EmployeeStatus.INACTIVE);
     when(repository.save(any(EmployeeBO.class))).thenReturn(EmployeeMapper.toBO(request));
 
@@ -151,7 +151,7 @@ class EmployeeServiceTest {
 
   @Test
   void test_updateById_shouldUpdateEmployeeAttributes() {
-    EmployeeRequestDTO request = new EmployeeRequestDTO(1L, "John", "33046243922");
+    EmployeeRequestDTO request = new EmployeeRequestDTO(1L, "John", "10033067996");
     request.setStatus(EmployeeStatus.INACTIVE);
 
     EmployeeBO bo = EmployeeMapper.toBO(request);

@@ -7,7 +7,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -56,7 +55,7 @@ class FindByStatusTest {
   void test_execute_shouldReturnEmptyListWhenNoEmployeesWithStatus() {
     EmployeeStatus status = EmployeeStatus.ACTIVE;
 
-    when(repository.findByStatus(status)).thenReturn(Arrays.asList());
+    when(repository.findByStatus(status)).thenReturn(List.of());
 
     List<EmployeeResponseDTO> result = findByStatus.execute(status);
 

@@ -41,7 +41,7 @@ class CreateEmployeeTest {
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
-    bo = new EmployeeBO(1L, "John Doe", "12345678900", EmployeeStatus.ACTIVE, LocalDateTime.now(),
+    bo = new EmployeeBO(1L, "John Doe", "10033067996", EmployeeStatus.ACTIVE, LocalDateTime.now(),
         LocalDateTime.now());
     requestDTO = new EmployeeRequestDTO();
     requestDTO.setId(bo.getId());

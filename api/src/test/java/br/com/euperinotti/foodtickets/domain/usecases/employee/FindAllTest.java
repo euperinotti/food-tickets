@@ -7,7 +7,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -52,7 +51,7 @@ class FindAllTest {
 
   @Test
   void test_execute_shouldReturnEmptyListWhenNoEmployees() {
-    when(repository.findAll()).thenReturn(Arrays.asList());
+    when(repository.findAll()).thenReturn(List.of());
 
     List<EmployeeResponseDTO> result = findAll.execute();
 

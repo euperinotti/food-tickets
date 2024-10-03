@@ -17,7 +17,7 @@ class StringUtilsTest {
     String cpfWithSpecialChars = "123.456.789-00";
     String sanitizedCpf = StringUtils.sanitizeCpf(cpfWithSpecialChars);
 
-    assertEquals("12345678900", sanitizedCpf, "Deveria remover todos os caracteres não numéricos.");
+    assertEquals("12345678900", sanitizedCpf);
   }
 
   @Test
@@ -25,7 +25,7 @@ class StringUtilsTest {
     String rawCpf = "12345678900";
     String formattedCpf = StringUtils.formatCpf(rawCpf);
 
-    assertEquals("123.456.789-00", formattedCpf, "Deveria formatar o CPF corretamente.");
+    assertEquals("123.456.789-00", formattedCpf);
   }
 
   @Test
@@ -33,7 +33,7 @@ class StringUtilsTest {
     LocalDateTime date = LocalDateTime.of(2024, 10, 3, 12, 0);
     String formattedDate = StringUtils.parseDateToBRFormat(date);
 
-    assertEquals("03/10/2024", formattedDate, "Deveria retornar a data no formato dd/MM/yyyy.");
+    assertEquals("03/10/2024", formattedDate);
   }
 
   @Test
@@ -41,7 +41,7 @@ class StringUtilsTest {
     String name = "   João da Silva   ";
     String sanitizedName = StringUtils.sanitizeName(name);
 
-    assertEquals("JOÃO DA SILVA", sanitizedName, "Deveria remover os espaços e converter para letras maiúsculas.");
+    assertEquals("JOÃO DA SILVA", sanitizedName);
   }
 
   @Test
@@ -49,7 +49,7 @@ class StringUtilsTest {
     String nullString = null;
     boolean result = StringUtils.isEmpty(nullString);
 
-    assertTrue(result, "Deveria retornar true para strings nulas.");
+    assertTrue(result);
   }
 
   @Test
@@ -57,7 +57,7 @@ class StringUtilsTest {
     String emptyString = "";
     boolean result = StringUtils.isEmpty(emptyString);
 
-    assertTrue(result, "Deveria retornar true para strings vazias.");
+    assertTrue(result);
   }
 
   @Test
@@ -65,7 +65,7 @@ class StringUtilsTest {
     String nonEmptyString = "Hello";
     boolean result = StringUtils.isEmpty(nonEmptyString);
 
-    assertFalse(result, "Deveria retornar false para strings não vazias.");
+    assertFalse(result);
   }
 
   @Test
@@ -82,7 +82,7 @@ class StringUtilsTest {
     String emptyCpf = "";
     String sanitizedCpf = StringUtils.sanitizeCpf(emptyCpf);
 
-    assertEquals("", sanitizedCpf, "Deveria retornar uma string vazia ao sanitizar um CPF vazio.");
+    assertEquals(null, sanitizedCpf);
   }
 
   @Test
@@ -90,7 +90,7 @@ class StringUtilsTest {
     String nullCpf = null;
     String sanitizedCpf = StringUtils.sanitizeCpf(nullCpf);
 
-    assertNull(sanitizedCpf, "Deveria retornar null ao sanitizar um CPF nulo.");
+    assertNull(sanitizedCpf);
   }
 
   @Test
@@ -108,7 +108,7 @@ class StringUtilsTest {
 
     assertThrows(NullPointerException.class, () -> {
       StringUtils.parseDateToBRFormat(nullDate);
-    }, "Deveria lançar uma exceção ao tentar formatar uma data nula.");
+    });
   }
 
   @Test
@@ -116,7 +116,7 @@ class StringUtilsTest {
     String emptyName = "";
     String sanitizedName = StringUtils.sanitizeName(emptyName);
 
-    assertEquals("", sanitizedName, "Deveria retornar uma string vazia ao sanitizar um nome vazio.");
+    assertEquals("", sanitizedName);
   }
 
   @Test
@@ -125,7 +125,7 @@ class StringUtilsTest {
 
     assertThrows(NullPointerException.class, () -> {
       StringUtils.sanitizeName(nullName);
-    }, "Deveria lançar uma exceção ao tentar sanitizar um nome nulo.");
+    });
   }
 
   @Test
@@ -133,7 +133,7 @@ class StringUtilsTest {
     String whitespaceOnlyString = "   ";
     boolean result = StringUtils.isEmpty(whitespaceOnlyString);
 
-    assertFalse(result, "Deveria retornar false para uma string contendo apenas espaços em branco.");
+    assertFalse(result);
   }
 
   @Test
@@ -141,7 +141,7 @@ class StringUtilsTest {
     String cpfWithLetters = "abc123.def456.ghi789-jk00";
     String sanitizedCpf = StringUtils.sanitizeCpf(cpfWithLetters);
 
-    assertEquals("12345678900", sanitizedCpf, "Deveria remover letras e outros caracteres não numéricos.");
+    assertEquals("12345678900", sanitizedCpf);
   }
 
   @Test
@@ -149,6 +149,6 @@ class StringUtilsTest {
     String cpfWithSpecialChars = "@#123.$%^456.&*789-00!";
     String sanitizedCpf = StringUtils.sanitizeCpf(cpfWithSpecialChars);
 
-    assertEquals("12345678900", sanitizedCpf, "Deveria remover caracteres especiais e manter apenas números.");
+    assertEquals("12345678900", sanitizedCpf);
   }
 }

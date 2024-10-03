@@ -7,7 +7,6 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -81,7 +80,7 @@ class TicketServiceTest {
 
   @Test
   void test_getByStatus_shouldReturnTicketResponseDTOList() {
-    when(ticketRepository.findByStatus(TicketStatus.ACTIVE)).thenReturn(Arrays.asList(
+    when(ticketRepository.findByStatus(TicketStatus.ACTIVE)).thenReturn(List.of(
         new TicketBO(1L, 1L, 5, TicketStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now()),
         new TicketBO(2L, 1L, 3, TicketStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now())));
 
