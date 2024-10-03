@@ -50,6 +50,11 @@ export default function Page({ params }: { params: { id: string } }) {
     e.preventDefault();
     form.cpf = StringUtils.sanitizeCpf(form.cpf)
 
+    if (form.cpf.length != 14) {
+      alert("CPF inválido. Informe um CPF válido.");
+      return;
+    }
+
     if (form && form.id) {
       updateEmployee({ ...form });
     } else {
@@ -77,6 +82,7 @@ export default function Page({ params }: { params: { id: string } }) {
                   onChange={(e) =>
                     setForm({ ...form, name: e.target.value.toUpperCase() })
                   }
+                  required
                 />
               </InputContainer>
               <InputContainer label="CPF">
@@ -90,6 +96,7 @@ export default function Page({ params }: { params: { id: string } }) {
                   }
                   placeholder="123.456.789-10"
                   maxLength={14}
+                  required
                 />
               </InputContainer>
               <InputContainer label="Status">
