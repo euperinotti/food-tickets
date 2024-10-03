@@ -9,6 +9,7 @@ import br.com.euperinotti.foodtickets.domain.entities.TicketBO;
 import br.com.euperinotti.foodtickets.domain.enums.TicketStatus;
 import br.com.euperinotti.foodtickets.domain.exceptions.AppExceptions;
 import br.com.euperinotti.foodtickets.domain.exceptions.enums.EmployeeExceptions;
+import br.com.euperinotti.foodtickets.domain.mappers.EmployeeMapper;
 import br.com.euperinotti.foodtickets.domain.mappers.TicketMapper;
 import br.com.euperinotti.foodtickets.domain.repository.IEmployeeRepository;
 import br.com.euperinotti.foodtickets.domain.repository.ITicketRepository;
@@ -29,7 +30,10 @@ public class CreateTicket {
     TicketBO bo = TicketMapper.toBO(dto);
     TicketBO created = repository.save(bo);
 
-    return TicketMapper.toResponseDTO(created);
+    TicketResponseDTO response = TicketMapper.toResponseDTO(created);
+    fillAdditionalFields(response);
+
+    return response;
   }
 
   public void validate(TicketRequestDTO dto) {
@@ -42,4 +46,8 @@ public class CreateTicket {
     dto.setUpdatedAt(LocalDateTime.now());
   }
 
+  public void fillAdditionalFields(TicketResponseDTO dto) {
+    EmployeeBO employee = employeeRepository.findById(dto.getEmployeeId()).get();
+    dto.setEmployee(EmployeeMapper.toResponseDTO(employee));
+  }
 }
