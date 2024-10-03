@@ -5,11 +5,20 @@ import java.time.format.DateTimeFormatter;
 
 public class StringUtils {
   public static String sanitizeCpf(String str) {
+    if (isEmpty(str)) {
+      return null;
+    }
+
     return str.replaceAll("\\D", "");
   }
 
   public static String formatCpf(String str) {
-    return String.format("%s.%s.%s-%s", str.substring(0, 3), str.substring(3, 6), str.substring(6, 9), str.substring(9));
+    if (str.length() != 11) {
+      throw new StringIndexOutOfBoundsException("CPF deve ter 11 dígitos.");
+    }
+
+    return String.format("%s.%s.%s-%s", str.substring(0, 3), str.substring(3, 6), str.substring(6, 9),
+        str.substring(9));
   }
 
   public static String parseDateToBRFormat(LocalDateTime date) {
