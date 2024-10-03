@@ -11,6 +11,7 @@ import br.com.euperinotti.foodtickets.domain.exceptions.enums.EmployeeExceptions
 import br.com.euperinotti.foodtickets.domain.mappers.EmployeeMapper;
 import br.com.euperinotti.foodtickets.domain.repository.IEmployeeRepository;
 import br.com.euperinotti.foodtickets.domain.utils.StringUtils;
+import br.com.euperinotti.foodtickets.domain.validators.CpfValidator;
 
 public class CreateEmployee {
 
@@ -30,6 +31,12 @@ public class CreateEmployee {
   }
 
   public void validate(EmployeeRequestDTO dto) {
+    boolean isValidCpf = CpfValidator.isValidCPF(dto.getCpf());
+
+    if (!isValidCpf) {
+      throw new AppExceptions(EmployeeExceptions.EMPLOYEE_INVALID_CPF.getMessage());
+    }
+
     Optional<EmployeeBO> bo = repository.findByCpf(StringUtils.sanitizeCpf(dto.getCpf()));
 
     if (bo.isPresent()) {

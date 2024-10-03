@@ -6,7 +6,8 @@ public enum EmployeeExceptions {
   EMPLOYEE_INVALID_NAME("Invalid employee name"),
   EMPLOYEE_INVALID_EMAIL("Invalid employee email"),
   EMPLOYEE_INVALID_PHONE("Invalid employee phone"),
-  CPF_ALREADY_EXISTS("Cpf already exists");
+  CPF_ALREADY_EXISTS("Cpf already exists"),
+  EMPLOYEE_INVALID_CPF("Invalid cpf given");
 
   private String message;
 

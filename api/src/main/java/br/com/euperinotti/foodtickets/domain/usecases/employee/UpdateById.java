@@ -9,6 +9,7 @@ import br.com.euperinotti.foodtickets.domain.exceptions.AppExceptions;
 import br.com.euperinotti.foodtickets.domain.exceptions.enums.EmployeeExceptions;
 import br.com.euperinotti.foodtickets.domain.mappers.EmployeeMapper;
 import br.com.euperinotti.foodtickets.domain.repository.IEmployeeRepository;
+import br.com.euperinotti.foodtickets.domain.validators.CpfValidator;
 
 public class UpdateById {
   private IEmployeeRepository repository;
@@ -27,7 +28,14 @@ public class UpdateById {
   }
 
   public void validate(Long id, EmployeeRequestDTO dto) {
-    EmployeeBO bo = repository.findById(id).orElseThrow(() -> new AppExceptions(EmployeeExceptions.EMPLOYEE_NOT_FOUND.getMessage()));
+    boolean isValidCpf = CpfValidator.isValidCPF(dto.getCpf());
+
+    if (!isValidCpf) {
+      throw new AppExceptions(EmployeeExceptions.EMPLOYEE_INVALID_CPF.getMessage());
+    }
+
+    EmployeeBO bo = repository.findById(id)
+        .orElseThrow(() -> new AppExceptions(EmployeeExceptions.EMPLOYEE_NOT_FOUND.getMessage()));
 
     dto.setId(bo.getId());
     dto.setUpdatedAt(LocalDateTime.now());
