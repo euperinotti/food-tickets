@@ -18,6 +18,10 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (error.code == "ERR_NETWORK") {
+      error.message = "Não foi possível se conectar a API";
+    }
+
     return Promise.reject(error);
   }
 );
