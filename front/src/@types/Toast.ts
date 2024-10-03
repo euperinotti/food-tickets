@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
-
 export enum ToastStatus {
   SUCCESS = "SUCCESS",
   ERROR = "ERROR",
@@ -13,6 +11,4 @@ export interface INotify {
 
 export interface IToastContext {
   notify: (status: ToastStatus, message: string) => void;
-  setToastProperties: Dispatch<SetStateAction<INotify>>;
-  alertProperties: INotify;
 }
