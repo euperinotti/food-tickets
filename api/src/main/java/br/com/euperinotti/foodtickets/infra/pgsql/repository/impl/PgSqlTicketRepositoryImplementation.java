@@ -1,5 +1,6 @@
 package br.com.euperinotti.foodtickets.infra.pgsql.repository.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -77,4 +78,13 @@ public class PgSqlTicketRepositoryImplementation implements ITicketRepository {
     return PgSqlTicketMapper.toBO(updated);
   }
 
+  @Override
+  public Integer countTickets() {
+    return jpa.countTickets();
+  }
+
+  @Override
+  public LocalDateTime findDayWithMaxTickets() {
+    return jpa.findDayWithMaxTickets();
+  }
 }

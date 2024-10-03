@@ -1,5 +1,6 @@
 package br.com.euperinotti.foodtickets.domain.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,4 +19,8 @@ public interface ITicketRepository {
   List<TicketBO> findByStatus(TicketStatus status);
 
   TicketBO updateById(Long id, TicketBO Ticket);
+
+  Integer countTickets();
+
+  LocalDateTime findDayWithMaxTickets();
 }

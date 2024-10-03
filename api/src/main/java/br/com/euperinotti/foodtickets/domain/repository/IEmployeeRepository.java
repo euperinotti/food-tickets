@@ -14,4 +14,6 @@ public interface IEmployeeRepository {
   List<EmployeeBO> findByStatus(EmployeeStatus status);
   Optional<EmployeeBO> findByCpf(String cpf);
   EmployeeBO updateById(Long id, EmployeeBO employee);
+  Integer countByStatus(EmployeeStatus status);
+  EmployeeBO findEmployeeWithMostTickets();
 }

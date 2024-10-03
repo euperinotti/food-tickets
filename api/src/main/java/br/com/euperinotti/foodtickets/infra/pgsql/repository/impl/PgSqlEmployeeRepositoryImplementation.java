@@ -77,4 +77,13 @@ public class PgSqlEmployeeRepositoryImplementation implements IEmployeeRepositor
     return PgSqlEmployeeMapper.toBO(updated);
   }
 
+  @Override
+  public Integer countByStatus(EmployeeStatus status) {
+    return jpa.countByStatus(status);
+  }
+
+  public EmployeeBO findEmployeeWithMostTickets() {
+    PgSqlEmployeeEntity entity = jpa.findEmployeeWithMostTickets();
+    return PgSqlEmployeeMapper.toBO(entity);
+  }
 }
