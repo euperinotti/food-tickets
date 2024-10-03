@@ -7,13 +7,21 @@ import { useRouter } from "next/navigation";
 const tableColumns = [
   { title: "Id", key: "id" },
   { title: "Funcionário", key: "employeeId" },
+  { title: "Quantidade", key: "quantity" },
   { title: "Status", key: "status" },
   { title: "Criado em", key: "createdAt" },
   { title: "Atualizado em", key: "updatedAt" },
 ];
 
 const tableData = [
-
+  {
+    id: 1,
+    employeeId: 10,
+    quantity: 1,
+    status: "A",
+    createdAt: "2024-12-29 09:51:35",
+    updatedAt: "2024-12-29 09:51:35",
+  }
 ];
 
 export default function Index() {
