@@ -18,9 +18,7 @@ export const TableFooter = forwardRef(
     });
 
     const handleDownloadReport = () => {
-      handlePrint({
-        contentRef: ref as any,
-      });
+      handlePrint(ref as any);
     };
 
     return (

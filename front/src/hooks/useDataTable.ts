@@ -14,9 +14,9 @@ export const useDataTable = <T>(data: T[], columns: TableColumns<T>[]) => {
 
   const search = (query: string) => {
     const filteredData = query
-      ? data.filter((row) =>
-          columns.some((column) =>
-            row[column.key]
+      ? data.filter((row: any) =>
+          columns.some((column: any) =>
+            row[column.key as any]
               .toString()
               .toLowerCase()
               .includes(query.toLowerCase())

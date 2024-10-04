@@ -50,7 +50,7 @@ export const Table = <T extends object>({
   };
 
   const handleFilter = (startDate: Date | null, endDate: Date | null) => {
-    const filtered = data.filter((item: T) => {
+    const filtered = data.filter((item: any) => {
       const createdAt = new Date(item.createdAt);
       const updatedAt = new Date(item.updatedAt);
 
