@@ -21,19 +21,17 @@ const tableColumns = [
 export default function Index() {
   const router = useRouter();
   const { notify } = useAlert();
-  const [data, setData] = useState<ITicket[] | []>([])
+  const [data, setData] = useState<ITicket[] | []>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       try {
         const response = await API_PROVIDER.getTickets();
         setData(response);
       } catch (error: any) {
         notify(ToastStatus.ERROR, error.message);
       }
-    };
-
-    fetchData();
+    })();
   }, []);
 
   return (

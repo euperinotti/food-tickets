@@ -1,4 +1,5 @@
 import { IEmployee } from "@/@types/IEmployee";
+import { ToastStatus } from "@/@types/Toast";
 import { API_PROVIDER } from "@/axios/api";
 import { Button } from "@/components/ui/Button";
 import { Table } from "@/components/ui/Table";
@@ -19,11 +20,16 @@ export default function Index() {
   const router = useRouter();
   const { notify } = useAlert();
   const [data, setData] = useState<IEmployee[]>([]);
+  const { getEmployees } = API_PROVIDER;
 
   useEffect(() => {
     (async () => {
-      const response = await API_PROVIDER.getEmployees();
-      setData(response);
+      try {
+        const response = await getEmployees();
+        setData(response);
+      } catch (error: any) {
+        notify(ToastStatus.ERROR, error.message);
+      }
     })();
   }, []);
 

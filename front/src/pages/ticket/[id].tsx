@@ -13,11 +13,6 @@ import { BaseTemplate } from "@/template/Base";
 import { useRouter } from "next/router";
 import { FormEvent, useEffect, useState } from "react";
 
-const fetchData = async (id: string) => {
-  const response = await API_PROVIDER.getTicketById(id);
-  return response;
-};
-
 const initialState: ITicket = {
   id: null,
   employeeId: 10,
@@ -33,7 +28,7 @@ export default function Page() {
   const { notify } = useAlert();
   const [form, setForm] = useState<ITicket>(initialState);
   const [employees, setEmployees] = useState<IEmployee[]>([]);
-  const { createTicket, updateTicket, getActiveEmployees } = API_PROVIDER;
+  const { createTicket, updateTicket, getActiveEmployees, getTicketById } = API_PROVIDER;
 
   useEffect(() => {
     (async () => {
@@ -41,13 +36,16 @@ export default function Page() {
         const response = await getActiveEmployees();
         setEmployees(response);
       } catch (error) {
-        notify(ToastStatus.ERROR, 'Não foi possível buscar lista de funcionários')
+        notify(
+          ToastStatus.ERROR,
+          "Não foi possível buscar lista de funcionários"
+        );
       }
     })();
 
     (async () => {
       if (id !== "new") {
-        const response = await fetchData(id as string);
+        const response = await getTicketById(id as string);
         setForm(response);
       }
     })();
@@ -69,7 +67,7 @@ export default function Page() {
           ? "Ticket atualizado com sucesso!"
           : "Ticket criado com sucesso!"
       );
-    } catch (error) {
+    } catch (error: any) {
       notify(ToastStatus.ERROR, error.message);
     }
   };

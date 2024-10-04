@@ -1,5 +1,6 @@
 "use client";
 import { IEmployee } from "@/@types/IEmployee";
+import { ToastStatus } from "@/@types/Toast";
 import { API_PROVIDER } from "@/axios/api";
 import { Button } from "@/components/ui/Button";
 import { InputContainer } from "@/components/ui/Input/InputContainer";
@@ -46,14 +47,25 @@ export default function Page() {
       return;
     }
 
-    if (form.id) {
-      await updateEmployee({ ...form });
-    } else {
-      await createEmployee({ ...form });
-    }
+    try {
+      if (form.id) {
+        await updateEmployee({ ...form });
+      } else {
+        await createEmployee({ ...form });
+      }
 
-    router.push("/funcionarios");
-    return;
+      notify(
+        ToastStatus.SUCCESS,
+        form.id
+          ? "Funcionário atualizado com sucesso!"
+          : "Funcionário criado com sucesso!"
+      );
+
+      router.push("/funcionarios");
+      return;
+    } catch (error: any) {
+      notify(ToastStatus.ERROR, error.message);
+    }
   };
 
   return (
