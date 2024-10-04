@@ -16,7 +16,7 @@ export const Table = <T extends object>({
   onEditRow,
 }: TableProps<T>) => {
   const tableRef = useRef(null)
-  const [filteredData, setFilteredData] = useState<T[]>(data);
+  const [filteredData, setFilteredData] = useState<T[]>([]);
   const { config, setConfig, search, sort } = useDataTable<T>(
     filteredData,
     columns
@@ -36,6 +36,10 @@ export const Table = <T extends object>({
   useEffect(() => {
     setConfig({ ...config, sortedData: filteredData });
   }, [filteredData]);
+
+  useEffect(() => {
+    setFilteredData([...data]);
+  }, [data])
 
   const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
     search(event.target.value);

@@ -1,6 +1,6 @@
 export interface TableColumns<T> {
   title: string;
-  key: keyof T;
+  key: string;
 }
 
 export interface TableProps<T> {
