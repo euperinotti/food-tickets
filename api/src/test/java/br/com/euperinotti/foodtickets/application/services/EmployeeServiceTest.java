@@ -35,15 +35,11 @@ class EmployeeServiceTest {
   @InjectMocks
   private EmployeeService service;
 
-  private List<EmployeeResponseDTO> mockEmployeesResponseDTO;
   private List<EmployeeBO> mockEmployeesBO;
 
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
-    mockEmployeesResponseDTO = List.of(
-        new EmployeeResponseDTO(1L, "John", "33046243922", EmployeeStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now()),
-        new EmployeeResponseDTO(2L, "Jane", "51135388281", EmployeeStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now()));
 
     mockEmployeesBO = List.of(
         new EmployeeBO(1L, "John", "33046243922", EmployeeStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now()),

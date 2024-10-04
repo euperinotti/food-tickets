@@ -13,8 +13,6 @@ public interface ITicketRepository {
 
     Optional<TicketBO> findById(Long id);
 
-    void deleteById(Long id);
-
     List<TicketBO> findAll();
 
     List<TicketBO> findByStatus(TicketStatus status);
