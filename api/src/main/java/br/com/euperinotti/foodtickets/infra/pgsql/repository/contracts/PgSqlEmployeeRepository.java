@@ -22,7 +22,7 @@ public interface PgSqlEmployeeRepository extends JpaRepository<PgSqlEmployeeEnti
   Integer countByStatus(@Param("status") EmployeeStatus status);
 
   @Query("""
-      SELECT t.employee FROM PgSqlTicketEntity t GROUP BY t.employee ORDER BY SUM(t.quantity) DESC
+      SELECT t.employee FROM PgSqlTicketEntity t GROUP BY t.employee ORDER BY COALESCE(SUM(t.quantity), 0) DESC LIMIT 1
       """)
   PgSqlEmployeeEntity findEmployeeWithMostTickets();
 }
