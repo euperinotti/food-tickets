@@ -18,7 +18,7 @@ export const API_PROVIDER = {
     return data;
   },
   getActiveEmployees: async () => {
-    const res = await api.get("/employees/active");
+    const res = await api.get("/employees/status/A");
     const data = res.data;
 
     return data;
@@ -53,7 +53,7 @@ export const API_PROVIDER = {
     const res = await api.get(`/analytics`);
     const data = {
       ...res.data,
-      employeeWithMostTickets: res.data.employeeWithMostTickets.name,
+      employeeWithMostTickets: res.data.employeeWithMostTickets?.name,
     };
 
     return data;
