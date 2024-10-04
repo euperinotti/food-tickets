@@ -17,7 +17,7 @@ public interface PgSqlTicketRepository extends JpaRepository<PgSqlTicketEntity, 
     @Query("SELECT e FROM PgSqlTicketEntity e WHERE e.status = :status")
     List<PgSqlTicketEntity> findByStatus(TicketStatus status);
 
-    @Query("SELECT SUM(t.quantity) FROM PgSqlTicketEntity t")
+    @Query("SELECT COALESCE(SUM(t.quantity), 0) FROM PgSqlTicketEntity t")
     Integer countTickets();
 
     @Query("""
