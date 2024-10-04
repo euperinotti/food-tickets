@@ -51,7 +51,10 @@ export const API_PROVIDER = {
   },
   getAnalytics: async () => {
     const res = await api.get(`/analytics`);
-    const data = res.data;
+    const data = {
+      ...res.data,
+      employeeWithMostTickets: res.data.employeeWithMostTickets.name,
+    };
 
     return data;
   },
