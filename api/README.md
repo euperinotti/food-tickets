@@ -53,7 +53,7 @@ A estrutura do projeto segue os princípios de Clean Architecture, separando res
    Atualize o arquivo `src/main/resources/application.properties` com as informações do banco de dados:
 
    ```properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/mealticketdb
+   spring.datasource.url=jdbc:postgresql://localhost:5432/foodtickets
    spring.datasource.username=seu_usuario
    spring.datasource.password=sua_senha
    ```
