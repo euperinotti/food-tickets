@@ -46,9 +46,9 @@ export default function Home() {
         />
         <HomeCard
           title="Período com mais tickets entregues"
-          description={new Date(
+          description={analytics.dayWithMostTickets ? new Date(
             analytics.dayWithMostTickets
-          ).toLocaleDateString()}
+          ).toLocaleDateString() : ""}
         />
       </div>
       <HomeCard

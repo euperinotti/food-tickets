@@ -17,7 +17,7 @@ const initialState: ITicket = {
   id: null,
   employeeId: 10,
   quantity: 0,
-  status: "A",
+  status: "ACTIVE",
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
 };
@@ -44,7 +44,7 @@ export default function Page() {
     })();
 
     (async () => {
-      if (id !== "new") {
+      if (id && id !== "new") {
         const response = await getTicketById(id as string);
         setForm(response);
       }
@@ -96,6 +96,7 @@ export default function Page() {
                     setForm({ ...form, employeeId: Number(e.target.value) })
                   }
                   value={form.employeeId}
+                  required
                 />
               </InputContainer>
               <InputContainer label="Quantidade">
@@ -112,18 +113,18 @@ export default function Page() {
                   <InputRadio
                     label="Ativo"
                     name="employee-status"
-                    value="A"
+                    value="ACTIVE"
                     id="employee-active"
-                    defaultChecked={form.status === "A"}
-                    onClick={(e) => setForm({ ...form, status: "A" })}
+                    defaultChecked={form.status === "ACTIVE"}
+                    onClick={(e) => setForm({ ...form, status: "ACTIVE" })}
                   />
                   <InputRadio
                     label="Inativo"
                     name="employee-status"
-                    value="I"
+                    value="INACTIVE"
                     id="employee-inactive"
-                    defaultChecked={form.status === "I"}
-                    onClick={(e) => setForm({ ...form, status: "I" })}
+                    defaultChecked={form.status === "INACTIVE"}
+                    onClick={(e) => setForm({ ...form, status: "INACTIVE" })}
                   />
                 </InputContainer>
               )}
