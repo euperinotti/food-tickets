@@ -28,7 +28,7 @@ const Sidebar = () => {
               className={`w-full transition-all duration-300 ${
                 !isOpen && "opacity-0"
               }`}
-              alt="Flowbite Logo"
+              alt="App Logo"
             />
           </a>
 
