@@ -1,33 +1,17 @@
 "use client";
+import { IEmployee } from "@/@types/IEmployee";
 import { ITicket } from "@/@types/ITicket";
+import { ToastStatus } from "@/@types/Toast";
 import { API_PROVIDER } from "@/axios/api";
 import { Button } from "@/components/ui/Button";
 import { InputContainer } from "@/components/ui/Input/InputContainer";
 import { InputNumber } from "@/components/ui/Input/InputNumber";
 import { InputRadio } from "@/components/ui/Input/InputRadio";
 import { Select } from "@/components/ui/Select";
+import useAlert from "@/hooks/useAlert";
 import { BaseTemplate } from "@/template/Base";
 import { useRouter } from "next/router";
 import { FormEvent, useEffect, useState } from "react";
-
-const tableData = [
-  {
-    id: 1,
-    name: "John Doe",
-    cpf: "123.456.789-00",
-    status: "A",
-    createdAt: "2024-12-29 09:51:35",
-    updatedAt: "2024-12-29 09:51:35",
-  },
-  {
-    id: 1,
-    name: "Kevin Hart",
-    cpf: "123.456.789-00",
-    status: "I",
-    createdAt: "2024-12-29 09:51:35",
-    updatedAt: "2024-12-29 09:51:35",
-  },
-];
 
 const fetchData = async (id: string) => {
   const response = await API_PROVIDER.getTicketById(id);
@@ -46,10 +30,21 @@ const initialState: ITicket = {
 export default function Page() {
   const router = useRouter();
   const { id } = router.query;
+  const { notify } = useAlert();
   const [form, setForm] = useState<ITicket>(initialState);
-  const { createTicket, updateTicket } = API_PROVIDER;
+  const [employees, setEmployees] = useState<IEmployee[]>([]);
+  const { createTicket, updateTicket, getActiveEmployees } = API_PROVIDER;
 
   useEffect(() => {
+    (async () => {
+      try {
+        const response = await getActiveEmployees();
+        setEmployees(response);
+      } catch (error) {
+        notify(ToastStatus.ERROR, 'Não foi possível buscar lista de funcionários')
+      }
+    })();
+
     (async () => {
       if (id !== "new") {
         const response = await fetchData(id as string);
@@ -60,10 +55,22 @@ export default function Page() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (form && form.id) {
-      await updateTicket({ ...form });
-    } else {
-      await createTicket({ ...form });
+
+    try {
+      if (form && form.id) {
+        await updateTicket({ ...form });
+      } else {
+        await createTicket({ ...form });
+      }
+
+      notify(
+        ToastStatus.SUCCESS,
+        form.id
+          ? "Ticket atualizado com sucesso!"
+          : "Ticket criado com sucesso!"
+      );
+    } catch (error) {
+      notify(ToastStatus.ERROR, error.message);
     }
   };
 
@@ -82,7 +89,7 @@ export default function Page() {
               <InputContainer label="Funcionário">
                 <Select
                   options={{
-                    data: tableData,
+                    data: employees,
                     key: "id",
                     label: "name",
                     placeholder: "Selecione um funcionário",

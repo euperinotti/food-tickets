@@ -28,7 +28,7 @@ export default function Index() {
       try {
         const response = await API_PROVIDER.getTickets();
         setData(response);
-      } catch (error) {
+      } catch (error: any) {
         notify(ToastStatus.ERROR, error.message);
       }
     };
