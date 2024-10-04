@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
@@ -12,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -20,6 +21,7 @@ import org.mockito.MockitoAnnotations;
 
 import br.com.euperinotti.foodtickets.application.dtos.request.TicketRequestDTO;
 import br.com.euperinotti.foodtickets.application.dtos.response.TicketResponseDTO;
+import br.com.euperinotti.foodtickets.domain.entities.EmployeeBO;
 import br.com.euperinotti.foodtickets.domain.entities.TicketBO;
 import br.com.euperinotti.foodtickets.domain.enums.TicketStatus;
 import br.com.euperinotti.foodtickets.domain.repository.IEmployeeRepository;
@@ -34,25 +36,25 @@ class TicketServiceTest {
   private IEmployeeRepository employeeRepository;
 
   @InjectMocks
-  private TicketService ticketService;
+  private TicketService sut;
 
-  private TicketRequestDTO ticketRequestDTO;
-  private TicketResponseDTO ticketResponseDTO;
+  private TicketRequestDTO requestDTO;
+  private TicketResponseDTO responseDTO;
 
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
 
-    ticketRequestDTO = new TicketRequestDTO();
-    ticketRequestDTO.setEmployeeId(1L);
-    ticketRequestDTO.setQuantity(5);
-    ticketRequestDTO.setStatus(TicketStatus.ACTIVE);
+    requestDTO = new TicketRequestDTO();
+    requestDTO.setEmployeeId(1L);
+    requestDTO.setQuantity(5);
+    requestDTO.setStatus(TicketStatus.ACTIVE);
 
-    ticketResponseDTO = new TicketResponseDTO();
-    ticketResponseDTO.setId(1L);
-    ticketResponseDTO.setEmployeeId(1L);
-    ticketResponseDTO.setQuantity(5);
-    ticketResponseDTO.setStatus(TicketStatus.ACTIVE);
+    responseDTO = new TicketResponseDTO();
+    responseDTO.setId(1L);
+    responseDTO.setEmployeeId(1L);
+    responseDTO.setQuantity(5);
+    responseDTO.setStatus(TicketStatus.ACTIVE);
   }
 
   @Test
@@ -60,11 +62,11 @@ class TicketServiceTest {
     when(ticketRepository.findAll()).thenReturn(Collections
         .singletonList(new TicketBO(1L, 1L, 5, TicketStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now())));
 
-    List<TicketResponseDTO> result = ticketService.getAll();
+    List<TicketResponseDTO> result = sut.getAll();
 
     assertNotNull(result);
     assertEquals(1, result.size());
-    assertEquals(ticketResponseDTO.getId(), result.get(0).getId());
+    assertEquals(responseDTO.getId(), result.get(0).getId());
   }
 
   @Test
@@ -72,10 +74,10 @@ class TicketServiceTest {
     when(ticketRepository.findById(1L)).thenReturn(
         Optional.of(new TicketBO(1L, 1L, 5, TicketStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now())));
 
-    TicketResponseDTO result = ticketService.getById(1L);
+    TicketResponseDTO result = sut.getById(1L);
 
     assertNotNull(result);
-    assertEquals(ticketResponseDTO.getId(), result.getId());
+    assertEquals(responseDTO.getId(), result.getId());
   }
 
   @Test
@@ -84,23 +86,26 @@ class TicketServiceTest {
         new TicketBO(1L, 1L, 5, TicketStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now()),
         new TicketBO(2L, 1L, 3, TicketStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now())));
 
-    List<TicketResponseDTO> result = ticketService.getByStatus(TicketStatus.ACTIVE.getName());
+    List<TicketResponseDTO> result = sut.getByStatus(TicketStatus.ACTIVE.getName());
 
     assertNotNull(result);
     assertEquals(2, result.size());
   }
 
   @Test
-  @Disabled
   void test_create_shouldReturnTicketResponseDTO() {
     when(ticketRepository.save(any()))
         .thenReturn(new TicketBO(1L, 1L, 5, TicketStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now()));
 
-    TicketResponseDTO result = ticketService.create(ticketRequestDTO);
+    when(employeeRepository.findById(anyLong()))
+        .thenReturn(Optional.of(new EmployeeBO(1L, "Tony Strickland", "93958740067")));
+
+    TicketResponseDTO result = sut.create(requestDTO);
 
     assertNotNull(result);
-    assertEquals(ticketResponseDTO.getId(), result.getId());
-    assertEquals(ticketResponseDTO.getQuantity(), result.getQuantity());
+    assertEquals(responseDTO.getId(), result.getId());
+    assertEquals(responseDTO.getQuantity(), result.getQuantity());
+    verify(employeeRepository, times(1)).findById(anyLong());
   }
 
   @Test
@@ -110,10 +115,10 @@ class TicketServiceTest {
     when(ticketRepository.updateById(anyLong(), any()))
         .thenReturn(new TicketBO(1L, 1L, 5, TicketStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now()));
 
-    TicketResponseDTO result = ticketService.update(1L, ticketRequestDTO);
+    TicketResponseDTO result = sut.update(1L, requestDTO);
 
     assertNotNull(result);
-    assertEquals(ticketResponseDTO.getId(), result.getId());
-    assertEquals(ticketResponseDTO.getQuantity(), result.getQuantity());
+    assertEquals(responseDTO.getId(), result.getId());
+    assertEquals(responseDTO.getQuantity(), result.getQuantity());
   }
 }
