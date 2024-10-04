@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -57,7 +58,7 @@ public class AnalyticsServiceTest {
     when(employeeRepository.countByStatus(EmployeeStatus.ACTIVE)).thenReturn(10);
     when(ticketRepository.countTickets()).thenReturn(2);
     when(ticketRepository.findDayWithMaxTickets()).thenReturn(LocalDateTime.now().minusDays(1));
-    when(employeeRepository.findEmployeeWithMostTickets()).thenReturn(employeeBO);
+    when(employeeRepository.findEmployeeWithMostTickets()).thenReturn(Optional.of(employeeBO));
 
     AnalyticsResponseDTO result = sut.getData();
 
