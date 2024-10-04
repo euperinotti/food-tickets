@@ -3,7 +3,7 @@
 set -e
 
 echo "Iniciando análise de testes"
-./mvnw jacoco:prepare-agent test install jacoco:report
+./mvnw clean test jacoco:report
 
 wait
 
