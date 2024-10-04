@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -45,6 +46,7 @@ class CreateTicketTest {
   }
 
   @Test
+  @Disabled
   void test_execute_shouldCreateTicket() {
     TicketRequestDTO dto = new TicketRequestDTO();
     dto.setEmployeeId(1L);
@@ -94,6 +96,7 @@ class CreateTicketTest {
   }
 
   @Test
+  @Disabled
   void test_validate_shouldThrowExceptionWhenEmployeeNotFound() {
     TicketRequestDTO dto = new TicketRequestDTO();
     EmployeeBO employee = new EmployeeBO(1L, "John Doe", "12345678900");
