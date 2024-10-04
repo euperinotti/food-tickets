@@ -3,7 +3,6 @@ package br.com.euperinotti.foodtickets.infra.pgsql.converters;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +27,7 @@ class EmployeeStatusConverterTest {
     void test_convertToDatabaseColumn_shouldReturnStatusNameForValidStatus() {
         EmployeeStatus status = EmployeeStatus.ACTIVE;
         String result = sut.convertToDatabaseColumn(status);
-        assertEquals("ACTIVE", result);
+        assertEquals("A", result);
     }
 
     @Test
@@ -39,7 +38,7 @@ class EmployeeStatusConverterTest {
 
     @Test
     void test_convertToEntityAttribute_shouldReturnStatusForValidDbData() {
-        String dbData = "ACTIVE";
+        String dbData = "A";
         EmployeeStatus result = sut.convertToEntityAttribute(dbData);
         assertEquals(EmployeeStatus.ACTIVE, result);
     }
