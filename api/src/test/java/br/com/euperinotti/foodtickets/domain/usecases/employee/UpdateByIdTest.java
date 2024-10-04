@@ -32,7 +32,7 @@ class UpdateByIdTest {
   private IEmployeeRepository repository;
 
   @InjectMocks
-  private UpdateById updateById;
+  private UpdateById sut;
 
   @BeforeEach
   void setUp() {
@@ -52,7 +52,7 @@ class UpdateByIdTest {
     when(repository.findById(id)).thenReturn(Optional.of(existingEmployee));
     when(repository.updateById(eq(id), any(EmployeeBO.class))).thenReturn(updatedEmployee);
 
-    EmployeeResponseDTO result = updateById.execute(id, dto);
+    EmployeeResponseDTO result = sut.execute(id, dto);
 
     assertNotNull(result);
     assertEquals("UPDATED NAME", result.getName());
@@ -67,7 +67,7 @@ class UpdateByIdTest {
 
     when(repository.findById(id)).thenReturn(Optional.empty());
 
-    assertThrows(AppExceptions.class, () -> updateById.execute(id, dto));
+    assertThrows(AppExceptions.class, () -> sut.execute(id, dto));
 
     verify(repository, times(1)).findById(id);
     verify(repository, never()).updateById(anyLong(), any(EmployeeBO.class));
@@ -84,7 +84,7 @@ class UpdateByIdTest {
 
     when(repository.findById(id)).thenReturn(Optional.of(existingEmployee));
 
-    updateById.validate(id, dto);
+    sut.validate(id, dto);
 
     assertEquals(id, dto.getId());
     assertNotNull(dto.getUpdatedAt());
@@ -98,7 +98,15 @@ class UpdateByIdTest {
 
     when(repository.findById(id)).thenReturn(Optional.empty());
 
-    AppExceptions exception = assertThrows(AppExceptions.class, () -> updateById.execute(id, dto));
+    AppExceptions exception = assertThrows(AppExceptions.class, () -> sut.execute(id, dto));
     assertEquals(EmployeeExceptions.EMPLOYEE_NOT_FOUND.getMessage(), exception.getMessage());
+  }
+
+  @Test
+  void test_validate_shouldThrowExceptionIfCpfIsInvalid() {
+    Long id = 1L;
+    EmployeeRequestDTO dto = new EmployeeRequestDTO(null, "Ivan Moss", "35882043390");
+
+    assertThrows(AppExceptions.class, () -> sut.validate(id, dto));
   }
 }

@@ -63,7 +63,7 @@ class CreateEmployeeTest {
   }
 
   @Test
-  void test_execute_shouldThrowExceptionWhenCpfAlreadyExists() {
+  void test_execute_shouldThrowWhenCpfAlreadyExists() {
     when(repository.findByCpf(anyString())).thenReturn(Optional.of(bo));
 
     assertThrows(AppExceptions.class, () -> createEmployee.execute(requestDTO));
@@ -80,8 +80,15 @@ class CreateEmployeeTest {
   }
 
   @Test
-  void test_validate_shouldThrowExceptionIfCpfExists() {
+  void test_validate_shouldThrowIfCpfExists() {
     when(repository.findByCpf(anyString())).thenReturn(Optional.of(bo));
+
+    assertThrows(AppExceptions.class, () -> createEmployee.validate(requestDTO));
+  }
+
+  @Test
+  void test_validate_shouldThrowExceptionIfCpfIsInvalid() {
+    requestDTO.setCpf("83886775817");
 
     assertThrows(AppExceptions.class, () -> createEmployee.validate(requestDTO));
   }
