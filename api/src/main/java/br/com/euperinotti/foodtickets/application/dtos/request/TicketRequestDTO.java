@@ -3,7 +3,15 @@ package br.com.euperinotti.foodtickets.application.dtos.request;
 import java.time.LocalDateTime;
 
 import br.com.euperinotti.foodtickets.domain.enums.TicketStatus;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class TicketRequestDTO {
   private Long id;
   private Long employeeId;
