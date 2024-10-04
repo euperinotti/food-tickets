@@ -7,4 +7,4 @@ export interface ITicket {
   updatedAt: string;
 }
 
-export type TicketStatus = "A" | "I";
+export type TicketStatus = "ACTIVE" | "INACTIVE";
