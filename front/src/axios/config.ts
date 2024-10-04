@@ -4,6 +4,9 @@ const URL = "http://localhost:8080";
 
 const api = axios.create({
   baseURL: URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 api.interceptors.request.use(
