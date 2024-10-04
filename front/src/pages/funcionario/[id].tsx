@@ -64,7 +64,6 @@ export default function Page() {
       router.push("/funcionarios");
       return;
     } catch (error: any) {
-      console.log(error);
       notify(ToastStatus.ERROR, error.response.data.message);
     }
   };

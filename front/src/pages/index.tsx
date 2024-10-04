@@ -24,7 +24,7 @@ export default function Home() {
       try {
         const response = await API_PROVIDER.getAnalytics();
         setAnalytics(response);
-      } catch (error) {
+      } catch (error: any) {
         notify(ToastStatus.ERROR, error.message);
       }
     };

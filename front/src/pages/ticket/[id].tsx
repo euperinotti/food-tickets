@@ -67,8 +67,10 @@ export default function Page() {
           ? "Ticket atualizado com sucesso!"
           : "Ticket criado com sucesso!"
       );
+
+      router.push("/tickets");
     } catch (error: any) {
-      notify(ToastStatus.ERROR, error.message);
+      notify(ToastStatus.ERROR, error.response.data.message);
     }
   };
 
