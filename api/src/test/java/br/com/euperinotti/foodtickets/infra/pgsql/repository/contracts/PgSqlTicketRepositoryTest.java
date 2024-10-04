@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import br.com.euperinotti.foodtickets.domain.enums.EmployeeStatus;
 import br.com.euperinotti.foodtickets.domain.enums.TicketStatus;
@@ -17,6 +18,7 @@ import br.com.euperinotti.foodtickets.infra.pgsql.entities.PgSqlEmployeeEntity;
 import br.com.euperinotti.foodtickets.infra.pgsql.entities.PgSqlTicketEntity;
 
 @DataJpaTest
+@ActiveProfiles("test")
 public class PgSqlTicketRepositoryTest {
 
   @Autowired
@@ -70,7 +72,6 @@ public class PgSqlTicketRepositoryTest {
     employeeEntity2.setCpf("72864267383");
 
     employeeRepository.save(employeeEntity2);
-
 
     employees = List.of(employeeEntity, employeeEntity2);
     return employees;

@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.context.ActiveProfiles;
 
 import br.com.euperinotti.foodtickets.domain.entities.EmployeeBO;
 import br.com.euperinotti.foodtickets.domain.enums.EmployeeStatus;
@@ -25,6 +26,7 @@ import br.com.euperinotti.foodtickets.infra.pgsql.entities.PgSqlEmployeeEntity;
 import br.com.euperinotti.foodtickets.infra.pgsql.mappers.PgSqlEmployeeMapper;
 import br.com.euperinotti.foodtickets.infra.pgsql.repository.contracts.PgSqlEmployeeRepository;
 
+@ActiveProfiles("test")
 public class PgSqlEmployeeRepositoryImplTest {
 
   @Mock

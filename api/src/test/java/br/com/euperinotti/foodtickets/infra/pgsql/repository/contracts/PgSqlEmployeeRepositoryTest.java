@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import br.com.euperinotti.foodtickets.domain.enums.EmployeeStatus;
 import br.com.euperinotti.foodtickets.domain.enums.TicketStatus;
@@ -20,6 +21,7 @@ import br.com.euperinotti.foodtickets.infra.pgsql.entities.PgSqlEmployeeEntity;
 import br.com.euperinotti.foodtickets.infra.pgsql.entities.PgSqlTicketEntity;
 
 @DataJpaTest
+@ActiveProfiles("test")
 public class PgSqlEmployeeRepositoryTest {
 
   @Autowired
