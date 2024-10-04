@@ -23,8 +23,6 @@ import br.com.euperinotti.foodtickets.domain.enums.TicketStatus;
 import br.com.euperinotti.foodtickets.infra.pgsql.entities.PgSqlEmployeeEntity;
 import br.com.euperinotti.foodtickets.infra.pgsql.repository.contracts.PgSqlEmployeeRepository;
 import br.com.euperinotti.foodtickets.infra.pgsql.repository.contracts.PgSqlTicketRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
@@ -39,9 +37,6 @@ class PgSqlTicketRepositoryImplementationTest {
   @Autowired
   private PgSqlEmployeeRepository employeeRepository;
 
-  @PersistenceContext
-  private EntityManager entityManager;
-
   private PgSqlEmployeeEntity employeeEntity;
 
   private TicketBO bo;
@@ -55,8 +50,7 @@ class PgSqlTicketRepositoryImplementationTest {
     employeeEntity.setCreatedAt(LocalDateTime.now());
     employeeEntity.setUpdatedAt(LocalDateTime.now());
 
-    entityManager.persist(employeeEntity);
-    entityManager.flush();
+    employeeRepository.save(employeeEntity);
 
     sut = new PgSqlTicketRepositoryImplementation(repository, employeeRepository);
     bo = new TicketBO(null, employeeEntity.getId(), 5, TicketStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now());
@@ -84,16 +78,6 @@ class PgSqlTicketRepositoryImplementationTest {
 
   @Test
   void test_findById_shouldReturnEmptyWhenNotFound() {
-    Optional<TicketBO> result = sut.findById(999L);
-
-    assertFalse(result.isPresent());
-  }
-
-  @Test
-  void test_deleteById_shouldDeleteTicket() {
-    TicketBO savedTicket = sut.save(bo);
-    repository.deleteById(savedTicket.getId());
-
     Optional<TicketBO> result = sut.findById(999L);
 
     assertFalse(result.isPresent());
@@ -128,4 +112,68 @@ class PgSqlTicketRepositoryImplementationTest {
 
     assertThat(updatedTicket.getQuantity()).isEqualTo(10);
   }
+
+  @Test
+  void test_countTickets_shouldReturnTotalCountOfTickets() {
+    sut.save(
+        new TicketBO(null, employeeEntity.getId(), 15, TicketStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now()));
+
+    Integer totalCount = sut.countTickets();
+
+    assertEquals(15, totalCount);
+  }
+
+  @Test
+  void test_findDayWithMaxTickets_shouldReturnDateTimeOfDayWithMaxTickets() {
+    sut.save(bo);
+    sut.save(new TicketBO(null, employeeEntity.getId(), 10, TicketStatus.ACTIVE, LocalDateTime.now().minusDays(1),
+        LocalDateTime.now().minusDays(1)));
+    sut.save(
+        new TicketBO(null, employeeEntity.getId(), 5, TicketStatus.ACTIVE, LocalDateTime.now(), LocalDateTime.now()));
+
+    LocalDateTime maxTicketsDay = sut.findDayWithMaxTickets();
+
+    assertNotNull(maxTicketsDay);
+  }
+
+  @Test
+  void test_findAllTicketsFromPeriod_shouldReturnTicketsWithinGivenPeriod() {
+    LocalDateTime period = LocalDateTime.now().minusDays(2);
+    sut.save(bo);
+    sut.save(new TicketBO(null, employeeEntity.getId(), 10, TicketStatus.ACTIVE, LocalDateTime.now().minusDays(3),
+        LocalDateTime.now().minusDays(3)));
+
+    List<TicketBO> ticketsFromPeriod = sut.findAllTicketsFromPeriod(period);
+
+    assertEquals(1, ticketsFromPeriod.size());
+  }
+
+  @Test
+  void test_findAllTicketsFromPeriod_shouldReturnEmptyListWhenNoTicketsInPeriod() {
+    LocalDateTime period = LocalDateTime.now().minusDays(1);
+    List<TicketBO> ticketsFromPeriod = sut.findAllTicketsFromPeriod(period);
+
+    assertEquals(0, ticketsFromPeriod.size());
+  }
+
+  @Test
+  void test_findByStatus_shouldReturnListOfTicketsByStatus() {
+    TicketBO activeTicket = sut.save(bo);
+    TicketBO inactiveTicket = new TicketBO(null, employeeEntity.getId(), 10, TicketStatus.INACTIVE, LocalDateTime.now(),
+        LocalDateTime.now());
+    sut.save(inactiveTicket);
+
+    List<TicketBO> result = sut.findByStatus(TicketStatus.ACTIVE);
+
+    assertEquals(1, result.size());
+    assertEquals(activeTicket.getId(), result.get(0).getId());
+  }
+
+  @Test
+  void test_findByStatus_shouldReturnEmptyListWhenNoTicketsFound() {
+    List<TicketBO> result = sut.findByStatus(TicketStatus.ACTIVE);
+
+    assertEquals(0, result.size());
+  }
+
 }

@@ -21,77 +21,72 @@ import br.com.euperinotti.foodtickets.infra.pgsql.repository.contracts.PgSqlTick
 @Repository
 public class PgSqlTicketRepositoryImplementation implements ITicketRepository {
 
-    private PgSqlTicketRepository jpa;
-    private PgSqlEmployeeRepository employeeJpa;
+  private PgSqlTicketRepository jpa;
+  private PgSqlEmployeeRepository employeeJpa;
 
-    @Autowired
-    public PgSqlTicketRepositoryImplementation(PgSqlTicketRepository jpa, PgSqlEmployeeRepository employeeJpa) {
-        this.jpa = jpa;
-        this.employeeJpa = employeeJpa;
-    }
+  @Autowired
+  public PgSqlTicketRepositoryImplementation(PgSqlTicketRepository jpa, PgSqlEmployeeRepository employeeJpa) {
+    this.jpa = jpa;
+    this.employeeJpa = employeeJpa;
+  }
 
-    @Override
-    public TicketBO save(TicketBO bo) {
-        PgSqlEmployeeEntity employee = employeeJpa.findById(bo.getEmployeeId()).orElseThrow(() -> new AppExceptions(""));
+  @Override
+  public TicketBO save(TicketBO bo) {
+    PgSqlEmployeeEntity employee = employeeJpa.findById(bo.getEmployeeId())
+        .orElseThrow(() -> new AppExceptions(""));
 
-        PgSqlTicketEntity entity = PgSqlTicketMapper.toEntity(bo, employee);
-        PgSqlTicketEntity created = jpa.save(entity);
+    PgSqlTicketEntity entity = PgSqlTicketMapper.toEntity(bo, employee);
+    PgSqlTicketEntity created = jpa.save(entity);
 
-        return PgSqlTicketMapper.toBO(created);
-    }
+    return PgSqlTicketMapper.toBO(created);
+  }
 
-    @Override
-    public Optional<TicketBO> findById(Long id) {
-        Optional<PgSqlTicketEntity> entity = jpa.findById(id);
+  @Override
+  public Optional<TicketBO> findById(Long id) {
+    Optional<PgSqlTicketEntity> entity = jpa.findById(id);
 
-        return entity.map(PgSqlTicketMapper::toBO);
-    }
+    return entity.map(PgSqlTicketMapper::toBO);
+  }
 
-    @Override
-    public void deleteById(Long id) {
-        jpa.deleteById(id);
+  @Override
+  public List<TicketBO> findAll() {
+    List<PgSqlTicketEntity> Tickets = jpa.findAll();
 
-        return;
-    }
+    return Tickets.stream().map(PgSqlTicketMapper::toBO).collect(Collectors.toList());
+  }
 
-    @Override
-    public List<TicketBO> findAll() {
-        List<PgSqlTicketEntity> Tickets = jpa.findAll();
+  @Override
+  public List<TicketBO> findByStatus(TicketStatus status) {
+    List<PgSqlTicketEntity> Tickets = jpa.findByStatus(status);
 
-        return Tickets.stream().map(PgSqlTicketMapper::toBO).collect(Collectors.toList());
-    }
+    return Tickets.stream().map(PgSqlTicketMapper::toBO).collect(Collectors.toList());
+  }
 
-    @Override
-    public List<TicketBO> findByStatus(TicketStatus status) {
-        List<PgSqlTicketEntity> Tickets = jpa.findByStatus(status);
+  @Override
+  public TicketBO updateById(Long id, TicketBO bo) {
+    PgSqlEmployeeEntity employee = employeeJpa.findById(bo.getEmployeeId())
+        .orElseThrow(() -> new AppExceptions(""));
 
-        return Tickets.stream().map(PgSqlTicketMapper::toBO).collect(Collectors.toList());
-    }
+    PgSqlTicketEntity entity = PgSqlTicketMapper.toEntity(bo, employee);
+    PgSqlTicketEntity updated = jpa.save(entity);
 
-    @Override
-    public TicketBO updateById(Long id, TicketBO bo) {
-        PgSqlEmployeeEntity employee = employeeJpa.findById(bo.getEmployeeId()).orElseThrow(() -> new AppExceptions(""));
+    return PgSqlTicketMapper.toBO(updated);
+  }
 
-        PgSqlTicketEntity entity = PgSqlTicketMapper.toEntity(bo, employee);
-        PgSqlTicketEntity updated = jpa.save(entity);
+  @Override
+  public Integer countTickets() {
+    return jpa.countTickets();
+  }
 
-        return PgSqlTicketMapper.toBO(updated);
-    }
+  @Override
+  public LocalDateTime findDayWithMaxTickets() {
+    return jpa.findDayWithMaxTickets();
+  }
 
-    @Override
-    public Integer countTickets() {
-        return jpa.countTickets();
-    }
+  @Override
+  public List<TicketBO> findAllTicketsFromPeriod(LocalDateTime period) {
+    List<PgSqlTicketEntity> tickets = jpa.findAllTicketsFromPeriod(period);
 
-    @Override
-    public LocalDateTime findDayWithMaxTickets() {
-        return jpa.findDayWithMaxTickets();
-    }
-
-    @Override
-    public List<TicketBO> findAllTicketsFromPeriod(LocalDateTime period) {
-        List<PgSqlTicketEntity> tickets = jpa.findAllTicketsFromPeriod(period);
-
-        return tickets.stream().map(PgSqlTicketMapper::toBO).collect(Collectors.toList());
-    }
+    return tickets.stream().map(PgSqlTicketMapper::toBO).collect(Collectors.toList());
+  }
 }
