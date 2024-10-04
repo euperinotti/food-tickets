@@ -2,6 +2,8 @@ package br.com.euperinotti.foodtickets.infra.pgsql.repository.contracts;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -12,109 +14,160 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import br.com.euperinotti.foodtickets.domain.enums.EmployeeStatus;
+import br.com.euperinotti.foodtickets.domain.enums.TicketStatus;
 import br.com.euperinotti.foodtickets.infra.pgsql.entities.PgSqlEmployeeEntity;
+import br.com.euperinotti.foodtickets.infra.pgsql.entities.PgSqlTicketEntity;
 
 @DataJpaTest
 public class PgSqlEmployeeRepositoryTest {
 
-  @Autowired
-  private PgSqlEmployeeRepository repository;
+    @Autowired
+    private PgSqlEmployeeRepository repository;
 
-  private PgSqlEmployeeEntity makeInactiveEmployeeEntity() {
-    PgSqlEmployeeEntity inactiveEmployee = new PgSqlEmployeeEntity();
-    inactiveEmployee.setId(1L);
-    inactiveEmployee.setName("Kyle Schmidt");
-    inactiveEmployee.setCpf("66418505745");
-    inactiveEmployee.setStatus(EmployeeStatus.INACTIVE);
-    inactiveEmployee.setCreatedAt(LocalDateTime.now());
-    inactiveEmployee.setUpdatedAt(LocalDateTime.now());
+    @Autowired
+    private PgSqlTicketRepository ticketRepository;
 
-    return inactiveEmployee;
-  }
+    private PgSqlEmployeeEntity makeInactiveEmployeeEntity() {
+        PgSqlEmployeeEntity inactiveEmployee = new PgSqlEmployeeEntity();
+        inactiveEmployee.setId(1L);
+        inactiveEmployee.setName("Kyle Schmidt");
+        inactiveEmployee.setCpf("66418505745");
+        inactiveEmployee.setStatus(EmployeeStatus.INACTIVE);
+        inactiveEmployee.setCreatedAt(LocalDateTime.now());
+        inactiveEmployee.setUpdatedAt(LocalDateTime.now());
 
-  private PgSqlEmployeeEntity makeActiveEmployeeEntity() {
-    PgSqlEmployeeEntity inactiveEmployee = new PgSqlEmployeeEntity();
-    inactiveEmployee.setName("Ophelia Beck");
-    inactiveEmployee.setCpf("72197234469");
-    inactiveEmployee.setStatus(EmployeeStatus.ACTIVE);
-    inactiveEmployee.setCreatedAt(LocalDateTime.now());
-    inactiveEmployee.setUpdatedAt(LocalDateTime.now());
+        return inactiveEmployee;
+    }
 
-    return inactiveEmployee;
-  }
+    private PgSqlEmployeeEntity makeActiveEmployeeEntity() {
+        PgSqlEmployeeEntity inactiveEmployee = new PgSqlEmployeeEntity();
+        inactiveEmployee.setName("Ophelia Beck");
+        inactiveEmployee.setCpf("72197234469");
+        inactiveEmployee.setStatus(EmployeeStatus.ACTIVE);
+        inactiveEmployee.setCreatedAt(LocalDateTime.now());
+        inactiveEmployee.setUpdatedAt(LocalDateTime.now());
 
-  @Test
-  public void test_findByCpf_existingCpf_shouldReturnEmployee() {
-    PgSqlEmployeeEntity employee = repository.save(makeActiveEmployeeEntity());
+        return inactiveEmployee;
+    }
 
-    Optional<PgSqlEmployeeEntity> result = repository.findByCpf("72197234469");
+    @Test
+    public void test_findByCpf_existingCpf_shouldReturnEmployee() {
+        PgSqlEmployeeEntity employee = repository.save(makeActiveEmployeeEntity());
 
-    assertThat(result).isPresent();
-    assertEquals(employee, result.get());
-  }
+        Optional<PgSqlEmployeeEntity> result = repository.findByCpf("72197234469");
 
-  @Test
-  public void test_findByCpf_nonExistingCpf_shouldReturnEmpty() {
-    Optional<PgSqlEmployeeEntity> result = repository.findByCpf("99999999999");
+        assertThat(result).isPresent();
+        assertEquals(employee, result.get());
+    }
 
-    assertThat(result).isNotPresent();
-  }
+    @Test
+    public void test_findByCpf_nonExistingCpf_shouldReturnEmpty() {
+        Optional<PgSqlEmployeeEntity> result = repository.findByCpf("99999999999");
 
-  @Test
-  public void test_findByStatus_activeStatus_shouldReturnEmployees() {
-    PgSqlEmployeeEntity employee = makeActiveEmployeeEntity();
-    PgSqlEmployeeEntity employee2 = new PgSqlEmployeeEntity();
-    employee2.setId(2L);
-    employee2.setName("Jane Doe");
-    employee2.setCpf("09876543210");
-    employee2.setStatus(EmployeeStatus.ACTIVE);
-    employee2.setCreatedAt(LocalDateTime.now());
-    employee2.setUpdatedAt(LocalDateTime.now());
+        assertThat(result).isNotPresent();
+    }
 
-    repository.save(employee);
-    repository.save(employee2);
+    @Test
+    public void test_findByStatus_activeStatus_shouldReturnEmployees() {
+        PgSqlEmployeeEntity employee = makeActiveEmployeeEntity();
+        PgSqlEmployeeEntity employee2 = new PgSqlEmployeeEntity();
+        employee2.setId(2L);
+        employee2.setName("Jane Doe");
+        employee2.setCpf("09876543210");
+        employee2.setStatus(EmployeeStatus.ACTIVE);
+        employee2.setCreatedAt(LocalDateTime.now());
+        employee2.setUpdatedAt(LocalDateTime.now());
 
-    List<PgSqlEmployeeEntity> result = repository.findByStatus(EmployeeStatus.ACTIVE);
+        repository.save(employee);
+        repository.save(employee2);
 
-    assertEquals(2, result.size());
-  }
+        List<PgSqlEmployeeEntity> result = repository.findByStatus(EmployeeStatus.ACTIVE);
 
-  @Test
-  public void test_findByStatus_activeStatus_shouldReturnEmptyList() {
-    PgSqlEmployeeEntity employee = makeActiveEmployeeEntity();
-    repository.save(employee);
+        assertEquals(2, result.size());
+    }
 
-    List<PgSqlEmployeeEntity> result = repository.findByStatus(EmployeeStatus.INACTIVE);
+    @Test
+    public void test_findByStatus_activeStatus_shouldReturnEmptyList() {
+        PgSqlEmployeeEntity employee = makeActiveEmployeeEntity();
+        repository.save(employee);
 
-    assertThat(result).isEmpty();
-  }
+        List<PgSqlEmployeeEntity> result = repository.findByStatus(EmployeeStatus.INACTIVE);
 
-  @Test
-  public void test_findByStatus_inactiveStatus_shouldReturnEmployees() {
-    PgSqlEmployeeEntity employee = makeInactiveEmployeeEntity();
-    PgSqlEmployeeEntity employee2 = new PgSqlEmployeeEntity();
-    employee2.setId(2L);
-    employee2.setName("Jane Doe");
-    employee2.setCpf("09876543210");
-    employee2.setStatus(EmployeeStatus.INACTIVE);
-    employee2.setCreatedAt(LocalDateTime.now());
-    employee2.setUpdatedAt(LocalDateTime.now());
+        assertThat(result).isEmpty();
+    }
 
-    repository.save(employee);
-    repository.save(employee2);
+    @Test
+    public void test_findByStatus_inactiveStatus_shouldReturnEmployees() {
+        PgSqlEmployeeEntity employee = makeInactiveEmployeeEntity();
+        PgSqlEmployeeEntity employee2 = new PgSqlEmployeeEntity();
+        employee2.setId(2L);
+        employee2.setName("Jane Doe");
+        employee2.setCpf("09876543210");
+        employee2.setStatus(EmployeeStatus.INACTIVE);
+        employee2.setCreatedAt(LocalDateTime.now());
+        employee2.setUpdatedAt(LocalDateTime.now());
 
-    List<PgSqlEmployeeEntity> result = repository.findByStatus(EmployeeStatus.INACTIVE);
+        repository.save(employee);
+        repository.save(employee2);
 
-    assertEquals(2, result.size());
-  }
+        List<PgSqlEmployeeEntity> result = repository.findByStatus(EmployeeStatus.INACTIVE);
 
-  @Test
-  public void test_findByStatus_inactiveStatus_shouldReturnEmptyList() {
-    PgSqlEmployeeEntity employee = makeInactiveEmployeeEntity();
-    repository.save(employee);
+        assertEquals(2, result.size());
+    }
 
-    List<PgSqlEmployeeEntity> result = repository.findByStatus(EmployeeStatus.ACTIVE);
+    @Test
+    public void test_findByStatus_inactiveStatus_shouldReturnEmptyList() {
+        PgSqlEmployeeEntity employee = makeInactiveEmployeeEntity();
+        repository.save(employee);
 
-    assertThat(result).isEmpty();
-  }
+        List<PgSqlEmployeeEntity> result = repository.findByStatus(EmployeeStatus.ACTIVE);
+
+        assertThat(result).isEmpty();
+    }
+
+    @Test
+    void test_countByStatus_shouldReturnCountForExistingStatus() {
+        Integer activeCount = repository.countByStatus(EmployeeStatus.ACTIVE);
+        Integer inactiveCount = repository.countByStatus(EmployeeStatus.INACTIVE);
+
+        assertEquals(1, activeCount);
+        assertEquals(1, inactiveCount);
+    }
+
+    @Test
+    void test_countByStatus_shouldReturnZeroForNonExistingStatus() {
+        Integer count = repository.countByStatus(EmployeeStatus.ACTIVE);
+
+        assertEquals(0, count);
+    }
+
+    @Test
+    void test_findEmployeeWithMostTickets_shouldReturnEmployeeWithMostTickets() {
+        PgSqlTicketEntity ticket1 = new PgSqlTicketEntity();
+        ticket1.setEmployee(makeActiveEmployeeEntity());
+        ticket1.setQuantity(5);
+        ticket1.setStatus(TicketStatus.ACTIVE);
+        ticket1.setCreatedAt(LocalDateTime.now());
+        ticket1.setUpdatedAt(LocalDateTime.now());
+
+        PgSqlTicketEntity ticket2 = new PgSqlTicketEntity();
+        ticket2.setEmployee(makeActiveEmployeeEntity());
+        ticket2.setQuantity(3);
+        ticket2.setStatus(TicketStatus.ACTIVE);
+        ticket2.setCreatedAt(LocalDateTime.now());
+        ticket2.setUpdatedAt(LocalDateTime.now());
+
+        ticketRepository.save(ticket1);
+        ticketRepository.save(ticket2);
+        PgSqlEmployeeEntity result = repository.findEmployeeWithMostTickets();
+
+        assertNotNull(result);
+    }
+
+    @Test
+    void test_findEmployeeWithMostTickets_shouldReturnNullWhenNoTicketsExist() {
+        PgSqlEmployeeEntity result = repository.findEmployeeWithMostTickets();
+
+        assertNull(result);
+    }
 }
