@@ -58,73 +58,71 @@ export default function Page() {
 
   return (
     <BaseTemplate>
-      <main className="flex flex-1 flex-col h-full gap-4">
-        <div className="flex gap-4 w-full justify-between">
-          <h1 className="text-4xl font-semibold">Funcionário</h1>
-        </div>
-        <div className="h-full w-full overflow-y-scroll">
-          <form
-            className="bg-white w-[600px] h-auto rounded-md overflow-hidden"
-            onSubmit={handleSubmit}
-          >
-            <div className="flex flex-col item-start justify-start gap-4 p-5">
-              <InputContainer label="Nome">
-                <InputText
-                  placeholder="Nome do funcionário"
-                  value={form.name}
-                  onChange={(e) =>
-                    setForm({ ...form, name: e.target.value.toUpperCase() })
-                  }
-                  required
-                />
-              </InputContainer>
-              <InputContainer label="CPF">
-                <InputText
-                  value={form.cpf}
-                  onChange={(e) =>
-                    setForm({
-                      ...form,
-                      cpf: StringUtils.formatCpf(e.target.value),
-                    })
-                  }
-                  placeholder="123.456.789-10"
-                  maxLength={14}
-                  required
-                />
-              </InputContainer>
-              {form.id && (
-                <InputContainer label="Status">
-                  <InputRadio
-                    label="Ativo"
-                    name="employee-status"
-                    value="ACTIVE"
-                    id="employee-active"
-                    defaultChecked={form.status === "ACTIVE"}
-                    onClick={(e) => setForm({ ...form, status: "ACTIVE" })}
-                  />
-                  <InputRadio
-                    label="Inativo"
-                    name="employee-status"
-                    value="INACTIVE"
-                    id="employee-inactive"
-                    defaultChecked={form.status === "INACTIVE"}
-                    onClick={(e) => setForm({ ...form, status: "INACTIVE" })}
-                  />
-                </InputContainer>
-              )}
-            </div>
-            <div className="flex item-start justify-end gap-4 p-5">
-              <Button
-                label="Limpar"
-                styleType="danger"
-                type="reset"
-                onClick={() => setForm(initialState)}
+      <div className="flex gap-4 w-full justify-between">
+        <h1 className="text-4xl font-semibold">Funcionário</h1>
+      </div>
+      <div className="h-full w-full overflow-y-scroll">
+        <form
+          className="bg-white w-[600px] h-auto rounded-md overflow-hidden"
+          onSubmit={handleSubmit}
+        >
+          <div className="flex flex-col item-start justify-start gap-4 p-5">
+            <InputContainer label="Nome">
+              <InputText
+                placeholder="Nome do funcionário"
+                value={form.name}
+                onChange={(e) =>
+                  setForm({ ...form, name: e.target.value.toUpperCase() })
+                }
+                required
               />
-              <Button label="Salvar" styleType="default" type="submit" />
-            </div>
-          </form>
-        </div>
-      </main>
+            </InputContainer>
+            <InputContainer label="CPF">
+              <InputText
+                value={form.cpf}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    cpf: StringUtils.formatCpf(e.target.value),
+                  })
+                }
+                placeholder="123.456.789-10"
+                maxLength={14}
+                required
+              />
+            </InputContainer>
+            {form.id && (
+              <InputContainer label="Status">
+                <InputRadio
+                  label="Ativo"
+                  name="employee-status"
+                  value="ACTIVE"
+                  id="employee-active"
+                  defaultChecked={form.status === "ACTIVE"}
+                  onClick={(e) => setForm({ ...form, status: "ACTIVE" })}
+                />
+                <InputRadio
+                  label="Inativo"
+                  name="employee-status"
+                  value="INACTIVE"
+                  id="employee-inactive"
+                  defaultChecked={form.status === "INACTIVE"}
+                  onClick={(e) => setForm({ ...form, status: "INACTIVE" })}
+                />
+              </InputContainer>
+            )}
+          </div>
+          <div className="flex item-start justify-end gap-4 p-5">
+            <Button
+              label="Limpar"
+              styleType="danger"
+              type="reset"
+              onClick={() => setForm(initialState)}
+            />
+            <Button label="Salvar" styleType="default" type="submit" />
+          </div>
+        </form>
+      </div>
     </BaseTemplate>
   );
 }

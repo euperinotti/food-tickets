@@ -1,6 +1,7 @@
 import { IAnalytics } from "@/@types/IAnalytics";
 import { ToastStatus } from "@/@types/Toast";
 import { API_PROVIDER } from "@/axios/api";
+import { RechartsLineChart } from "@/components/recharts/LineChart";
 import { HomeCard } from "@/components/ui/Cards/HomeCard";
 import useAlert from "@/hooks/useAlert";
 import { BaseTemplate } from "@/template/Base";
@@ -33,23 +34,34 @@ export default function Home() {
 
   return (
     <BaseTemplate>
-      <div className="flex flex-col gap-4 w-full">
-        <h1 className="text-4xl font-semibold w-full">Dashboard</h1>
-        <div className="flex w-full items-center justify-start gap-4">
-          <HomeCard
-            title="Tickets entregues"
-            description={analytics.ticketsRetrieved}
-          />
-          <HomeCard
-            title="Funcionários ativos"
-            description={analytics.activeEmployees}
-          />
-          <HomeCard
-            title="Período com mais tickets entregues"
-            description={analytics.dayWithMostTickets}
-          />
-        </div>
+      <h1 className="text-4xl font-semibold w-full">Dashboard</h1>
+      <div className="flex w-full items-stretch justify-start gap-4">
+        <HomeCard
+          title="Tickets entregues"
+          description={analytics.ticketsRetrieved}
+        />
+        <HomeCard
+          title="Funcionários ativos"
+          description={analytics.activeEmployees}
+        />
+        <HomeCard
+          title="Período com mais tickets entregues"
+          description={new Date(
+            analytics.dayWithMostTickets
+          ).toLocaleDateString()}
+        />
       </div>
+      <HomeCard
+        title="Funcionário com mais tickets"
+        description={analytics.employeeWithMostTickets || ""}
+        className="min-w-full"
+      />
+      <RechartsLineChart
+        title="Histórico de tickets nas últimas duas semanas"
+        xAxisKey="createdAt"
+        lineDataKey="quantity"
+        data={analytics.twoWeeksTicketsHistory}
+      />
     </BaseTemplate>
   );
 }
