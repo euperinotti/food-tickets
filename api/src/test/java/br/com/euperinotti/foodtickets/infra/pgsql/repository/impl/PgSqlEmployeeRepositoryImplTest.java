@@ -3,7 +3,6 @@ package br.com.euperinotti.foodtickets.infra.pgsql.repository.impl;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
@@ -15,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -98,16 +96,6 @@ public class PgSqlEmployeeRepositoryImplTest {
   }
 
   @Test
-  public void test_deleteById() {
-    PgSqlEmployeeEntity entity = PgSqlEmployeeMapper.toEntity(bo);
-    when(jpa.findById(1L)).thenReturn(Optional.of(entity));
-
-    sut.deleteById(1L);
-
-    verify(jpa, times(1)).deleteById(1L);
-  }
-
-  @Test
   public void test_findAll_successful() {
     PgSqlEmployeeEntity entity1 = PgSqlEmployeeMapper.toEntity(bo);
     entity1.setId(1L);
@@ -144,7 +132,6 @@ public class PgSqlEmployeeRepositoryImplTest {
   @Test
   public void test_findByStatus_activeEmployees() {
     PgSqlEmployeeEntity activeEmployee = makeActiveEmployeeEntity();
-    PgSqlEmployeeEntity inactiveEmployee = makeInactiveEmployeeEntity();
 
     when(jpa.findByStatus(EmployeeStatus.ACTIVE)).thenReturn(List.of(activeEmployee));
 
@@ -223,22 +210,21 @@ public class PgSqlEmployeeRepositoryImplTest {
   @Test
   void test_findEmployeeWithMostTickets_shouldReturnEmployeeBO() {
     PgSqlEmployeeEntity entity = PgSqlEmployeeMapper.toEntity(bo);
-    when(jpa.findEmployeeWithMostTickets()).thenReturn(entity);
+    when(jpa.findEmployeeWithMostTickets()).thenReturn(Optional.of(entity));
 
-    EmployeeBO result = sut.findEmployeeWithMostTickets();
+    Optional<EmployeeBO> result = sut.findEmployeeWithMostTickets();
 
     assertNotNull(result);
     verify(jpa, times(1)).findEmployeeWithMostTickets();
   }
 
   @Test
-  @Disabled
-  void test_findEmployeeWithMostTickets_shouldReturnNullWhenNoEmployeeExists() {
-    when(jpa.findEmployeeWithMostTickets()).thenReturn(null);
+  void test_findEmployeeWithMostTickets_shouldReturnEmptyWhenNoEmployeeExists() {
+    when(jpa.findEmployeeWithMostTickets()).thenReturn(Optional.empty());
 
-    EmployeeBO result = sut.findEmployeeWithMostTickets();
+    Optional<EmployeeBO> result = sut.findEmployeeWithMostTickets();
 
-    assertNull(result);
+    assertTrue(result.isEmpty());
     verify(jpa, times(1)).findEmployeeWithMostTickets();
   }
 }

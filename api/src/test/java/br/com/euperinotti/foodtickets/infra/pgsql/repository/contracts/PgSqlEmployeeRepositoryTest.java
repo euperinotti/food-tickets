@@ -3,7 +3,7 @@ package br.com.euperinotti.foodtickets.infra.pgsql.repository.contracts;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -165,16 +165,16 @@ public class PgSqlEmployeeRepositoryTest {
     ticketRepository.save(ticket1);
     ticketRepository.save(ticket2);
 
-    PgSqlEmployeeEntity result = sut.findEmployeeWithMostTickets();
+    Optional<PgSqlEmployeeEntity> result = sut.findEmployeeWithMostTickets();
 
     assertNotNull(result);
-    assertEquals(employees.get(0).getCpf(), result.getCpf());
+    assertEquals(employees.get(0).getCpf(), result.get().getCpf());
   }
 
   @Test
   void test_findEmployeeWithMostTickets_shouldReturnNullWhenNoTicketsExist() {
-    PgSqlEmployeeEntity result = sut.findEmployeeWithMostTickets();
+    Optional<PgSqlEmployeeEntity> result = sut.findEmployeeWithMostTickets();
 
-    assertNull(result);
+    assertTrue(result.isEmpty());
   }
 }
