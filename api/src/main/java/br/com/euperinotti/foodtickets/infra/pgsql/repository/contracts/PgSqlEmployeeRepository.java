@@ -24,5 +24,5 @@ public interface PgSqlEmployeeRepository extends JpaRepository<PgSqlEmployeeEnti
   @Query("""
       SELECT t.employee FROM PgSqlTicketEntity t GROUP BY t.employee ORDER BY COALESCE(SUM(t.quantity), 0) DESC LIMIT 1
       """)
-  PgSqlEmployeeEntity findEmployeeWithMostTickets();
+  Optional<PgSqlEmployeeEntity> findEmployeeWithMostTickets();
 }

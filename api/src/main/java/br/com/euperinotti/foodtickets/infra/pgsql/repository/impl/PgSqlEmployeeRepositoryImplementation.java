@@ -41,13 +41,6 @@ public class PgSqlEmployeeRepositoryImplementation implements IEmployeeRepositor
   }
 
   @Override
-  public void deleteById(Long id) {
-    jpa.deleteById(id);
-
-    return;
-  }
-
-  @Override
   public List<EmployeeBO> findAll() {
     List<PgSqlEmployeeEntity> employees = jpa.findAll();
 
@@ -82,8 +75,9 @@ public class PgSqlEmployeeRepositoryImplementation implements IEmployeeRepositor
     return jpa.countByStatus(status);
   }
 
-  public EmployeeBO findEmployeeWithMostTickets() {
-    PgSqlEmployeeEntity entity = jpa.findEmployeeWithMostTickets();
-    return PgSqlEmployeeMapper.toBO(entity);
+  @Override
+  public Optional<EmployeeBO> findEmployeeWithMostTickets() {
+    Optional<PgSqlEmployeeEntity> entity = jpa.findEmployeeWithMostTickets();
+    return entity.map(PgSqlEmployeeMapper::toBO);
   }
 }
