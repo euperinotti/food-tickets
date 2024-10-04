@@ -8,19 +8,22 @@ import br.com.euperinotti.foodtickets.domain.entities.TicketBO;
 import br.com.euperinotti.foodtickets.domain.enums.TicketStatus;
 
 public interface ITicketRepository {
-  TicketBO save(TicketBO Ticket);
 
-  Optional<TicketBO> findById(Long id);
+    TicketBO save(TicketBO Ticket);
 
-  void deleteById(Long id);
+    Optional<TicketBO> findById(Long id);
 
-  List<TicketBO> findAll();
+    void deleteById(Long id);
 
-  List<TicketBO> findByStatus(TicketStatus status);
+    List<TicketBO> findAll();
 
-  TicketBO updateById(Long id, TicketBO Ticket);
+    List<TicketBO> findByStatus(TicketStatus status);
 
-  Integer countTickets();
+    TicketBO updateById(Long id, TicketBO Ticket);
 
-  LocalDateTime findDayWithMaxTickets();
+    Integer countTickets();
+
+    LocalDateTime findDayWithMaxTickets();
+
+    List<TicketBO> findAllTicketsFromPeriod(LocalDateTime period);
 }
