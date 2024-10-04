@@ -29,7 +29,7 @@ A estrutura do projeto segue os princípios de Clean Architecture, separando res
   │   │       │   └── validators
   │   │       │   └── utils
   │   │       ├── infrastructure
-  │   │       │   ├── pgsql
+  │   │       │   ├── mysql
   │   │       │     └── converters
   │   │       │     └── entities
   │   │       │     └── mappers
@@ -45,7 +45,7 @@ A estrutura do projeto segue os princípios de Clean Architecture, separando res
 
 - **Java 17+**
 - **Maven 3.8+**
-- **PostgreSQL**
+- **MySQL**
 
 ## Configuração e Execução do Projeto
 
@@ -53,9 +53,9 @@ A estrutura do projeto segue os princípios de Clean Architecture, separando res
    Atualize o arquivo `src/main/resources/application.properties` com as informações do banco de dados:
 
    ```properties
-   spring.datasource.url=jdbc:postgresql://localhost:5432/foodtickets
-   spring.datasource.username=seu_usuario
-   spring.datasource.password=sua_senha
+   spring.datasource.url=jdbc:mysql://localhost:3306/foodtickets?createDatabaseIfNotExist=true
+   spring.datasource.username=root
+   spring.datasource.password=12345678
    ```
 
 2. **Instalar as dependências**:
@@ -95,4 +95,4 @@ O relatório estará disponível no diretório `target/site/jacoco/index.html`.
 - **Maven** - Gerenciador de dependências
 - **JaCoCo** - Ferramenta de cobertura de testes
 - **JUnit 5** - Framework de testes
-- **PostgreSQL** - Banco de dados relacional
+- **MySQL** - Banco de dados relacional

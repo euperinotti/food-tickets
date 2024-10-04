@@ -32,12 +32,20 @@ O front-end foi projetado utilizando **Next.js** para otimizar o desempenho, com
    yarn install
    ```
 
-2. **Executar o projeto**:
-   Para iniciar o projeto em ambiente de desenvolvimento:
+2. **Build**:
+   Para iniciar a build do projeto execute:
    ```bash
-   npm run dev
+   npm run build
    # ou
-   yarn dev
+   yarn build
+   ```
+
+3. **Executar o projeto**:
+   Para iniciar o projeto em produção:
+   ```bash
+   npm run start
+   # ou
+   yarn start
    ```
 
    O projeto estará disponível em: `http://localhost:3000`

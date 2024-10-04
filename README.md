@@ -7,7 +7,7 @@ Este projeto é uma aplicação desenvolvida para gerenciar a quantidade de tick
 ### Backend
 
 - **Java** com **Spring Boot** para a criação da API
-- **PostgreSQL** (ou outro banco de dados relacional) para armazenamento de dados
+- **MySQL** Para armazenamento de dados
 
 ### Frontend
 
@@ -46,35 +46,11 @@ src/
 
 ## Instalação e Execução
 
-### Backend (API)
-
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seu-repositorio/api-tickets.git
-   ```
-2. Instale as dependências:
-   ```bash
-   mvn install
-   ```
-3. Configure o banco de dados no `application.properties`.
-4. Execute o projeto:
-   ```bash
-   mvn spring-boot:run
+   git clone https://github.com/euperinotti/food-tickets
    ```
 
-### Frontend (Interface)
-
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/seu-repositorio/frontend-tickets.git
-   ```
-2. Instale as dependências:
-   ```bash
-   yarn install
-   ```
-3. Execute o projeto:
-   ```bash
-   yarn dev
-   ```
-
-Acesse o frontend em [http://localhost:3000](http://localhost:3000).
+2. Siga as instruções de instalação de cada módulo da aplicação
+   [Build backend](./api/README.md)
+   [Build frontend](./front/README.md)
