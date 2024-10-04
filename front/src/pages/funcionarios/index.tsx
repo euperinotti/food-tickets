@@ -1,12 +1,11 @@
 import { IEmployee } from "@/@types/IEmployee";
-import { ToastStatus } from "@/@types/Toast";
 import { API_PROVIDER } from "@/axios/api";
 import { Button } from "@/components/ui/Button";
 import { Table } from "@/components/ui/Table";
 import useAlert from "@/hooks/useAlert";
 import { BaseTemplate } from "@/template/Base";
 import { useRouter } from "next/navigation";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const tableColumns = [
   { title: "Nome", key: "name" },
@@ -21,17 +20,11 @@ export default function Index() {
   const { notify } = useAlert();
   const [data, setData] = useState<IEmployee[]>([]);
 
-  useLayoutEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await API_PROVIDER.getEmployees();
-        setData(response);
-      } catch (error: any) {
-        notify(ToastStatus.ERROR, error.message);
-      }
-    };
-
-    fetchData();
+  useEffect(() => {
+    (async () => {
+      const response = await API_PROVIDER.getEmployees();
+      setData(response);
+    })();
   }, []);
 
   return (

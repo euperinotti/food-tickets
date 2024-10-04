@@ -5,29 +5,17 @@ import { Button } from "@/components/ui/Button";
 import { InputContainer } from "@/components/ui/Input/InputContainer";
 import { InputRadio } from "@/components/ui/Input/InputRadio";
 import { InputText } from "@/components/ui/Input/InputText";
+import useAlert from "@/hooks/useAlert";
 import { BaseTemplate } from "@/template/Base";
 import { StringUtils } from "@/utils/StringUtils";
 import { useRouter } from "next/router";
 import { FormEvent, useEffect, useState } from "react";
 
-const fetchData = async (id: string) => {
-  try {
-    const response = await API_PROVIDER.getEmployeeById(id);
-    if (!response.ok) {
-      throw new Error("Falha ao buscar os dados");
-    }
-
-    return response?.json();
-  } catch (error) {
-    return initialState;
-  }
-};
-
 const initialState: IEmployee = {
   id: null,
   name: "",
   cpf: "",
-  status: "A",
+  status: "ACTIVE",
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
 };
@@ -35,33 +23,37 @@ const initialState: IEmployee = {
 export default function Page() {
   const router = useRouter();
   const { id } = router.query;
+  const { notify } = useAlert();
   const [form, setForm] = useState<IEmployee>(initialState);
   const { createEmployee, updateEmployee } = API_PROVIDER;
 
   useEffect(() => {
     (async () => {
-      if (id !== "new") {
-        const response = await fetchData(id);
+      if (id && id !== "new") {
+        const response = await API_PROVIDER.getEmployeeById(id as string);
 
         setForm(response);
       }
     })();
-  }, [id]);
+  }, []);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     form.cpf = StringUtils.sanitizeCpf(form.cpf);
 
-    if (form.cpf.length != 14) {
+    if (form.cpf.length != 11) {
       alert("CPF inválido. Informe um CPF válido.");
       return;
     }
 
-    if (form && form.id) {
+    if (form.id) {
       await updateEmployee({ ...form });
     } else {
       await createEmployee({ ...form });
     }
+
+    router.push("/funcionarios");
+    return;
   };
 
   return (
@@ -100,24 +92,26 @@ export default function Page() {
                   required
                 />
               </InputContainer>
-              <InputContainer label="Status">
-                <InputRadio
-                  label="Ativo"
-                  name="employee-status"
-                  value="A"
-                  id="employee-active"
-                  defaultChecked={form.status === "A"}
-                  onClick={(e) => setForm({ ...form, status: "A" })}
-                />
-                <InputRadio
-                  label="Inativo"
-                  name="employee-status"
-                  value="I"
-                  id="employee-inactive"
-                  defaultChecked={form.status === "I"}
-                  onClick={(e) => setForm({ ...form, status: "I" })}
-                />
-              </InputContainer>
+              {form.id && (
+                <InputContainer label="Status">
+                  <InputRadio
+                    label="Ativo"
+                    name="employee-status"
+                    value="ACTIVE"
+                    id="employee-active"
+                    defaultChecked={form.status === "ACTIVE"}
+                    onClick={(e) => setForm({ ...form, status: "ACTIVE" })}
+                  />
+                  <InputRadio
+                    label="Inativo"
+                    name="employee-status"
+                    value="INACTIVE"
+                    id="employee-inactive"
+                    defaultChecked={form.status === "INACTIVE"}
+                    onClick={(e) => setForm({ ...form, status: "INACTIVE" })}
+                  />
+                </InputContainer>
+              )}
             </div>
             <div className="flex item-start justify-end gap-4 p-5">
               <Button
