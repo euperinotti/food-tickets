@@ -1,12 +1,21 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/shadcn/ui/card";
 import { HomeCardProps } from "./types";
 
-export const HomeCard = ({ title, description, ...rest }: HomeCardProps) => {
+export const HomeCard = ({ title, description, icon, ...rest }: HomeCardProps) => {
   return (
-    <div {...rest} className={`flex w-full rounded-lg border border-gray-200 bg-white flex-col max-w-sm shadow-none disabled:hover gap-2 ${rest.className}`}>
-      <div className="flex w-full h-full flex-col justify-center gap-4 p-4">
-        <span className="text-sm tracking-tight text-gray-400">{title}</span>
-        <h5 className="text-4xl font-bold text-gray-900">{description}</h5>
-      </div>
-    </div>
+    <Card>
+                <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+                  <CardTitle className='text-sm font-medium'>
+                    {title}
+                  </CardTitle>
+                  {icon}
+                </CardHeader>
+                <CardContent>
+                  <div className='text-2xl font-bold'>{description}</div>
+                  <p className='text-xs text-muted-foreground'>
+                    +20.1% from last month
+                  </p>
+                </CardContent>
+              </Card>
   );
 };
