@@ -33,7 +33,6 @@ export default function Sidebar({
         className
       )}
     >
-      {/* Overlay in mobile */}
       <div
         onClick={() => setNavOpened(false)}
         className={`absolute inset-0 transition-[opacity] delay-100 duration-700 ${navOpened ? 'h-svh opacity-50' : 'h-0 opacity-0'} w-full bg-black md:hidden`}
@@ -46,44 +45,19 @@ export default function Sidebar({
           className='z-50 flex justify-between px-4 py-3 shadow-sm md:px-4'
         >
           <div className={`flex items-center ${!isCollapsed ? 'gap-2' : ''}`}>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              viewBox='0 0 256 256'
-              className={`transition-all ${isCollapsed ? 'h-6 w-6' : 'h-8 w-8'}`}
-            >
-              <rect width='256' height='256' fill='none'></rect>
-              <line
-                x1='208'
-                y1='128'
-                x2='128'
-                y2='208'
-                fill='none'
-                stroke='currentColor'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='16'
-              ></line>
-              <line
-                x1='192'
-                y1='40'
-                x2='40'
-                y2='192'
-                fill='none'
-                stroke='currentColor'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='16'
-              ></line>
-            </svg>
             <div
               className={`flex flex-col justify-end truncate ${isCollapsed ? 'invisible w-0' : 'visible w-auto'}`}
             >
-              <span className='font-medium'>Shadcn Admin</span>
-              <span className='text-xs'>Vite + ShadcnUI</span>
+              <a href="/" className="w-full">
+            <img
+              src="/logo.svg"
+              className="w-full"
+              alt="App Logo"
+            />
+          </a>
             </div>
           </div>
 
-          {/* Toggle Button in mobile */}
           <Button
             variant='ghost'
             size='icon'
