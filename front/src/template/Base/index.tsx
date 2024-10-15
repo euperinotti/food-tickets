@@ -1,11 +1,19 @@
+import { Layout } from "@/components/shadcn/custom/layout";
 import Sidebar from "@/components/shadcn/sidebar";
+import { UserNav } from "@/components/shadcn/user-nav";
 import { BaseTemplateProps } from "./types";
 
 export const BaseTemplate = ({ children }: BaseTemplateProps) => {
   return (
-    <div className="flex justify-center items-center w-full h-dvh">
-      <Sidebar isCollapsed={false} setIsCollapsed={() => {}}/>
-      <main className="p-6 flex flex-1 flex-col h-full w-full gap-4 overflow-y-scroll">{children}</main>
-    </div>
+    <Layout>
+      <Layout.Header sticky>
+        {/* <Search /> */}
+        <div className='ml-auto flex items-center space-x-4'>
+          <UserNav />
+        </div>
+      </Layout.Header>
+      <Layout.Body>
+        <Sidebar isCollapsed={true} setIsCollapsed={() => {}}/> {children}</Layout.Body>
+    </Layout>
   );
 };
