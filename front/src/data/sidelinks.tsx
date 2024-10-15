@@ -22,41 +22,15 @@ export const sidelinks: SideLink[] = [
     icon: <LayoutDashboard size={18} />,
   },
   {
-    title: 'Produtos',
+    title: 'Tickets',
     label: '',
-    href: '/products',
+    href: '/tickets',
     icon: <Ticket size={18} />,
   },
   {
-    title: 'Tasks',
+    title: 'Funcionários',
     label: '3',
-    href: '/tasks',
-    icon: <Users size={18} />,
-  },
-  {
-    title: 'Requests',
-    label: '10',
-    href: '/requests',
-    icon: <Users size={18} />,
-    sub: [
-      {
-        title: 'Trucks',
-        label: '9',
-        href: '/trucks',
-        icon: <Users size={18} />,
-      },
-      {
-        title: 'Cargos',
-        label: '',
-        href: '/cargos',
-        icon: <Users size={18} />,
-      },
-    ],
-  },
-  {
-    title: 'Analysis',
-    label: '',
-    href: '/analysis',
+    href: '/employees',
     icon: <Users size={18} />,
   },
 ]
